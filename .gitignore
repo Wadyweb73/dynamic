@@ -1,2 +1,3 @@
 *.class
-ui/
+public/
+_Login.java
