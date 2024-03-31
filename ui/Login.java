@@ -94,8 +94,6 @@ public class Login implements ActionListener{
 		button.setForeground(new Color(0x123456));
 		button.setBorder(null);
 
-		button.setBorder(null);
-		
 		return button;
 	}
 
@@ -150,7 +148,7 @@ public class Login implements ActionListener{
 		errorMsgLabel.setBounds(45, 240, 315, 30);
 		
 		centerPanel.setLayout(null);
-		centerPanel.setOpaque(false);
+		centerPanel.setBackground(new Color(0x123456));
 		centerPanel.add(usernameInput_Label);
 		centerPanel.add(field_username);
 		centerPanel.add(passwordInput_Label);
@@ -160,8 +158,8 @@ public class Login implements ActionListener{
 		
 		panel.setLayout(new BorderLayout());
 		panel.setBackground(new Color(0x123456));
-		
 		panel.setBounds(480, 180, 400, 355);
+
 		panel.add(titleLabelContainerPanel, BorderLayout.NORTH);
 		panel.add(centerPanel, BorderLayout.CENTER);
 		
@@ -196,11 +194,15 @@ public class Login implements ActionListener{
 			String username = new String(field_username.getText());
 			String password = new String(field_password.getPassword());
 			
-			if(username.equals("admin-user") && password.equals("admin-access-account")) {
+			if(username.equals("admin") && password.equals("admin")) {
 				errorMsgLabel.setText("Welcome");
 				errorMsgLabel.setForeground(Color.GREEN);
 				errorMsgLabel.revalidate();
 				errorMsgLabel.repaint();
+
+				frame.dispose();
+				MainWindow mainWindow = new MainWindow();
+				mainWindow.frame = mainWindow.configureMainWindow();
 			}
 			else {
 				errorMsgLabel.setText("Authentication Error!!");

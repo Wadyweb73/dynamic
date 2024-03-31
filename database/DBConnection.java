@@ -3,13 +3,13 @@ package database;
 import java.sql.*;
 
 public class DBConnection {
-	String user;
-	String password;
-	String url;
-	static Connection connection;
+	private String user;
+	private String password;
+	private String url;
+	private static Connection connection;
 	
 	public DBConnection() {
-		url      = "jdbc:mysql://localhost/3306/person"; 
+		url      = "jdbc:mysql://localhost/3306/oficina"; 
 		user     = "root";
 		password = "";		
 	} 

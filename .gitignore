@@ -1,4 +1,8 @@
 *.class
 public/
+lib/
 _Login.java
-MainWindowADM.java
+ClientInfo.java
+ShowComments.java
+
+# MainWindowADM.java
