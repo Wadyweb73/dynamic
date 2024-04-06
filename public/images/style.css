@@ -1,0 +1,72 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+body {
+	background-image: url('./login-background.jpg');
+	font-family: Montserrat;
+}
+
+.container {
+	/* background-image: linear-gradient(to right, white, #ff9d48ab); */
+	background: #af7ca793;
+	position: absolute;
+	left: 50%;	
+	top: 50%; 
+	transform: translate(-50%, -50%);
+	padding: 10px;
+	border-right: .1px solid rgba(255, 255, 255, 0.411);
+	border-radius: 10px;
+	display: flex;
+	flex-direction: column;
+	width: 400px;
+}
+.top-login-div {
+	font-size: 20px;
+	font-weight: 500;
+}
+.bottom-login-div {
+	display: flex;
+	flex-direction: column;
+}
+.inputs-container {
+	margin: 20px 0 0px 0;
+	width: 100%;
+}
+input {
+	background: rgb(241, 120, 104);
+	color: white;
+	font-size: 10px;
+	margin-bottom: 5px;
+	padding: 10px 10px;
+	width: inherit;
+}
+input, button { 
+	border-radius: 4px;
+	border: none;
+}
+.submit-button {
+	background: #6c81c4; 
+	color:aliceblue;
+	font-family: consolas;
+	font-size: 14px;
+	font-weight: 500;
+	padding: 7px 20px;
+	cursor: pointer;
+}
+
+label {
+	font-size: 14px;
+	color: #6c81c4;
+}
+
+.show-error-input {
+	background: transparent;
+	border-bottom: 1px solid black;
+	border-radius: 0;
+	height: 25px;;
+	opacity: 0.5;
+	padding-left: 0;
+	outline: none;
+}

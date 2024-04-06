@@ -18,6 +18,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -29,7 +30,8 @@ import java.awt.Dimension;
 public class ClientInfo implements ActionListener {
 	public JFrame frame;
 	public JPanel mainPanel;
-	public JPanel top_panel, bottom_panel;
+	public JPanel top_panel, center_panel, bottom_panel;
+	public JPanel bottom_left_panel, bottom_right_panel;
 	public static JButton _submitButton;
 	public JTextField field_searchClient;
 	public JScrollPane jScrollPane;
@@ -43,6 +45,7 @@ public class ClientInfo implements ActionListener {
 		_submitButton = MainWindow.configureBarButtons("Procurar");
 		_submitButton.setPreferredSize(new Dimension(150, 37)); 
 		_submitButton.setVerticalAlignment(JButton.CENTER);
+		
 		field_searchClient = MainWindow.configureInputField();
 		field_searchClient.setPreferredSize(new Dimension(400, 37));
 		field_searchClient.setBackground(Color.LIGHT_GRAY);
@@ -52,16 +55,20 @@ public class ClientInfo implements ActionListener {
 		model       = ShowClients.configureModel();
 		table       = ShowClients.configureJTable(model);
 		jScrollPane = new JScrollPane(table);
-
-		jScrollPane.setPreferredSize(new Dimension(1207, 630));
+		
+		jScrollPane.setPreferredSize(new Dimension(1207, 121));
 		jScrollPane.setOpaque(false);
-		jScrollPane.getViewport().setOpaque(true);
+		jScrollPane.getViewport().setOpaque(false);
 
 		_submitButton.addActionListener(this);
 		
 		top_panel    = configureTopPanel();
+		center_panel = configureCenterPanel();
+		bottom_left_panel  = configureBottomLeftPanel();
+		bottom_right_panel = configureBottomRightPanel();
 		bottom_panel = configureBottomPanel();
 		mainPanel    = configureMainPanel();
+		// mainPanel.setBackground(new Color(0xaf7ca79));
 	}
 
 	public JButton configure_SubmitButton() {
@@ -104,27 +111,59 @@ public class ClientInfo implements ActionListener {
 		return panel;
 	}
 	
-	public JPanel configureBottomPanel() {
+	public JPanel configureCenterPanel() {
 		JPanel panel = new JPanel();
 		
 		panel.setLayout(new FlowLayout(FlowLayout.CENTER));
-		panel.setPreferredSize(new Dimension(100, 620));
-		panel.setBackground(new Color(0));
-		panel.setBorder(border);
+		panel.setPreferredSize(new Dimension(100, 200));
+		panel.setBackground(Color.LIGHT_GRAY);
 		panel.add(jScrollPane);
 		
 		return panel;
 	}
 	
+	public JPanel configureBottomLeftPanel() {
+		JPanel panel = new JPanel();
+		
+		panel.setPreferredSize(new Dimension(100, 100));
+		panel.setBackground(Color.LIGHT_GRAY);
+		
+		return panel;
+	} 
+
+	public JPanel configureBottomRightPanel() {
+		JPanel panel = new JPanel();
+		
+		panel.setPreferredSize(new Dimension(100, 100));
+		panel.setBackground(Color.LIGHT_GRAY);
+		
+		return panel;
+	} 
+	
+	public JPanel configureBottomPanel() {
+		JPanel panel = new JPanel();
+
+		panel.setPreferredSize(new Dimension(100, 488));
+		panel.setLayout(new GridLayout(1, 2, 5, 0));
+		panel.setBackground(Color.GRAY);
+
+		panel.add(bottom_left_panel);
+		panel.add(bottom_right_panel);
+		
+		return panel;
+	}
+
+	
 	public JPanel configureMainPanel() {
 		JPanel panel = new JPanel();
 		
-		panel.setLayout(new BorderLayout());
-		panel.setOpaque(true);;
-		panel.setPreferredSize(new Dimension(1204, 673));
+		panel.setLayout(new BorderLayout(0, 5));
+		panel.setPreferredSize(new Dimension(1204, 672));
+		panel.setBackground(Color.GRAY);
 		panel.add(top_panel, BorderLayout.NORTH);
+		panel.add(center_panel, BorderLayout.CENTER);
 		panel.add(bottom_panel, BorderLayout.SOUTH);
-				
+
 		return panel;
 	}
 
@@ -141,7 +180,7 @@ public class ClientInfo implements ActionListener {
 
 			if(name.isEmpty()) {
 				JOptionPane.showMessageDialog(
-					mainPanel,
+					MainWindow.rightSidePanel_main,
 					"Search field cannot be empty!",
 					"Search error!", 
 					JOptionPane.INFORMATION_MESSAGE
@@ -172,7 +211,7 @@ public class ClientInfo implements ActionListener {
 					}
 					else {
 						JOptionPane.showMessageDialog(
-							bottom_panel,
+							MainWindow.rightSidePanel_main,
 							"O cliente nao existe!",
 							"Search ERROR", 
 							JOptionPane.ERROR_MESSAGE

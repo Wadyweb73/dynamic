@@ -43,6 +43,7 @@ public class ShowClients {
 		table.getColumnModel().getColumn(1).setPreferredWidth(200);
 		table.getColumnModel().getColumn(5).setPreferredWidth(150);
 		table.setForeground(new Color(0x123456));
+		table.setBackground(Color.LIGHT_GRAY);
 		table.setFont(new Font("consolas", Font.PLAIN, 15));
 		table.setRowHeight(30);
 
