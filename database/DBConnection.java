@@ -3,33 +3,33 @@ package database;
 import java.sql.*;
 
 public class DBConnection {
-	private String user;
-	private String password;
-	private String url;
-	private static Connection connection;
-	
-	public DBConnection() {
-		url      = "jdbc:mysql://localhost/3306/oficina"; 
-		user     = "root";
-		password = "";		
-	} 
+    private String url;
+    private String user;
+    private String password;
 
-	public static Connection getConexao() {
-		DBConnection dbcon = new DBConnection();
+    private static Connection connection;
 
-		try {
-			if(connection == null) {
-				connection = DriverManager.getConnection(dbcon.url, dbcon.user, dbcon.password);
+    public DBConnection() {
+        url      = "jdbc:mysql://localhost:3306/oficina";
+        user     = "root";
+        password = "";
+    }
 
-				return connection;
-			}
-			else {
-				return connection;
-			}
-		}
-		catch(SQLException e) {
-			e.getStackTrace();
-			return null;
-		}
-	}
+    public static Connection getConexao() {
+        DBConnection dbParams = new DBConnection();
+        
+        try {
+            if(connection == null) {
+                connection = DriverManager.getConnection(dbParams.url, dbParams.user, dbParams.password);
+                return connection;
+            }
+            else {
+                return connection;
+            }
+        }     
+        catch(SQLException e) {
+            e.getMessage();
+            return null;
+        }    
+    }
 }

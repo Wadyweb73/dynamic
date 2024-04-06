@@ -1,5 +1,7 @@
 package ui;
 
+import database.*;
+
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
@@ -19,6 +21,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import java.sql.*;
 
 public class Login implements ActionListener{
 	public JFrame frame;
@@ -193,18 +197,45 @@ public class Login implements ActionListener{
 		if(event.getSource() == submitButton) {
 			String username = new String(field_username.getText());
 			String password = new String(field_password.getPassword());
+			Boolean confirm = false;
+
+			String sql           = "SELECT * FROM users";
 			
 			if(username.equals("admin") && password.equals("admin")) {
 				errorMsgLabel.setText("Welcome");
 				errorMsgLabel.setForeground(Color.GREEN);
 				errorMsgLabel.revalidate();
 				errorMsgLabel.repaint();
-
+				
+				confirm = !confirm;
+				
 				frame.dispose();
 				MainWindow mainWindow = new MainWindow();
 				mainWindow.frame = mainWindow.configureMainWindow();
 			}
-			else {
+			if(!confirm) {
+				try {
+					System.out.print(sql);
+					PreparedStatement ps = DBConnection.getConexao().prepareStatement(sql);
+					ResultSet res = ps.executeQuery();
+
+					while(res.next()) {
+						if(res.getString("usuario").equals(username) && res.getString("senha").equals(password)) {
+							confirm = !confirm;
+
+							frame.dispose();
+							MainWindow mainWindow = new MainWindow();
+							mainWindow.frame = mainWindow.configureMainWindow();
+						}
+					}
+
+					ps.close();
+				} 
+				catch(SQLException e) {  
+					e.getMessage();
+				}
+			}
+			if(!confirm) {
 				errorMsgLabel.setText("Authentication Error!!");
 				errorMsgLabel.setForeground(Color.RED);
 				errorMsgLabel.revalidate();

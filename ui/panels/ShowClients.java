@@ -26,7 +26,7 @@ public class ShowClients {
 		table       = configureJTable(model);
 		jScrollPane = new JScrollPane(table);
 
-		jScrollPane.setPreferredSize(new Dimension(1207, 673));
+		jScrollPane.setPreferredSize(new Dimension(1207, 670));
 		jScrollPane.setOpaque(false);
 		jScrollPane.getViewport().setOpaque(false);
 		
@@ -37,12 +37,11 @@ public class ShowClients {
 		JTable table = new JTable(model);
 
 		table.setBackground(Color.GRAY);
-		table.getColumnModel().getColumn(6).setCellRenderer(new StatusColumnCellRenderer());
+		// table.getColumnModel().getColumn(6).setCellRenderer(new StatusColumnCellRenderer());
 		table.getColumnModel().getColumn(0).setMaxWidth(30);
 		table.getColumnModel().getColumn(3).setPreferredWidth(200);
 		table.getColumnModel().getColumn(1).setPreferredWidth(200);
 		table.getColumnModel().getColumn(5).setPreferredWidth(150);
-		table.getColumnModel().getColumn(6).setPreferredWidth(50);
 		table.setForeground(new Color(0x123456));
 		table.setFont(new Font("consolas", Font.PLAIN, 15));
 		table.setRowHeight(30);
@@ -61,7 +60,6 @@ public class ShowClients {
 		model.addColumn("Email");
 		model.addColumn("Tell");
 		model.addColumn("Residence");
-		model.addColumn("STATUS");
 
 		return model;
 	}
@@ -81,22 +79,22 @@ public class ShowClients {
 		return panel;
 	}
 
-	static class StatusColumnCellRenderer extends DefaultTableCellRenderer {
-		@Override
-		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-			Component cellComponent = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+	// static class StatusColumnCellRenderer extends DefaultTableCellRenderer {
+	// 	@Override
+	// 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+	// 		Component cellComponent = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 
-			if(column == 6) {
-				model.setValueAt("pending", row, column);
-				cellComponent.setForeground(Color.RED);
-			}
-			else {
-				cellComponent.setBackground(table.getBackground());
-			}
+	// 		if(column == 6) {
+	// 			model.setValueAt("pending", row, column);
+	// 			cellComponent.setForeground(Color.RED);
+	// 		}
+	// 		else {
+	// 			cellComponent.setBackground(table.getBackground());
+	// 		}
 			
-			return cellComponent;
-		}
-	}
+	// 		return cellComponent;
+	// 	}
+	// }
 }
 
 

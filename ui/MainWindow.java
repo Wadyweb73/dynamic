@@ -34,7 +34,7 @@ public class MainWindow extends Client implements ActionListener{
 	public JPanel leftSidebar_Panel;
 	public JPanel rightSidebar_Panel;  
 	public JPanel rightSidePanel_top;
-	public JPanel rightSidePanel_main; 
+	public static JPanel rightSidePanel_main; 
 
 	public JPanel person_DataInputPanel;
 	public JPanel car_DataInputPanel;
@@ -63,6 +63,7 @@ public class MainWindow extends Client implements ActionListener{
 	public JButton barButton_showUndoneProblems;
 	public JButton barButton_addUser;
 	public JButton submitButton;
+	public JButton logoutButton;
 	
 	public MainWindow() {
 		ClientList = new ArrayList<Client>();
@@ -73,13 +74,14 @@ public class MainWindow extends Client implements ActionListener{
 		barButton_showUndoneProblems = configureBarButtons("Undone Tasks");
 		barButton_clientInfo         = configureBarButtons("Client Info");
 		barButton_addUser            = configureBarButtons("Create User");
+		logoutButton                 = configureBarButtons("Logout");
 
 		label_name                   = configureLabelForInput("Name");
 		label_email                  = configureLabelForInput("Email");
 		label_tell                   = configureLabelForInput("Phone number");
 		label_residence              = configureLabelForInput("Residence");
 		label_BI                     = configureLabelForInput("Identity Ticked Number");
-		problemDiscriptionLabel     = configureLabelForInput("Describe car problem");
+		problemDiscriptionLabel      = configureLabelForInput("Describe car problem");
 		titleLabel                   = configureTitleLabel("MAIN");
 		
 		field_problemDescription     = configureInputForDiscription();
@@ -104,6 +106,8 @@ public class MainWindow extends Client implements ActionListener{
 		barButton_showClients.addActionListener(this);
 		barButton_showUndoneProblems.addActionListener(this);
 		barButton_clientInfo.addActionListener(this);
+		barButton_addUser.addActionListener(this);
+		logoutButton.addActionListener(this);
 	}
 
 	/* ======================= SETTING UP LEFT PANEL ======================= */ 
@@ -121,6 +125,7 @@ public class MainWindow extends Client implements ActionListener{
 		panel.add(barButton_showUndoneProblems);
 		panel.add(barButton_clientInfo);
 		panel.add(barButton_addUser);
+		panel.add(logoutButton);
 
 		return panel;
 	}
@@ -128,7 +133,7 @@ public class MainWindow extends Client implements ActionListener{
 	public static JButton configureBarButtons(String textButton) {
 		JButton button = new JButton(textButton);
 
-		button.setBackground(new Color(214, 183, 148));
+		button.setBackground(new Color(0xaf7ca79));
 		button.setForeground(new Color(0x12356));
 		button.setPreferredSize(new Dimension(120, 30));
 		
@@ -143,7 +148,7 @@ public class MainWindow extends Client implements ActionListener{
 		Border border = BorderFactory.createMatteBorder(1, 1, 1, 1, new Color(0x123456));
 		
 		field.setPreferredSize(new Dimension(300, 40));
-		field.setBackground(new Color(0xcdcdcd));
+		field.setBackground(Color.WHITE);
 		field.setForeground(new Color(0x123456));
 		field.setBorder(border);
 		field.setHorizontalAlignment(JTextField.LEADING);
@@ -194,7 +199,7 @@ public class MainWindow extends Client implements ActionListener{
 		JButton button = new JButton();
 		Border border = BorderFactory.createMatteBorder(1, 1, 1, 1, new Color(0x123456));
 		
-		button.setText("Confirmar");
+		button.setText("Guardar");
 		button.setBackground(new Color(214, 183, 148));
 		button.setBorder(border);
 		button.setForeground(new Color(0x12356));
@@ -286,10 +291,10 @@ public class MainWindow extends Client implements ActionListener{
 	}
 
 	/* ====================== SETTING UP MAIN WINDOW ====================== */ 
-	protected JFrame configureMainWindow() {
+	public JFrame configureMainWindow() {
 		JFrame frame = new JFrame();
 
-		frame.setTitle("Auto Maputo Service");
+		frame.setTitle("Dynamic Services for Africa");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(new Dimension(900, 745));
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -399,15 +404,13 @@ public class MainWindow extends Client implements ActionListener{
 			client.setResidence(field_residence.getText()); 
 			client.setTell(field_tell.getText());
 
-			String sql_cli = "INSERT INTO client (NAME, BI, RESIDENCE,	EMAIL, CONTACT) VALUES (?, ?, ?, ?, ?);";
+			String sql_cli = "INSERT INTO cliente (NAME, BI, RESIDENCE,	EMAIL, CONTACT) VALUES (?, ?, ?, ?, ?);";
 			String sql_comment = "INSERT INTO comments (DISCRIPTION) VALUES (?);";
 			
-			PreparedStatement client_ps   = null;
-			PreparedStatement comment_ps  = null;
 			
 			try {
-				client_ps   = DBConnection.getConexao().prepareStatement(sql_cli);
-				comment_ps  = DBConnection.getConexao().prepareStatement(sql_comment);
+				PreparedStatement client_ps = DBConnection.getConexao().prepareStatement(sql_cli);
+				PreparedStatement comment_ps  = DBConnection.getConexao().prepareStatement(sql_comment);
 
 				client_ps.setString(1, client.getName     ());
 				client_ps.setString(2, client.getBI       ());
@@ -422,6 +425,8 @@ public class MainWindow extends Client implements ActionListener{
 
 				System.out.print("\n\n User registered and saved on DB!");
 
+				client_ps.close();
+				comment_ps.close();
 				resetFields();
 			}
 			catch(SQLException e) {
@@ -429,9 +434,19 @@ public class MainWindow extends Client implements ActionListener{
 			}
 		}
 		else if(event.getSource() == barButton_addUser) {
+			CreateUser novoUser = new CreateUser();
 
+			titleLabel.setText("NOVO USUARIO");
+			rightSidePanel_main.removeAll();
+			rightSidePanel_main.setLayout(new FlowLayout(FlowLayout.CENTER));
+			rightSidePanel_main.add(novoUser.mainPanel);
+			rightSidePanel_main.revalidate();
+			rightSidePanel_main.repaint();
 		}
-
+		else if(event.getSource() == logoutButton) {
+			frame.dispose();
+			new Login();
+		}
 	}
 
 
