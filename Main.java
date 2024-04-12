@@ -5,3 +5,5 @@ public class Main {
 		new Login();
 	}
 }
+
+// javac Main.java && javac ui/*.java && javac ui/panels/*.java && java Main.java

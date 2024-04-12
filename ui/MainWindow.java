@@ -68,20 +68,20 @@ public class MainWindow extends Client implements ActionListener{
 	public MainWindow() {
 		ClientList = new ArrayList<Client>();
 
-		barButton_showClients        = configureBarButtons("List Clients");
-		barButton_addClient          = configureBarButtons("Add Client");
-		barButton_showDoneProblems   = configureBarButtons("Done Tasks");
-		barButton_showUndoneProblems = configureBarButtons("Undone Tasks");
-		barButton_clientInfo         = configureBarButtons("Client Info");
-		barButton_addUser            = configureBarButtons("Create User");
-		logoutButton                 = configureBarButtons("Logout");
+		barButton_showClients        = configureBarButtons("Listar clientes");
+		barButton_addClient          = configureBarButtons("Ad. cliente");
+		barButton_showDoneProblems   = configureBarButtons("Atendidadas");
+		barButton_showUndoneProblems = configureBarButtons("Pendentes");
+		barButton_clientInfo         = configureBarButtons("Info do cliente");
+		barButton_addUser            = configureBarButtons("Novo usuario");
+		logoutButton                 = configureBarButtons("Sair");
 
-		label_name                   = configureLabelForInput("Name");
+		label_name                   = configureLabelForInput("Nome");
 		label_email                  = configureLabelForInput("Email");
-		label_tell                   = configureLabelForInput("Phone number");
-		label_residence              = configureLabelForInput("Residence");
-		label_BI                     = configureLabelForInput("Identity Ticked Number");
-		problemDiscriptionLabel      = configureLabelForInput("Describe car problem");
+		label_tell                   = configureLabelForInput("Telefone");
+		label_residence              = configureLabelForInput("Residencia");
+		label_BI                     = configureLabelForInput("BI ou NUIT");
+		problemDiscriptionLabel      = configureLabelForInput("Descricao do problema");
 		titleLabel                   = configureTitleLabel("MAIN");
 		
 		field_problemDescription     = configureInputForDiscription();
@@ -156,7 +156,7 @@ public class MainWindow extends Client implements ActionListener{
 		return field;
 	}
 	
-	public JLabel configureLabelForInput(String type) {
+	public static JLabel configureLabelForInput(String type) {
 		JLabel label = new JLabel(type);
 		
 		label.setForeground(new Color(0x123456));
@@ -166,7 +166,7 @@ public class MainWindow extends Client implements ActionListener{
 		return label;
 	}
 	
-	public JTextArea configureInputForDiscription()  {
+	public static JTextArea configureInputForDiscription()  {
 		JTextArea field = new JTextArea("");
 		Border border = BorderFactory.createMatteBorder(1, 1, 1, 1, new Color(0x123456));
 		
@@ -404,9 +404,8 @@ public class MainWindow extends Client implements ActionListener{
 			client.setResidence(field_residence.getText()); 
 			client.setTell(field_tell.getText());
 
-			String sql_cli = "INSERT INTO cliente (NAME, BI, RESIDENCE,	EMAIL, CONTACT) VALUES (?, ?, ?, ?, ?);";
+			String sql_cli = "INSERT INTO client (NAME, BI, RESIDENCE,	EMAIL, CONTACT) VALUES (?, ?, ?, ?, ?);";
 			String sql_comment = "INSERT INTO comments (DISCRIPTION) VALUES (?);";
-			
 			
 			try {
 				PreparedStatement client_ps = DBConnection.getConexao().prepareStatement(sql_cli);

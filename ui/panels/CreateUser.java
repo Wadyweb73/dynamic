@@ -9,11 +9,12 @@ import database.DBConnection;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.GridLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.PreparedStatement;
@@ -29,17 +30,20 @@ public class CreateUser implements ActionListener{
 	JLabel passLabel;
 	JTextField passField;
 	JButton submitButton;
-
+	
 	public CreateUser() {
-		nameLabel = new JLabel();
-		passLabel = new JLabel();
-		nameField = new JTextField(30);
-		passField = new JTextField(30);
+		nameLabel = MainWindow.configureLabelForInput("Usuario");
+		passLabel = MainWindow.configureLabelForInput("Senha");
+		nameField = MainWindow.configureInputField();
+		passField = MainWindow.configureInputField();
 
-		nameLabel.setText("Nome");
-		passLabel.setText("Palavra-passe");
-
+		nameLabel.setFont(new Font("consolas", Font.PLAIN, 12));
+		passLabel.setFont(new Font("consolas", Font.PLAIN, 12));
+		nameLabel.setBackground(Color.RED);
+		passLabel.setBackground(Color.RED);
+		
 		submitButton  = MainWindow.configureSubmitButton();
+		submitButton.setBounds(435, 370, 100, 35);
 		nameContainer = configureNameContainer();
 		passContainer = configurePasswordContainer();
 		mainPanel     = configureMainPanel();
@@ -50,30 +54,34 @@ public class CreateUser implements ActionListener{
 	public JPanel configureNameContainer() {
 		JPanel panel = new JPanel();
 
-		panel.setLayout(new FlowLayout());
+		panel.setLayout(new FlowLayout(FlowLayout.LEADING));
+		panel.setBounds(430, 200, 400, 80);
+
 		panel.add(nameLabel);
 		panel.add(nameField);
 		panel.setOpaque(false);
-
+		
 		return panel;
 	}
-
+	
 	public JPanel configurePasswordContainer() {
 		JPanel panel = new JPanel();
-	
-		panel.setLayout(new FlowLayout());
+		
+		panel.setLayout(new FlowLayout(FlowLayout.LEADING));
+		panel.setBounds(430, 280, 400, 80);
+
 		panel.add(passLabel);
 		panel.add(passField);
 		panel.setOpaque(false);
-	
+		
 		return panel;
 	}
 
 	public JPanel configureMainPanel() {
 		JPanel panel = new JPanel();
-
-		panel.setLayout(new GridLayout(2, 2));
-		panel.setBackground(new Color(241, 120, 104));
+		
+		panel.setLayout(null);
+		panel.setOpaque(false);
 		panel.setPreferredSize(new Dimension(1207, 620));
 		panel.add(nameContainer);
 		panel.add(passContainer);
@@ -82,23 +90,52 @@ public class CreateUser implements ActionListener{
 		return panel;
 	}
 
+	public void clearFields() {
+		nameLabel.setText("");
+		passLabel.setText("");
+	}
+
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		if(event.getSource() == submitButton) {
 			String username = new String(nameField.getText());
 			String password = new String(passField.getText());
+			Boolean user_exists = false;
 			
 			String sql = "INSERT INTO users(usuario, senha) VALUES (?, ?)";
+			String pesquisa = "SELECT usuario FROM users";
 
 			try {
-			PreparedStatement ps = DBConnection.getConexao().prepareStatement(sql);
-				ps.setString(1, username);
-				ps.setString(2, password);	
+				PreparedStatement ps          = DBConnection.getConexao().prepareStatement(sql);
+				PreparedStatement ps_pesquisa = DBConnection.getConexao().prepareStatement(pesquisa);
 
-				System.out.print("\n\nUser created!");
+				ResultSet res = ps_pesquisa.executeQuery();
 
-				ps.execute();
-				ps.close();
+				while(res.next()) {
+					if(res.getString("usuario").equals(username)) {
+						user_exists = !user_exists;
+					}
+				}
+
+				if(user_exists) {
+					JOptionPane.showMessageDialog(mainPanel, "Já existe um usuario com este nome!");
+				}
+				else {
+					if(username.isEmpty() || password.isEmpty()) {
+						JOptionPane.showMessageDialog(mainPanel, "Nenhum campo pode ser vazio!!");
+					}
+					else {
+						ps.setString(1, username);
+						ps.setString(2, password);	
+						
+						ps.execute();
+						System.out.print("\n\nUser created!");
+						ps.close();
+					}
+				}
+				
+				clearFields();
+				nameField.setRequestFocusEnabled(true);
 			}
 			catch(SQLException e) {
 				e.getMessage();

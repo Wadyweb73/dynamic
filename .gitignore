@@ -1,5 +1,5 @@
 *.class
-lib/
 ui/LoginInjected.java
 _Login.java
+tst/
 # javac Main.java && javac ui/*.java  && javac ui/panels/*.java && java Main.java

@@ -1,12 +1,13 @@
-package ui;
+package lib;
 
 import database.*;
+import ui.Login;
+import ui.MainWindow;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
-import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 import javax.swing.BorderFactory;
@@ -24,7 +25,7 @@ import java.awt.event.ActionListener;
 
 import java.sql.*;
 
-public class Login implements ActionListener{
+public class LoginInjected implements ActionListener{
 	public JFrame frame;
 	public JLayeredPane layeredPane; 
 	public JPanel loginPanel;
@@ -34,14 +35,14 @@ public class Login implements ActionListener{
 	public JLabel titleLabel, errorMsgLabel, backgroundLabel;
 
 	protected JTextField field_username;
-	protected JPasswordField field_password;	
+	protected JTextField field_password;	
 	
-	public Login() {
+	public LoginInjected() {
 		layeredPane = new JLayeredPane();
 
 		titleLabel          = configureTitleLabel();
-		usernameInput_Label = configureInputLabel("Usuario");
-		passwordInput_Label = configureInputLabel("Senha");
+		usernameInput_Label = configureInputLabel("Username");
+		passwordInput_Label = configureInputLabel("Password");
 		field_username      = configureUsernameField();
 		field_password      = configurePasswordField();
 		
@@ -69,21 +70,20 @@ public class Login implements ActionListener{
 
 		field.setForeground(new Color(0x123456));
 		field.setFont(new Font("Consolas", Font.BOLD, 14));
-		field.setBorder(null);
+		field.setBorder(null); 
 		field.setBorder(border);
 		
 		return field;
 	}
 
-	public JPasswordField configurePasswordField() {
-		JPasswordField field = new JPasswordField();
+	public JTextField configurePasswordField() {
+		JTextField field = new JTextField();
 		Border border = BorderFactory.createMatteBorder(1, 1, 1, 1, new Color(0xff9d48));
 
 		field.setForeground(new Color(0x123456));
 		field.setFont(new Font("Consolas", Font.BOLD, 14));
 		field.setBorder(null);
 		
-		field.setEchoChar('*');
 		field.setBorder(border);
 		
 		return field;
@@ -193,20 +193,23 @@ public class Login implements ActionListener{
 	}		
 
 	/*=================== EVENTS ===================*/
+	@Override
 	public void actionPerformed(ActionEvent event) {
 		if(event.getSource() == submitButton) {
 			String username = new String(field_username.getText());
-			String password = new String(field_password.getPassword());
+			String password = new String(field_password.getText());
 			Boolean confirm = false;
 
-			String sql           = "SELECT * FROM users";
+			String sql = "SELECT * FROM users WHERE usuario = '" + username + "' AND senha = '"+ password  +"';";
+			
+			// String sql = "SELECT * FROM users WHERE usuario = '" + username + "'AND senha = '" + password + "';";
 			
 			if(username.equals("admin") && password.equals("admin")) {
 				errorMsgLabel.setText("Welcome");
 				errorMsgLabel.setForeground(Color.GREEN);
 				errorMsgLabel.revalidate();
 				errorMsgLabel.repaint();
-				
+
 				confirm = !confirm;
 				
 				frame.dispose();
@@ -215,23 +218,29 @@ public class Login implements ActionListener{
 			}
 			if(!confirm) {
 				try {
-					System.out.print(sql);
-					PreparedStatement ps = DBConnection.getConexao().prepareStatement(sql);
-					ResultSet res = ps.executeQuery();
+					// System.out.printf("My query: %s", sql);
+					Statement statement = DBConnection.getConexao().createStatement();
+					ResultSet res       = statement.executeQuery(sql);
+
+					System.out.print(res);
 
 					while(res.next()) {
-						if(res.getString("usuario").equals(username) && res.getString("senha").equals(password)) {
-							confirm = !confirm;
-
-							frame.dispose();
-							MainWindow mainWindow = new MainWindow();
-							mainWindow.frame = mainWindow.configureMainWindow();
-						}
+						System.out.print(res.getString("usuario"));
+						confirm = !confirm;
+	
+						frame.dispose();
+						MainWindow mainWindow = new MainWindow();
+						mainWindow.frame = mainWindow.configureMainWindow();
 					}
+					// }
 
-					ps.close();
+					statement.close();
 				} 
+				catch(SQLTimeoutException e) {
+					e.getStackTrace();
+				}
 				catch(SQLException e) {  
+					e.getStackTrace();
 					e.getMessage();
 				}
 			}
