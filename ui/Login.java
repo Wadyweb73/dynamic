@@ -213,8 +213,10 @@ public class Login implements ActionListener{
 				MainWindow mainWindow = new MainWindow();
 				mainWindow.frame = mainWindow.configureMainWindow();
 			}
+			
 			if(!confirm) {
 				try {
+
 					System.out.print(sql);
 					PreparedStatement ps = DBConnection.getConexao().prepareStatement(sql);
 					ResultSet res = ps.executeQuery();
@@ -228,19 +230,21 @@ public class Login implements ActionListener{
 							mainWindow.frame = mainWindow.configureMainWindow();
 						}
 					}
-
 					ps.close();
+					
 				} 
 				catch(SQLException e) {  
 					e.getMessage();
 				}
 			}
+
 			if(!confirm) {
 				errorMsgLabel.setText("Authentication Error!!");
 				errorMsgLabel.setForeground(Color.RED);
 				errorMsgLabel.revalidate();
 				errorMsgLabel.repaint();
 			}
+
 		}
 	}
 	

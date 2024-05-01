@@ -1,12 +1,10 @@
 package ui.panels;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
-
-import javax.swing.table.*;
+ 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -20,17 +18,10 @@ public class ShowClients {
 	public static JTable table;
 	
 	public ShowClients() {
-		super();
-		targetColumnIndex = 6;
 		model       = configureModel();
 		table       = configureJTable(model);
-		jScrollPane = new JScrollPane(table);
-
-		jScrollPane.setPreferredSize(new Dimension(1207, 670));
-		jScrollPane.setOpaque(false);
-		jScrollPane.getViewport().setOpaque(false);
-		
-		mainPanel = configureMainPanel();
+		jScrollPane = configureScrollPane(table);
+		mainPanel   = configureMainPanel();
 	}
 
 	public static JTable configureJTable(DefaultTableModel model) {
@@ -64,6 +55,18 @@ public class ShowClients {
 
 		return model;
 	}
+
+	public JScrollPane configureScrollPane(JTable table) {
+		JScrollPane scrollPane = new JScrollPane(table);
+
+		scrollPane.setPreferredSize(new Dimension(1207, 670));
+		scrollPane.setOpaque(false);
+		scrollPane.getViewport().setOpaque(false);
+
+		return scrollPane;
+	}
+	
+	
 	public void addContentFromMySQL(Object[] obj) {
 		model.addRow(obj);
 	}

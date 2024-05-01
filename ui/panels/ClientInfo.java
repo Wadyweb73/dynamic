@@ -83,12 +83,12 @@ public class ClientInfo implements ActionListener {
 		_submitButton.addActionListener(this);
 		done_button.addActionListener(this);
 		
-		top_panel    = configureTopPanel();
-		center_panel = configureCenterPanel();
+		top_panel          = configureTopPanel();
+		center_panel       = configureCenterPanel();
 		bottom_left_panel  = configureBottomLeftPanel();
 		bottom_right_panel = configureBottomRightPanel();
-		bottom_panel = configureBottomPanel();
-		mainPanel    = configureMainPanel();
+		bottom_panel       = configureBottomPanel();
+		mainPanel          = configureMainPanel();
 	}
 	
 	public JTextField configureInputField()  {
@@ -204,6 +204,7 @@ public class ClientInfo implements ActionListener {
 					JOptionPane.INFORMATION_MESSAGE
 				);
 			}
+
 			else {
 				try {
 					PreparedStatement ps = DBConnection.getConexao().prepareStatement(req);
@@ -222,6 +223,7 @@ public class ClientInfo implements ActionListener {
 						addContentFromMySQL(data);
 
 						try {
+
 							String findUserProblem = "SELECT * FROM comments com INNER JOIN client cli on com.id = cli.id WHERE cli.name = '" + name + "';";
 							PreparedStatement ps_userProblem = DBConnection.getConexao().prepareStatement(findUserProblem);
 							ResultSet _res = ps_userProblem.executeQuery();
@@ -234,6 +236,7 @@ public class ClientInfo implements ActionListener {
 
 							ps.close();
 							ps_userProblem.close();
+							
 						}
 						catch(SQLException e) {
 							e.getMessage();
@@ -305,8 +308,8 @@ public class ClientInfo implements ActionListener {
 					JOptionPane.showMessageDialog(
 						MainWindow.rightSidePanel_main,
 						"Insira um valor valido",
-						"submit ERROR", 
-						JOptionPane.INFORMATION_MESSAGE
+						"Payment Error", 
+						JOptionPane.ERROR_MESSAGE
 					);
 				}
 			}

@@ -1,6 +1,5 @@
 package ui.panels;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -11,32 +10,18 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 
-public class ShowComments extends JFrame {
+public class ShowComments {
 	public JPanel mainPanel;
 	public DefaultTableModel model;
 	public JScrollPane jScrollPane;
 	public JTable table;
 
 	public ShowComments() {
-		model = configureModel();
-		table   = new JTable(model);
-		jScrollPane = new JScrollPane(table);
-
-		table.setBackground(Color.GRAY);
-		table.setForeground(new Color(0x123456));
-		table.setFont(new Font("consolas", Font.PLAIN, 15));
-		table.getColumnModel().getColumn(0).setMaxWidth(40);
-		table.getColumnModel().getColumn(1).setPreferredWidth(700);
-		table.setOpaque(false);
-		jScrollPane.setPreferredSize(new Dimension(1204, 673));
-		jScrollPane.setOpaque(false);
-		jScrollPane.getViewport().setOpaque(false);
-		
-		table.setRowHeight(30);
-		
-		mainPanel = configureMainPanel();
+		model       = configureModel();
+		table       = configureJTable(model);
+		jScrollPane = configureScrollPane(table);		
+		mainPanel   = configureMainPanel();
 	}
-
 
 	public DefaultTableModel configureModel() {
 		DefaultTableModel model = new DefaultTableModel(5, 5);
@@ -44,26 +29,51 @@ public class ShowComments extends JFrame {
 		model.setColumnCount(0);
 		model.setRowCount(0);
 		model.addColumn("ID");
-		model.addColumn("DISCRIPTION");
-		model.addColumn("DATE");
-
+		model.addColumn("Name");
+		model.addColumn("BI");
+		model.addColumn("Email");
+		model.addColumn("Tell");
+		model.addColumn("Residence");
 		return model;
 	}
 
-	public void addContentFromMySQL(Object[] obj) {
-		model.addRow(obj);
+	public static JTable configureJTable(DefaultTableModel model) {
+		JTable table = new JTable(model);
+
+		table.setBackground(Color.LIGHT_GRAY);
+		table.setForeground(new Color(0x123456));
+		table.setFont(new Font("consolas", Font.PLAIN, 15));
+		table.getColumnModel().getColumn(0).setMaxWidth(40);
+		table.getColumnModel().getColumn(1).setPreferredWidth(700);
+		table.setRowHeight(30);
+
+		return table;
 	}
 
+	public JScrollPane configureScrollPane(JTable table) {
+		JScrollPane scrollPane = new JScrollPane(table);
+
+		scrollPane.setPreferredSize(new Dimension(1207, 670));
+		scrollPane.setOpaque(false);
+		scrollPane.getViewport().setOpaque(false);
+
+		return scrollPane;
+	}
+	
 	public JPanel configureMainPanel() {
 		JPanel panel = new JPanel();
-
+		
 		panel.setLayout(new FlowLayout(FlowLayout.CENTER));
 		panel.setPreferredSize(new Dimension(1204, 673));
 		panel.setOpaque(false);
 		
 		panel.add(jScrollPane);
-
+		
 		return panel;
+	}
+
+	public void addContentFromMySQL(Object[] obj) {
+		model.addRow(obj);
 	}
 
 }

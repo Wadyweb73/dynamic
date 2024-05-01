@@ -66,11 +66,10 @@ public class MainWindow extends Client implements ActionListener{
 	public JButton logoutButton;
 	
 	public MainWindow() {
-		ClientList = new ArrayList<Client>();
-
 		barButton_showClients        = configureBarButtons("Listar clientes");
 		barButton_addClient          = configureBarButtons("Ad. cliente");
 		barButton_showDoneProblems   = configureBarButtons("Atendidadas");
+		barButton_showDoneProblems.addActionListener(this);
 		barButton_showUndoneProblems = configureBarButtons("Pendentes");
 		barButton_clientInfo         = configureBarButtons("Info do cliente");
 		barButton_addUser            = configureBarButtons("Novo usuario");
@@ -104,6 +103,7 @@ public class MainWindow extends Client implements ActionListener{
 		submitButton.addActionListener(this);
 		barButton_addClient.addActionListener(this);
 		barButton_showClients.addActionListener(this);
+		barButton_showDoneProblems.addActionListener(this);
 		barButton_showUndoneProblems.addActionListener(this);
 		barButton_clientInfo.addActionListener(this);
 		barButton_addUser.addActionListener(this);
@@ -246,6 +246,7 @@ public class MainWindow extends Client implements ActionListener{
 		JPanel panel = new JPanel();
 		
 		panel.setPreferredSize(new Dimension(100, 684));
+		// panel.setPreferredSize(new Dimension(100, 642));
 		panel.setBackground(Color.GRAY);
 		panel.setLayout(null);
 
@@ -332,16 +333,16 @@ public class MainWindow extends Client implements ActionListener{
 				ShowClients showCLI = new ShowClients();
 
 				while(res.next()) {
-						Object[] data = {
-							res.getInt("id"),
-							res.getString("name"),
-							res.getString("bi"),
-							res.getString("Email"),
-							res.getString("contact"),
-							res.getString("residence")
-						};
+					Object[] data = {
+						res.getInt("id"),
+						res.getString("name"),
+						res.getString("bi"),
+						res.getString("Email"),
+						res.getString("contact"),
+						res.getString("residence")
+					};
 
-						showCLI.addContentFromMySQL(data);
+					showCLI.addContentFromMySQL(data);
 				}
 				
 				rightSidePanel_main.removeAll();
@@ -374,7 +375,7 @@ public class MainWindow extends Client implements ActionListener{
 					comments.addContentFromMySQL(data);
 				}
 
-				titleLabel.setText("TODO LIST");
+				titleLabel.setText("NAO ATENDIDOS");
 				rightSidePanel_main.removeAll();
 				rightSidePanel_main.setLayout(new FlowLayout(FlowLayout.CENTER));
 				rightSidePanel_main.add(comments.mainPanel);
@@ -431,6 +432,17 @@ public class MainWindow extends Client implements ActionListener{
 			catch(SQLException e) {
 				e.printStackTrace();
 			}
+		}
+		else if(event.getSource() == barButton_showDoneProblems) {
+			ServedClients servedClients = new ServedClients();
+
+			titleLabel.setText("TAREFAS ATENTIDAS");
+			rightSidePanel_main.removeAll();
+			rightSidePanel_main.setLayout(new FlowLayout(FlowLayout.CENTER));
+			rightSidePanel_main.add(servedClients.mainPanel);
+			rightSidePanel_main.revalidate();
+			rightSidePanel_main.repaint();
+
 		}
 		else if(event.getSource() == barButton_addUser) {
 			CreateUser novoUser = new CreateUser();
