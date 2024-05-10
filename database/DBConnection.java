@@ -10,7 +10,7 @@ public class DBConnection {
     private static Connection connection;
 
     public DBConnection() {
-        url      = "jdbc:mysql://localhost:3306/oficina";
+        url      = "jdbc:mysql://localhost:3306/DynamicDatabase";
         user     = "root";
         password = "";
     }

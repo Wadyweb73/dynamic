@@ -6,6 +6,7 @@ import ui.panels.*;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JButton;
@@ -69,12 +70,10 @@ public class MainWindow extends Client implements ActionListener{
 		barButton_showClients        = configureBarButtons("Listar clientes");
 		barButton_addClient          = configureBarButtons("Ad. cliente");
 		barButton_showDoneProblems   = configureBarButtons("Atendidadas");
-		barButton_showDoneProblems.addActionListener(this);
 		barButton_showUndoneProblems = configureBarButtons("Pendentes");
 		barButton_clientInfo         = configureBarButtons("Info do cliente");
 		barButton_addUser            = configureBarButtons("Novo usuario");
 		logoutButton                 = configureBarButtons("Sair");
-
 		label_name                   = configureLabelForInput("Nome");
 		label_email                  = configureLabelForInput("Email");
 		label_tell                   = configureLabelForInput("Telefone");
@@ -82,7 +81,6 @@ public class MainWindow extends Client implements ActionListener{
 		label_BI                     = configureLabelForInput("BI ou NUIT");
 		problemDiscriptionLabel      = configureLabelForInput("Descricao do problema");
 		titleLabel                   = configureTitleLabel("MAIN");
-		
 		field_problemDescription     = configureInputForDiscription();
 		problemFieldContainer        = configurePanelForDiscription();
 		field_name                   = configureInputField();
@@ -90,7 +88,6 @@ public class MainWindow extends Client implements ActionListener{
 		field_tell                   = configureInputField();
 		field_residence              = configureInputField();
 		field_BI                     = configureInputField();
-		
 		person_DataInputPanel        = setClientDataPanel(); 
 		submitButton                 = configureSubmitButton();
 		submitButtonContainer        = configureButtonContainer();
@@ -233,7 +230,7 @@ public class MainWindow extends Client implements ActionListener{
 	protected JPanel configure_rightSidePanel_Top() {
 		JPanel panel = new JPanel();
 		
-		panel.setPreferredSize(new Dimension(50, 60));
+		panel.setPreferredSize(new Dimension(50, 65));
 		panel.setBackground(new Color(214, 183, 148));
 		panel.setLayout(new BorderLayout());
 
@@ -246,7 +243,6 @@ public class MainWindow extends Client implements ActionListener{
 		JPanel panel = new JPanel();
 		
 		panel.setPreferredSize(new Dimension(100, 684));
-		// panel.setPreferredSize(new Dimension(100, 642));
 		panel.setBackground(Color.GRAY);
 		panel.setLayout(null);
 
@@ -257,10 +253,10 @@ public class MainWindow extends Client implements ActionListener{
 		JPanel panel = new JPanel();
 
 		panel.setPreferredSize(new Dimension(1215, 100));
-		panel.setLayout(new BorderLayout(5, 5));
+		panel.setLayout(new BorderLayout(1, 1));
 		
 		panel.add(rightSidePanel_top, BorderLayout.NORTH);
-		panel.add(rightSidePanel_main, BorderLayout.SOUTH);
+		panel.add(rightSidePanel_main, BorderLayout.CENTER);
 		
 		return panel;
 	}	
@@ -299,11 +295,11 @@ public class MainWindow extends Client implements ActionListener{
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(new Dimension(900, 745));
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-		frame.setLayout(new BorderLayout());
+		frame.setLayout(new BorderLayout(1, 0));
 		frame.setVisible(true);
 
-		frame.add(leftSidebar_Panel, BorderLayout.WEST);
-		frame.add(rightSidebar_Panel, BorderLayout.EAST);
+		frame.add(leftSidebar_Panel,  BorderLayout.WEST);
+		frame.add(rightSidebar_Panel, BorderLayout.CENTER);
 		
 		return frame;
 	}
@@ -387,7 +383,7 @@ public class MainWindow extends Client implements ActionListener{
 			}
 		}
 		else if(event.getSource() == barButton_clientInfo) {
-			ClientInfo clientInfo = new ClientInfo();
+			ClientInfoAndPayments clientInfo = new ClientInfoAndPayments();
 
 			titleLabel.setText("INFORMACÃO DO CLIENTE");
 			rightSidePanel_main.removeAll();
@@ -405,35 +401,49 @@ public class MainWindow extends Client implements ActionListener{
 			client.setResidence(field_residence.getText()); 
 			client.setTell(field_tell.getText());
 
-			String sql_cli = "INSERT INTO client (NAME, BI, RESIDENCE,	EMAIL, CONTACT) VALUES (?, ?, ?, ?, ?);";
-			String sql_comment = "INSERT INTO comments (DISCRIPTION) VALUES (?);";
-			
-			try {
-				PreparedStatement client_ps = DBConnection.getConexao().prepareStatement(sql_cli);
-				PreparedStatement comment_ps  = DBConnection.getConexao().prepareStatement(sql_comment);
+			if(!client.getName().isEmpty() || !client.getTell().isEmpty()) {
 
-				client_ps.setString(1, client.getName     ());
-				client_ps.setString(2, client.getBI       ());
-				client_ps.setString(3, client.getResidence());
-				client_ps.setString(4, client.getEmail    ());
-				client_ps.setString(5, client.getTell     ());
+			}
+			else {
 
-				comment_ps.setString(1, field_problemDescription.getText());
+				String sql_cli     = "INSERT INTO client (NAME, BI, RESIDENCE,	EMAIL, CONTACT) VALUES (?, ?, ?, ?, ?);";
+				String sql_comment = "INSERT INTO comments (DISCRIPTION) VALUES (?);";
 				
-				client_ps .execute();				
-				comment_ps.execute();
-
-				System.out.print("\n\n User registered and saved on DB!");
-
-				client_ps.close();
-				comment_ps.close();
-				resetFields();
+				try {
+					PreparedStatement client_ps  = DBConnection.getConexao().prepareStatement(sql_cli);
+					PreparedStatement comment_ps = DBConnection.getConexao().prepareStatement(sql_comment);
+	
+					client_ps.setString(1, client.getName     ());
+					client_ps.setString(2, client.getBI       ());
+					client_ps.setString(3, client.getResidence());
+					client_ps.setString(4, client.getEmail    ());
+					client_ps.setString(5, client.getTell     ());
+	
+					comment_ps.setString(1, field_problemDescription.getText());
+					
+					client_ps .execute();				
+					comment_ps.execute();
+	
+					System.out.print("\n\n User registered and saved on DB!");
+					JOptionPane.showConfirmDialog(
+						frame, 
+						"Cliente registado!",
+						"CLIENT REGISTER",
+						JOptionPane.OK_OPTION
+					);
+	
+					client_ps.close();
+					comment_ps.close();
+					resetFields();
+				}
+				catch(SQLException e) {
+					e.printStackTrace();
+				}
 			}
-			catch(SQLException e) {
-				e.printStackTrace();
-			}
+
 		}
 		else if(event.getSource() == barButton_showDoneProblems) {
+			// String query = "SELECT * FROM COMME";
 			ServedClients servedClients = new ServedClients();
 
 			titleLabel.setText("TAREFAS ATENTIDAS");
@@ -453,13 +463,13 @@ public class MainWindow extends Client implements ActionListener{
 			rightSidePanel_main.add(novoUser.mainPanel);
 			rightSidePanel_main.revalidate();
 			rightSidePanel_main.repaint();
+			
 		}
 		else if(event.getSource() == logoutButton) {
 			frame.dispose();
 			new Login();
 		}
 	}
-
 
 	public void resetFields() {
 		field_name.setText("");
