@@ -26,14 +26,15 @@ public class ServedClients {
     }
     
     DefaultTableModel configureTableModel() {
-        DefaultTableModel model = new DefaultTableModel(5, 5);
+        DefaultTableModel model = new DefaultTableModel();
 
         model.setColumnCount(0);
-        model.setRowCount(2);
+        model.setRowCount(0);
         model.addColumn("Id");
         model.addColumn("Id do cliente");
         model.addColumn("Descricao do problema");
-        model.addColumn("Valor do Serviço");
+		model.addColumn("Pago");
+		model.addColumn("Data de requisicao");	
         
         return model;
     }
@@ -71,8 +72,7 @@ public class ServedClients {
         return panel;
     }
     
-    public static void main(String[] a) {
-        new ServedClients();
-    }
-    
+	public void addContentFromMySQL(Object[] obj) {
+		tableModel.addRow(obj);
+	}   
 }

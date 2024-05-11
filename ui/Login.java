@@ -12,6 +12,7 @@ import javax.swing.border.Border;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.Timer;
 
 import java.awt.Image;
 import java.awt.Dimension;
@@ -23,6 +24,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import java.sql.*;
+// import java.util.Timer;
 
 public class Login implements ActionListener{
 	public JFrame frame;
@@ -210,8 +212,7 @@ public class Login implements ActionListener{
 				confirm = !confirm;
 				
 				frame.dispose();
-				MainWindow mainWindow = new MainWindow();
-				mainWindow.frame = mainWindow.configureMainWindow();
+				MainWindow.frame.setVisible(true);;
 			}
 			
 			if(!confirm) {
@@ -226,8 +227,8 @@ public class Login implements ActionListener{
 							confirm = !confirm;
 
 							frame.dispose();
-							MainWindow mainWindow = new MainWindow();
-							mainWindow.frame = mainWindow.configureMainWindow();
+							MainWindow mw = new MainWindow();
+							MainWindow.frame = mw.configureMainWindow();
 						}
 					}
 					ps.close();
@@ -237,14 +238,27 @@ public class Login implements ActionListener{
 					e.getMessage();
 				}
 			}
-
+			
 			if(!confirm) {
 				errorMsgLabel.setText("Authentication Error!!");
+				System.out.println("Antes do erro!");
 				errorMsgLabel.setForeground(Color.RED);
 				errorMsgLabel.revalidate();
 				errorMsgLabel.repaint();
-			}
 
+				Timer timer = new Timer(3000, new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						errorMsgLabel.setText("");
+						errorMsgLabel.setForeground(Color.RED);
+						errorMsgLabel.revalidate();
+						errorMsgLabel.repaint();
+					}
+				});
+
+				timer.setRepeats(false);
+				timer.start();
+			}
 		}
 	}
 	

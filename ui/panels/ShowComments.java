@@ -31,6 +31,7 @@ public class ShowComments {
         model.addColumn("Id");
         model.addColumn("Id do cliente");
         model.addColumn("Descricao do problema");
+		model.addColumn("Pago");
 		model.addColumn("Data de requisicao");	
 		return model;
 	}

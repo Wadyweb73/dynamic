@@ -23,7 +23,7 @@ import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 
 public class MainWindow extends Client implements ActionListener{
-	public JFrame frame;
+	public static JFrame frame;
 	public static JLabel titleLabel;
 	public ArrayList <Client> ClientList; 
 
@@ -320,6 +320,9 @@ public class MainWindow extends Client implements ActionListener{
 		else if(event.getSource() == barButton_addUser) {
 			MainWindowActionEventListeners.add_user_button_action_event_listener();			
 		}
+		else if(event.getSource() == submitButton) {
+			MainWindowActionEventListeners.submit_button_action_event_listener();
+		}
 		else if(event.getSource() == logoutButton) {
 			frame.dispose();
 			new Login();
@@ -328,7 +331,7 @@ public class MainWindow extends Client implements ActionListener{
 
 	public static void main(String[] a) {
 		MainWindow mw = new MainWindow();
-		mw.frame = mw.configureMainWindow();
+		MainWindow.frame = mw.configureMainWindow();
 	}
 }
 

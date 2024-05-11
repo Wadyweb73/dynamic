@@ -214,7 +214,7 @@ public class LoginInjected implements ActionListener{
 				
 				frame.dispose();
 				MainWindow mainWindow = new MainWindow();
-				mainWindow.frame = mainWindow.configureMainWindow();
+				MainWindow.frame = mainWindow.configureMainWindow();
 			}
 			if(!confirm) {
 				try {
@@ -230,7 +230,7 @@ public class LoginInjected implements ActionListener{
 	
 						frame.dispose();
 						MainWindow mainWindow = new MainWindow();
-						mainWindow.frame = mainWindow.configureMainWindow();
+						MainWindow.frame = mainWindow.configureMainWindow();
 					}
 					// }
 
