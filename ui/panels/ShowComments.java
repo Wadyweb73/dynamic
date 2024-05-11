@@ -28,12 +28,10 @@ public class ShowComments {
 
 		model.setColumnCount(0);
 		model.setRowCount(0);
-		model.addColumn("ID");
-		model.addColumn("Name");
-		model.addColumn("BI");
-		model.addColumn("Email");
-		model.addColumn("Tell");
-		model.addColumn("Residence");
+        model.addColumn("Id");
+        model.addColumn("Id do cliente");
+        model.addColumn("Descricao do problema");
+		model.addColumn("Data de requisicao");	
 		return model;
 	}
 
@@ -43,8 +41,8 @@ public class ShowComments {
 		table.setBackground(Color.LIGHT_GRAY);
 		table.setForeground(new Color(0x123456));
 		table.setFont(new Font("consolas", Font.PLAIN, 15));
-		table.getColumnModel().getColumn(0).setMaxWidth(40);
-		table.getColumnModel().getColumn(1).setPreferredWidth(700);
+		table.getColumnModel().getColumn(0).setMaxWidth(50);
+		table.getColumnModel().getColumn(2).setPreferredWidth(300);
 		table.setRowHeight(30);
 
 		return table;

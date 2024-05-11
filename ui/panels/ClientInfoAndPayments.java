@@ -193,7 +193,7 @@ public class ClientInfoAndPayments implements ActionListener {
 		
 		if(event.getSource() == _submitButton) {
 			String name = field_searchClient.getText();
-			String defaultString = "\n\n\tNome do Cliente: " + name + "\n\tData: 12 de Abril de 2024\n\t";
+			String description = new String();
 			String req = "SELECT * FROM client WHERE name='" + name + "';";
 
 			if(name.isEmpty()) {
@@ -204,7 +204,6 @@ public class ClientInfoAndPayments implements ActionListener {
 					JOptionPane.INFORMATION_MESSAGE
 				);
 			}
-
 			else {
 				try {
 					PreparedStatement ps = DBConnection.getConexao().prepareStatement(req);
@@ -229,9 +228,8 @@ public class ClientInfoAndPayments implements ActionListener {
 							ResultSet _res = ps_userProblem.executeQuery();
 
 							if(_res.next()) {
-								String description = _res.getString("discription");
-								defaultString = defaultString + "Problema: " + description + "\n\t"; 
-								System.err.println(defaultString);
+								description = _res.getString("discription");
+								description = description.replace("\n", System.lineSeparator());	
 							}
 
 							ps.close();
@@ -242,7 +240,7 @@ public class ClientInfoAndPayments implements ActionListener {
 							e.getMessage();
 						}
 
-						comment.setText(defaultString);
+						comment.setText(description);
 						comment.revalidate();
 						comment.repaint();
 

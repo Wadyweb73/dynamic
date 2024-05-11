@@ -112,7 +112,7 @@ public class MainWindow extends Client implements ActionListener{
 	protected JPanel configureLeftPanel() {
 		JPanel panel = new JPanel();
 
-		panel.setPreferredSize(new Dimension(150, 100));
+		panel.setPreferredSize(new Dimension(160, 100));
 		panel.setBackground(new Color(0x123456));
 		panel.setLayout(new FlowLayout());
 
@@ -132,7 +132,8 @@ public class MainWindow extends Client implements ActionListener{
 
 		button.setBackground(new Color(0xaf7ca79));
 		button.setForeground(new Color(0x12356));
-		button.setPreferredSize(new Dimension(120, 30));
+		button.setFont(new Font("Consolas", Font.PLAIN, 15));
+		button.setPreferredSize(new Dimension(150, 40));
 		
 		return button;
 	}
@@ -363,9 +364,13 @@ public class MainWindow extends Client implements ActionListener{
 				ShowComments comments = new ShowComments();
 
 				while(res.next()) {
+					String descrip = new String(res.getString("discription"));
+					descrip = descrip.replace("\n", System.lineSeparator());
+
 					Object[] data = {
 						res.getString("id"),
-						res.getString("discription")
+						"",
+						descrip
 					};
 
 					comments.addContentFromMySQL(data);
@@ -401,8 +406,13 @@ public class MainWindow extends Client implements ActionListener{
 			client.setResidence(field_residence.getText()); 
 			client.setTell(field_tell.getText());
 
-			if(!client.getName().isEmpty() || !client.getTell().isEmpty()) {
-
+			if(client.getName().isEmpty() || client.getTell().isEmpty()) {
+				JOptionPane.showMessageDialog(
+					frame,
+					"Os campos nome e telefone não podem ser vazios!",
+					"Empty fields",
+					JOptionPane.OK_OPTION
+				);
 			}
 			else {
 

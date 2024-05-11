@@ -23,7 +23,7 @@ public class ShowClients {
 		jScrollPane = configureScrollPane(table);
 		mainPanel   = configureMainPanel();
 	}
- 
+
 	public static JTable configureJTable(DefaultTableModel model) {
 		JTable table = new JTable(model);
 
@@ -42,7 +42,7 @@ public class ShowClients {
 	}
 
 	public static DefaultTableModel configureModel() {
-		DefaultTableModel model = new DefaultTableModel();
+		DefaultTableModel model = new DefaultTableModel(5, 5);
 
 		model.setColumnCount(0);
 		model.setRowCount(0);
@@ -66,6 +66,7 @@ public class ShowClients {
 		return scrollPane;
 	}
 	
+	
 	public void addContentFromMySQL(Object[] obj) {
 		model.addRow(obj);
 	}
@@ -81,6 +82,23 @@ public class ShowClients {
 
 		return panel;
 	}
+
+	// static class StatusColumnCellRenderer extends DefaultTableCellRenderer {
+	// 	@Override
+	// 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+	// 		Component cellComponent = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+
+	// 		if(column == 6) {
+	// 			model.setValueAt("pending", row, column);
+	// 			cellComponent.setForeground(Color.RED);
+	// 		}
+	// 		else {
+	// 			cellComponent.setBackground(table.getBackground());
+	// 		}
+			
+	// 		return cellComponent;
+	// 	}
+	// }
 }
 
 

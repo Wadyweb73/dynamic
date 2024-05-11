@@ -30,8 +30,8 @@ public class ServedClients {
 
         model.setColumnCount(0);
         model.setRowCount(2);
-        model.addColumn("ID");
-        model.addColumn("ID do cliente");
+        model.addColumn("Id");
+        model.addColumn("Id do cliente");
         model.addColumn("Descricao do problema");
         model.addColumn("Valor do Serviço");
         
