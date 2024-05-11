@@ -1,12 +1,10 @@
 package ui;
 
-import database.DBConnection;
+import ui.listeners.MainWindowActionEventListeners;
 import models.Client;
-import ui.panels.*;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JButton;
@@ -22,55 +20,52 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class MainWindow extends Client implements ActionListener{
 	public JFrame frame;
-	public JLabel titleLabel;
+	public static JLabel titleLabel;
 	public ArrayList <Client> ClientList; 
 
-	public JPanel leftSidebar_Panel;
-	public JPanel rightSidebar_Panel;  
-	public JPanel rightSidePanel_top;
+	public static JPanel leftSidebar_Panel;
+	public static JPanel rightSidebar_Panel;  
+	public static JPanel rightSidePanel_top;
 	public static JPanel rightSidePanel_main; 
 
-	public JPanel person_DataInputPanel;
-	public JPanel car_DataInputPanel;
-	public JPanel problemFieldContainer;
-	public JPanel submitButtonContainer;
+	public static JPanel person_DataInputPanel;
+	public static JPanel car_DataInputPanel;
+	public static JPanel problemFieldContainer;
+	public static JPanel submitButtonContainer;
 	
-	public JTextField field_name;
-	public JTextField field_BI;
-	public JTextField field_tell;
-	public JTextField field_email;
-	public JTextField field_residence;
+	public static JTextField field_name;
+	public static JTextField field_BI;
+	public static JTextField field_tell;
+	public static JTextField field_email;
+	public static JTextField field_residence;
 	
 	public JLabel label_name;
 	public JLabel label_BI;
 	public JLabel label_tell;
 	public JLabel label_email;
 	public JLabel label_residence;
-	
-	public JTextArea field_problemDescription;
 	public JLabel problemDiscriptionLabel;
 	
-	public JButton barButton_addClient;
-	public JButton barButton_showClients;
-	public JButton barButton_clientInfo;
-	public JButton barButton_showDoneProblems;
-	public JButton barButton_showUndoneProblems;
-	public JButton barButton_addUser;
-	public JButton submitButton;
-	public JButton logoutButton;
+	public static JTextArea field_problemDescription;
+	
+	protected static JButton barButton_addClient;
+	protected static JButton barButton_showClients;
+	protected static JButton barButton_clientInfo;
+	protected static JButton barButton_showDoneTasks;
+	protected static JButton barButton_showUndoneTasks;
+	protected static JButton barButton_addUser;
+	protected static JButton submitButton;
+	protected static JButton logoutButton;
 	
 	public MainWindow() {
 		barButton_showClients        = configureBarButtons("Listar clientes");
 		barButton_addClient          = configureBarButtons("Ad. cliente");
-		barButton_showDoneProblems   = configureBarButtons("Atendidadas");
-		barButton_showUndoneProblems = configureBarButtons("Pendentes");
+		barButton_showDoneTasks   = configureBarButtons("Atendidadas");
+		barButton_showUndoneTasks = configureBarButtons("Pendentes");
 		barButton_clientInfo         = configureBarButtons("Info do cliente");
 		barButton_addUser            = configureBarButtons("Novo usuario");
 		logoutButton                 = configureBarButtons("Sair");
@@ -100,8 +95,8 @@ public class MainWindow extends Client implements ActionListener{
 		submitButton.addActionListener(this);
 		barButton_addClient.addActionListener(this);
 		barButton_showClients.addActionListener(this);
-		barButton_showDoneProblems.addActionListener(this);
-		barButton_showUndoneProblems.addActionListener(this);
+		barButton_showDoneTasks.addActionListener(this);
+		barButton_showUndoneTasks.addActionListener(this);
 		barButton_clientInfo.addActionListener(this);
 		barButton_addUser.addActionListener(this);
 		logoutButton.addActionListener(this);
@@ -118,8 +113,8 @@ public class MainWindow extends Client implements ActionListener{
 
 		panel.add(barButton_addClient);
 		panel.add(barButton_showClients);
-		panel.add(barButton_showDoneProblems);
-		panel.add(barButton_showUndoneProblems);
+		panel.add(barButton_showDoneTasks);
+		panel.add(barButton_showUndoneTasks);
 		panel.add(barButton_clientInfo);
 		panel.add(barButton_addUser);
 		panel.add(logoutButton);
@@ -308,188 +303,28 @@ public class MainWindow extends Client implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		if(event.getSource() == barButton_addClient) {
-			
-			titleLabel.setText("REGISTER MENU");
-			rightSidePanel_main.removeAll();
-
-			rightSidePanel_main.setLayout(null);
-			rightSidePanel_main.add(person_DataInputPanel);
-			rightSidePanel_main.add(problemFieldContainer); 
-			rightSidePanel_main.add(submitButtonContainer);
-			rightSidePanel_main.revalidate();
-			rightSidePanel_main.repaint();
-
+			MainWindowActionEventListeners.add_client_button_event_handler();		
 		}
 		else if(event.getSource() == barButton_showClients) {
-			String req = "SELECT * FROM client";
-			titleLabel.setText("CLIENT LIST");
-
-			try {
-				PreparedStatement ps = DBConnection.getConexao().prepareStatement(req);
-				ResultSet res = ps.executeQuery();
-				ShowClients showCLI = new ShowClients();
-
-				while(res.next()) {
-					Object[] data = {
-						res.getInt("id"),
-						res.getString("name"),
-						res.getString("bi"),
-						res.getString("Email"),
-						res.getString("contact"),
-						res.getString("residence")
-					};
-
-					showCLI.addContentFromMySQL(data);
-				}
-				
-				rightSidePanel_main.removeAll();
-				rightSidePanel_main.setLayout(new FlowLayout(FlowLayout.CENTER));
-				rightSidePanel_main.add(showCLI.mainPanel);
-				rightSidePanel_main.revalidate();
-				rightSidePanel_main.repaint();
-			}
-			catch(SQLException e) {
-				e.getStackTrace();
-			}
+			MainWindowActionEventListeners.list_clients_button_event_handler();
 		}
-		else if(event.getSource() == barButton_showUndoneProblems) {
-			String req = "SELECT * FROM comments";
-
-			PreparedStatement ps = null;
-
-			try {
-				ps = DBConnection.getConexao().prepareStatement(req);
-
-				ResultSet res = ps.executeQuery();
-				ShowComments comments = new ShowComments();
-
-				while(res.next()) {
-					String descrip = new String(res.getString("discription"));
-					descrip = descrip.replace("\n", System.lineSeparator());
-
-					Object[] data = {
-						res.getString("id"),
-						"",
-						descrip
-					};
-
-					comments.addContentFromMySQL(data);
-				}
-
-				titleLabel.setText("NAO ATENDIDOS");
-				rightSidePanel_main.removeAll();
-				rightSidePanel_main.setLayout(new FlowLayout(FlowLayout.CENTER));
-				rightSidePanel_main.add(comments.mainPanel);
-				rightSidePanel_main.revalidate();
-				rightSidePanel_main.repaint();
-			}
-			catch(SQLException e) {
-				e.getStackTrace();
-			}
+		else if(event.getSource() == barButton_showUndoneTasks) {
+			MainWindowActionEventListeners.not_served_clients_button_action_event_listener();
 		}
 		else if(event.getSource() == barButton_clientInfo) {
-			ClientInfoAndPayments clientInfo = new ClientInfoAndPayments();
-
-			titleLabel.setText("INFORMACÃO DO CLIENTE");
-			rightSidePanel_main.removeAll();
-			rightSidePanel_main.setLayout(new FlowLayout(FlowLayout.CENTER));
-			rightSidePanel_main.add(clientInfo.mainPanel);
-			rightSidePanel_main.revalidate();
-			rightSidePanel_main.repaint();
+			MainWindowActionEventListeners.client_information_button_action_event_listener();
 		}
-		else if(event.getSource() == submitButton) {
-			Client client = new Client();
-
-			client.setName(field_name.getText()); 
-			client.setBI(field_BI.getText()); 
-			client.setEmail(field_email.getText());
-			client.setResidence(field_residence.getText()); 
-			client.setTell(field_tell.getText());
-
-			if(client.getName().isEmpty() || client.getTell().isEmpty()) {
-				JOptionPane.showMessageDialog(
-					frame,
-					"Os campos nome e telefone não podem ser vazios!",
-					"Empty fields",
-					JOptionPane.OK_OPTION
-				);
-			}
-			else {
-
-				String sql_cli     = "INSERT INTO client (NAME, BI, RESIDENCE,	EMAIL, CONTACT) VALUES (?, ?, ?, ?, ?);";
-				String sql_comment = "INSERT INTO comments (DISCRIPTION) VALUES (?);";
-				
-				try {
-					PreparedStatement client_ps  = DBConnection.getConexao().prepareStatement(sql_cli);
-					PreparedStatement comment_ps = DBConnection.getConexao().prepareStatement(sql_comment);
-	
-					client_ps.setString(1, client.getName     ());
-					client_ps.setString(2, client.getBI       ());
-					client_ps.setString(3, client.getResidence());
-					client_ps.setString(4, client.getEmail    ());
-					client_ps.setString(5, client.getTell     ());
-	
-					comment_ps.setString(1, field_problemDescription.getText());
-					
-					client_ps .execute();				
-					comment_ps.execute();
-	
-					System.out.print("\n\n User registered and saved on DB!");
-					JOptionPane.showConfirmDialog(
-						frame, 
-						"Cliente registado!",
-						"CLIENT REGISTER",
-						JOptionPane.OK_OPTION
-					);
-	
-					client_ps.close();
-					comment_ps.close();
-					resetFields();
-				}
-				catch(SQLException e) {
-					e.printStackTrace();
-				}
-			}
-
-		}
-		else if(event.getSource() == barButton_showDoneProblems) {
-			// String query = "SELECT * FROM COMME";
-			ServedClients servedClients = new ServedClients();
-
-			titleLabel.setText("TAREFAS ATENTIDAS");
-			rightSidePanel_main.removeAll();
-			rightSidePanel_main.setLayout(new FlowLayout(FlowLayout.CENTER));
-			rightSidePanel_main.add(servedClients.mainPanel);
-			rightSidePanel_main.revalidate();
-			rightSidePanel_main.repaint();
-
+		else if(event.getSource() == barButton_showDoneTasks) {
+			MainWindowActionEventListeners.served_clients_button_action_event_listener();
 		}
 		else if(event.getSource() == barButton_addUser) {
-			CreateUser novoUser = new CreateUser();
-
-			titleLabel.setText("NOVO USUARIO");
-			rightSidePanel_main.removeAll();
-			rightSidePanel_main.setLayout(new FlowLayout(FlowLayout.CENTER));
-			rightSidePanel_main.add(novoUser.mainPanel);
-			rightSidePanel_main.revalidate();
-			rightSidePanel_main.repaint();
-			
+			MainWindowActionEventListeners.add_user_button_action_event_listener();			
 		}
 		else if(event.getSource() == logoutButton) {
 			frame.dispose();
 			new Login();
 		}
 	}
-
-	public void resetFields() {
-		field_name.setText("");
-		field_BI.setText("");
-		field_email.setText("");
-		field_tell.setText("");
-		field_residence.setText("");
-		field_problemDescription.setText("");
-	}
-
 
 	public static void main(String[] a) {
 		MainWindow mw = new MainWindow();
