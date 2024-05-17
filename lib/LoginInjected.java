@@ -213,8 +213,7 @@ public class LoginInjected implements ActionListener{
 				confirm = !confirm;
 				
 				frame.dispose();
-				MainWindow mainWindow = new MainWindow();
-				MainWindow.frame = mainWindow.configureMainWindow();
+				new MainWindow();
 			}
 			if(!confirm) {
 				try {
@@ -229,8 +228,7 @@ public class LoginInjected implements ActionListener{
 						confirm = !confirm;
 	
 						frame.dispose();
-						MainWindow mainWindow = new MainWindow();
-						MainWindow.frame = mainWindow.configureMainWindow();
+						new MainWindow();
 					}
 					// }
 

@@ -9,6 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
+import javax.swing.table.JTableHeader;
 import javax.swing.table.DefaultTableModel;
 
 public class ServedClients {
@@ -30,7 +31,7 @@ public class ServedClients {
 
         model.setColumnCount(0);
         model.setRowCount(0);
-        model.addColumn("Id");
+        model.addColumn("Numero de requisicao");
         model.addColumn("Id do cliente");
         model.addColumn("Descricao do problema");
 		model.addColumn("Pago");
@@ -46,6 +47,10 @@ public class ServedClients {
 		table.setBackground(Color.LIGHT_GRAY);
 		table.setFont(new Font("consolas", Font.PLAIN, 15));
 		table.setRowHeight(30);
+        
+        JTableHeader header = table.getTableHeader();
+        header.setBackground(new Color(0x123456));
+        header.setForeground(new Color(0xcdcdcd));
         
         return table;
     }

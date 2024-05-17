@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 
 public class ShowClients {
 	public JPanel mainPanel;
@@ -37,6 +38,10 @@ public class ShowClients {
 		table.setBackground(Color.LIGHT_GRAY);
 		table.setFont(new Font("consolas", Font.PLAIN, 15));
 		table.setRowHeight(30);
+		
+		JTableHeader header = table.getTableHeader();
+        header.setBackground(new Color(0x123456));
+        header.setForeground(new Color(0xcdcdcd));
 
 		return table;
 	}

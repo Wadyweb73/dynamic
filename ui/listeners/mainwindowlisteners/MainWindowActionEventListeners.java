@@ -1,4 +1,4 @@
-package ui.listeners;
+package ui.listeners.mainwindowlisteners;
 
 import java.awt.FlowLayout;
 import java.sql.PreparedStatement;
@@ -16,11 +16,12 @@ import ui.panels.ClientInfoAndPayments;
 import ui.panels.CreateUser;
 import ui.panels.ServedClients;
 import ui.panels.ShowClients;
-import ui.panels.ShowComments;
+import ui.panels.UnservedClients;
+import ui.styles.MainWindowComponentStyles;
 
 public class  MainWindowActionEventListeners {
 	
-    public static void add_client_button_event_handler() {
+    public static void add_client_button_action_performed_handler() {
         MainWindow.titleLabel.setText("REGISTER MENU");
         MainWindow.rightSidePanel_main.removeAll();
 
@@ -32,7 +33,7 @@ public class  MainWindowActionEventListeners {
         MainWindow.rightSidePanel_main.repaint();
     }
 
-    public static void list_clients_button_event_handler() {
+    public static void list_clients_button_action_performed_handler() {
         String req = "SELECT * FROM client";
 		MainWindow.titleLabel.setText("CLIENT LIST");
 
@@ -65,7 +66,7 @@ public class  MainWindowActionEventListeners {
 		}
     }
 
-	public static void served_clients_button_action_event_listener () {
+	public static void served_clients_button_action_performed_handler() {
 		try {
 			String req    = "SELECT com.id AS comment_id, com.task_date, com.discription, com.payd,cli.id AS cli_id FROM comments AS com INNER JOIN client AS cli ON com.client_id = cli.id WHERE com.task_status <> 'PENDING';";
 
@@ -103,7 +104,7 @@ public class  MainWindowActionEventListeners {
 		}
 	}
 
-	public static void not_served_clients_button_action_event_listener() {
+	public static void not_served_clients_button_action_performed_handler() {
 		String req = "SELECT com.id AS comment_id, com.task_date, com.discription, com.payd,cli.id AS cli_id FROM comments AS com INNER JOIN client AS cli ON com.client_id = cli.id WHERE com.task_status = 'PENDING'";
 
 		try {
@@ -111,7 +112,7 @@ public class  MainWindowActionEventListeners {
 			
 			ResultSet res = ps.executeQuery();
 			res.next();
-			ShowComments comments = new ShowComments();
+			UnservedClients comments = new UnservedClients();
 			
 			while(res.next()) {
 				String payment = new String("Não");
@@ -142,7 +143,7 @@ public class  MainWindowActionEventListeners {
 		}
 	}
 
-	public static void add_user_button_action_event_listener() {
+	public static void add_user_button_action_performed_handler() {
 		CreateUser novoUser = new CreateUser();
 
 		MainWindow.titleLabel.setText("NOVO USUARIO");
@@ -153,7 +154,7 @@ public class  MainWindowActionEventListeners {
 		MainWindow.rightSidePanel_main.repaint();
 	}
 
-	public static void client_information_button_action_event_listener() {
+	public static void client_information_button_action_performed_handler() {
 			ClientInfoAndPayments clientInfo = new ClientInfoAndPayments();
 
 			MainWindow.titleLabel.setText("INFORMACÃO DO CLIENTE");
@@ -164,7 +165,7 @@ public class  MainWindowActionEventListeners {
 			MainWindow.rightSidePanel_main.repaint();
 	}
 
-	public static void submit_button_action_event_listener() {
+	public static void submit_button_action_performed_handler() {
 		Client client = new Client();
 
 		client.setName(MainWindow.field_name.getText()); 
@@ -174,8 +175,7 @@ public class  MainWindowActionEventListeners {
 		client.setTell(MainWindow.field_tell.getText());
 
 		if(client.getName().isEmpty() || client.getTell().isEmpty()) {
-			MainWindow mw = new MainWindow();
-			MainWindow.frame = mw.configureMainWindow();
+			MainWindow.frame = MainWindowComponentStyles.configureMainWindow();
 			JOptionPane.showMessageDialog(
 			MainWindow.frame,
 				"Os campos nome e telefone não podem ser vazios!",

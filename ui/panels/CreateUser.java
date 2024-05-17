@@ -1,6 +1,6 @@
 package ui.panels;
 
-import ui.MainWindow;
+import ui.styles.MainWindowComponentStyles;
 
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -32,17 +32,17 @@ public class CreateUser implements ActionListener{
 	JButton submitButton;
 	
 	public CreateUser() {
-		nameLabel = MainWindow.configureLabelForInput("Usuario");
-		passLabel = MainWindow.configureLabelForInput("Senha");
-		nameField = MainWindow.configureInputField();
-		passField = MainWindow.configureInputField();
+		nameLabel = MainWindowComponentStyles.configureLabelForInput("Usuario");
+		passLabel = MainWindowComponentStyles.configureLabelForInput("Senha");
+		nameField = MainWindowComponentStyles.configureInputField();
+		passField = MainWindowComponentStyles.configureInputField();
 
 		nameLabel.setFont(new Font("consolas", Font.PLAIN, 12));
 		passLabel.setFont(new Font("consolas", Font.PLAIN, 12));
 		nameLabel.setBackground(Color.RED);
 		passLabel.setBackground(Color.RED);
 		
-		submitButton  = MainWindow.configureSubmitButton();
+		submitButton  = MainWindowComponentStyles.configureSubmitButton();
 		submitButton.setBounds(435, 370, 100, 35);
 		nameContainer = configureNameContainer();
 		passContainer = configurePasswordContainer();

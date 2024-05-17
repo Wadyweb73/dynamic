@@ -4,19 +4,20 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 
-public class ShowComments {
+public class UnservedClients {
 	public JPanel mainPanel;
 	public DefaultTableModel model;
 	public JScrollPane jScrollPane;
 	public JTable table;
 
-	public ShowComments() {
+	public UnservedClients() {
 		model       = configureModel();
 		table       = configureJTable(model);
 		jScrollPane = configureScrollPane(table);		
@@ -28,7 +29,7 @@ public class ShowComments {
 
 		model.setColumnCount(0);
 		model.setRowCount(0);
-        model.addColumn("Id");
+        model.addColumn("Numero de requisicao");
         model.addColumn("Id do cliente");
         model.addColumn("Descricao do problema");
 		model.addColumn("Pago");
@@ -45,6 +46,10 @@ public class ShowComments {
 		table.getColumnModel().getColumn(0).setMaxWidth(50);
 		table.getColumnModel().getColumn(2).setPreferredWidth(300);
 		table.setRowHeight(30);
+
+		JTableHeader header = table.getTableHeader();
+        header.setBackground(new Color(0x123456));
+        header.setForeground(new Color(0xcdcdcd));
 
 		return table;
 	}

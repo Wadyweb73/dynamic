@@ -2,6 +2,8 @@ package ui.panels;
 
 import database.DBConnection;
 import ui.*;
+import ui.listeners.mainwindowlisteners.MainWindowActionEventListeners;
+import ui.styles.MainWindowComponentStyles;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -47,9 +49,9 @@ public class ClientInfoAndPayments implements ActionListener {
 	public ClientInfoAndPayments() {
 		border = BorderFactory.createMatteBorder(1, 1, 1, 1, new Color(0x123456));
 		
-		cancelTask_button = MainWindow.configureBarButtons("Cancelar");
-		done_button       = MainWindow.configureBarButtons("Concluir");
-		_submitButton     = MainWindow.configureBarButtons("Procurar");
+		cancelTask_button = MainWindowComponentStyles.configureBarButtons("Cancelar");
+		done_button       = MainWindowComponentStyles.configureBarButtons("Concluir");
+		_submitButton     = MainWindowComponentStyles.configureBarButtons("Procurar");
 
 		cancelTask_button.setPreferredSize(new Dimension(127, 37));
 		done_button.setPreferredSize(new Dimension(127, 37));
@@ -59,16 +61,16 @@ public class ClientInfoAndPayments implements ActionListener {
 		cancelTask_button.setBackground(Color.RED);
 		done_button.setBackground(Color.GREEN);
 		
-		amountToPay_field  = MainWindow.configureInputField();
+		amountToPay_field  = MainWindowComponentStyles.configureInputField();
 		amountToPay_field.setPreferredSize(new Dimension(260, 40));
 		amountToPay_field.setText("  $ Valor do servico");
-		field_searchClient = MainWindow.configureInputField();
+		field_searchClient = MainWindowComponentStyles.configureInputField();
 		field_searchClient.setPreferredSize(new Dimension(400, 37));
 		field_searchClient.setBackground(Color.LIGHT_GRAY);
 		field_searchClient.setForeground(Color.WHITE);
 		field_searchClient.setFont(new Font("consolas", Font.PLAIN, 15));
 
-		comment = MainWindow.configureInputForDiscription();
+		comment = MainWindowComponentStyles.configureInputForDiscription();
 		comment.setBounds(10, 10, 880, 200);
 		comment.setText("This is the field from which you can see the description!!");
 
@@ -240,7 +242,8 @@ public class ClientInfoAndPayments implements ActionListener {
 							e.getMessage();
 						}
 
-						comment.setText(description);
+						comment.setText("");
+						comment.append(description);
 						comment.revalidate();
 						comment.repaint();
 
@@ -270,38 +273,53 @@ public class ClientInfoAndPayments implements ActionListener {
 				JOptionPane.showMessageDialog(
 					MainWindow.rightSidePanel_main,
 					"Insira o valor do servico!",
-					"submit ERROR", 
+					"Erro de pagamento", 
 					JOptionPane.INFORMATION_MESSAGE
 				);
 			}
 			else {
 				try {
 					Double valor = Double.parseDouble(amountToPay_field.getText());
-					// String name = field_searchClient.getText();
-					
+					String name  = field_searchClient.getText();
+				
 					try {
+						String findUserProblem = "SELECT com.id, cli.id AS client_id FROM comments com INNER JOIN client cli ON com.client_id = cli.id WHERE cli.name = ?";
+						String alterTaskStatus = "UPDATE comments SET task_status = 'SERVED' WHERE id = ?";
+						String payment_query   = "INSERT INTO pagamento (id, valor, paydate) VALUES (?, ?, ?)";
 
-						String sql = "INSERT INTO pagamento (id, valor) VALUES (?, ?)";
-						// String findUserProblem = "SELECT id FROM comments com INNER JOIN client cli on com.id = cli.id WHERE cli.name = '" + name + "';";
-						// PreparedStatement ps_id = DBConnection.getConexao().prepareStatement(findUserProblem);
+						PreparedStatement ps_commentId = DBConnection.getConexao().prepareStatement(findUserProblem);
+						PreparedStatement ps_updateCom = DBConnection.getConexao().prepareStatement(alterTaskStatus);
+						PreparedStatement ps_payment   = DBConnection.getConexao().prepareStatement(payment_query  );
 						
-						PreparedStatement ps = DBConnection.getConexao().prepareStatement(sql);
-
-						// ResultSet res = ps_id.executeQuery();
-						// res.next();
-						// System.err.println(res.getString("id"));
-
-						ps.setString(1, 1 + "");
-						ps.setString(2, "" + valor);
-
-						ps.execute();
-						JOptionPane.showMessageDialog(mainPanel, "Pagamento efectuado com sucesso!");
-						ps.close();
+						ps_commentId.setString(1, name);
+						
+						ResultSet res = ps_commentId.executeQuery();
+						System.err.println("Depois da execução da query");
+						
+						while (res.next()) {
+							Integer commentId = res.getInt("id");
+							System.err.println("ID do problema: " + commentId);
+							ps_updateCom.setInt(1, res.getInt("id"));
+							
+							ps_payment.setInt(1, res.getInt("client_id"));
+							ps_payment.setDouble(2, valor);
+							ps_payment.setString(3, MainWindowActionEventListeners.getDateFromStorage());
+							
+							ps_payment.execute();
+							ps_updateCom.executeUpdate();
+						}
+						
+						res.close();
+						ps_commentId.close();
+						ps_payment.close();
+						ps_updateCom.close();
+				
+						JOptionPane.showMessageDialog(mainPanel, "Pagamento efectuado com sucesso!", "Info: Pagamento", JOptionPane.INFORMATION_MESSAGE);
+					} catch (SQLException e) {
+						e.printStackTrace();
+						JOptionPane.showMessageDialog(mainPanel, "Erro ao buscar o ID: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
 					}
-					catch(SQLException e) {
-						e.getMessage();
-					}
-				}
+				} 
 				catch(NumberFormatException e) {
 					JOptionPane.showMessageDialog(
 						MainWindow.rightSidePanel_main,
