@@ -1,8 +1,9 @@
 package ui;
 
 import models.Client;
-import ui.listeners.mainwindowlisteners.MainWindowActionEventListeners;
-import ui.styles.MainWindowComponentStyles;
+
+import static ui.listeners.mainwindowlisteners.MainWindowActionEventListeners.*;
+import static ui.styles.MainWindowComponentStyles.*;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -43,7 +44,7 @@ public class MainWindow extends Client implements ActionListener{
 	public static JLabel label_residence;
 	public static JLabel problemDiscriptionLabel;
 	
-	public    static JTextArea field_problemDescription;
+	public static JTextArea field_problemDescription;
 	public static JButton barButton_addClient;
 	public static JButton barButton_showClients;
 	public static JButton barButton_clientInfo;
@@ -54,37 +55,36 @@ public class MainWindow extends Client implements ActionListener{
 	public static JButton logoutButton;
 	
 	public MainWindow() {
-		barButton_showClients     = MainWindowComponentStyles.configureBarButtons("Listar clientes");
-		barButton_addClient       = MainWindowComponentStyles.configureBarButtons("Ad. cliente");
-		barButton_showDoneTasks   = MainWindowComponentStyles.configureBarButtons("Atendidadas");
-		barButton_showUndoneTasks = MainWindowComponentStyles.configureBarButtons("Pendentes");
-		barButton_clientInfo      = MainWindowComponentStyles.configureBarButtons("Info do cliente");
-		barButton_addUser         = MainWindowComponentStyles.configureBarButtons("Novo usuario");
-		logoutButton              = MainWindowComponentStyles.configureBarButtons("Sair");
-		label_name                = MainWindowComponentStyles.configureLabelForInput("Nome");
-		label_email               = MainWindowComponentStyles.configureLabelForInput("Email");
-		label_tell                = MainWindowComponentStyles.configureLabelForInput("Telefone");
-		label_residence           = MainWindowComponentStyles.configureLabelForInput("Residencia");
-		label_BI                  = MainWindowComponentStyles.configureLabelForInput("BI ou NUIT");
-		problemDiscriptionLabel   = MainWindowComponentStyles.configureLabelForInput("Descricao do problema");
-		titleLabel                = MainWindowComponentStyles.configureTitleLabel("MAIN");
-		field_problemDescription  = MainWindowComponentStyles.configureInputForDiscription();
-		problemFieldContainer     = MainWindowComponentStyles.configurePanelForDiscription();
-		field_name                = MainWindowComponentStyles.configureInputField();
-		field_email               = MainWindowComponentStyles.configureInputField();
-		field_tell                = MainWindowComponentStyles.configureInputField();
-		field_residence           = MainWindowComponentStyles.configureInputField();
-		field_BI                  = MainWindowComponentStyles.configureInputField();
-		person_DataInputPanel     = MainWindowComponentStyles.setClientDataPanel(); 
-		submitButton              = MainWindowComponentStyles.configureSubmitButton();
-		submitButtonContainer     = MainWindowComponentStyles.configureButtonContainer();
+		barButton_showClients     = configureBarButtons("Listar clientes");
+		barButton_addClient       = configureBarButtons("Ad. cliente");
+		barButton_showDoneTasks   = configureBarButtons("Atendidadas");
+		barButton_showUndoneTasks = configureBarButtons("Pendentes");
+		barButton_clientInfo      = configureBarButtons("Info do cliente");
+		barButton_addUser         = configureBarButtons("Novo usuario");
+		logoutButton              = configureBarButtons("Sair");
+		label_name                = configureLabelForInput("Nome");
+		label_email               = configureLabelForInput("Email");
+		label_tell                = configureLabelForInput("Telefone");
+		label_residence           = configureLabelForInput("Residencia");
+		label_BI                  = configureLabelForInput("BI ou NUIT");
+		problemDiscriptionLabel   = configureLabelForInput("Descricao do problema");
+		titleLabel                = configureTitleLabel("MAIN");
+		field_problemDescription  = configureInputForDiscription();
+		problemFieldContainer     = configurePanelForDiscription();
+		field_name                = configureInputField();
+		field_email               = configureInputField();
+		field_tell                = configureInputField();
+		field_residence           = configureInputField();
+		field_BI                  = configureInputField();
+		person_DataInputPanel     = setClientDataPanel(); 
+		submitButton              = configureSubmitButton();
+		submitButtonContainer     = configureButtonContainer();
 		
-		rightSidePanel_top        = MainWindowComponentStyles.configure_rightSidePanel_Top();
-		rightSidePanel_main       = MainWindowComponentStyles.configure_rightSidePanel_Main();
-		leftSidebar_Panel         = MainWindowComponentStyles.configureLeftPanel ();
-		rightSidebar_Panel        = MainWindowComponentStyles.configureRightPanel();
-
-		frame                     = MainWindowComponentStyles.configureMainWindow();
+		rightSidePanel_top        = configure_rightSidePanel_Top();
+		rightSidePanel_main       = configure_rightSidePanel_Main();
+		leftSidebar_Panel         = configureLeftPanel ();
+		rightSidebar_Panel        = configureRightPanel();
+		frame                     = configureMainWindow();
 		
 		submitButton.addActionListener(this);
 		barButton_addClient.addActionListener(this);
@@ -99,25 +99,25 @@ public class MainWindow extends Client implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		if(event.getSource() == barButton_addClient) {
-			MainWindowActionEventListeners.add_client_button_action_performed_handler();		
+			add_client_button_action_performed_handler();		
 		}
 		else if(event.getSource() == barButton_showClients) {
-			MainWindowActionEventListeners.list_clients_button_action_performed_handler();
+			list_clients_button_action_performed_handler();
 		}
 		else if(event.getSource() == barButton_showUndoneTasks) {
-			MainWindowActionEventListeners.not_served_clients_button_action_performed_handler();
+			not_served_clients_button_action_performed_handler();
 		}
 		else if(event.getSource() == barButton_clientInfo) {
-			MainWindowActionEventListeners.client_information_button_action_performed_handler();
+			client_information_button_action_performed_handler();
 		}
 		else if(event.getSource() == barButton_showDoneTasks) {
-			MainWindowActionEventListeners.served_clients_button_action_performed_handler();
+			served_clients_button_action_performed_handler();
 		}
 		else if(event.getSource() == barButton_addUser) {
-			MainWindowActionEventListeners.add_user_button_action_performed_handler();			
+			add_user_button_action_performed_handler();			
 		}
 		else if(event.getSource() == submitButton) {
-			MainWindowActionEventListeners.submit_button_action_performed_handler();
+			submit_button_action_performed_handler();
 		}
 		else if(event.getSource() == logoutButton) {
 			frame.dispose();

@@ -3,7 +3,10 @@ package ui.panels;
 import database.DBConnection;
 import ui.*;
 import ui.listeners.mainwindowlisteners.MainWindowActionEventListeners;
-import ui.styles.MainWindowComponentStyles;
+
+import static ui.styles.MainWindowComponentStyles.*;
+import static ui.MainWindow.*;
+import static ui.panels.ShowClients.*;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -34,7 +37,7 @@ public class ClientInfoAndPayments implements ActionListener {
 	public JPanel mainPanel;
 	public JPanel top_panel, center_panel, bottom_panel;
 	public JPanel bottom_left_panel, bottom_right_panel;
-	public static JButton _submitButton, cancelTask_button, done_button;
+	public static JButton submitButton, cancelTask_button, endTaskButton;
 	public JTextField field_searchClient;
 	public JScrollPane jScrollPane;
 	public JTable table;
@@ -43,66 +46,97 @@ public class ClientInfoAndPayments implements ActionListener {
 
 	public JLabel amountToPay_label;
 	public JTextField amountToPay_field;
-	public JLabel commentID;
-	public JTextArea comment;
+	public JTextArea commentField;
 	
 	public ClientInfoAndPayments() {
 		border = BorderFactory.createMatteBorder(1, 1, 1, 1, new Color(0x123456));
 		
-		cancelTask_button = MainWindowComponentStyles.configureBarButtons("Cancelar");
-		done_button       = MainWindowComponentStyles.configureBarButtons("Concluir");
-		_submitButton     = MainWindowComponentStyles.configureBarButtons("Procurar");
-
-		cancelTask_button.setPreferredSize(new Dimension(127, 37));
-		done_button.setPreferredSize(new Dimension(127, 37));
-
-		_submitButton.setPreferredSize(new Dimension(150, 37)); 
-		_submitButton.setVerticalAlignment(JButton.CENTER);
-		cancelTask_button.setBackground(Color.RED);
-		done_button.setBackground(Color.GREEN);
-		
-		amountToPay_field  = MainWindowComponentStyles.configureInputField();
-		amountToPay_field.setPreferredSize(new Dimension(260, 40));
-		amountToPay_field.setText("  $ Valor do servico");
-		field_searchClient = MainWindowComponentStyles.configureInputField();
-		field_searchClient.setPreferredSize(new Dimension(400, 37));
-		field_searchClient.setBackground(Color.LIGHT_GRAY);
-		field_searchClient.setForeground(Color.WHITE);
-		field_searchClient.setFont(new Font("consolas", Font.PLAIN, 15));
-
-		comment = MainWindowComponentStyles.configureInputForDiscription();
-		comment.setBounds(10, 10, 880, 200);
-		comment.setText("This is the field from which you can see the description!!");
-
-		model       = ShowClients.configureModel();
-		table       = ShowClients.configureJTable(model);
-		jScrollPane = new JScrollPane(table);
-		
-		jScrollPane.setPreferredSize(new Dimension(1207, 121));
-		jScrollPane.setOpaque(false);
-		jScrollPane.getViewport().setOpaque(false);
-
-		_submitButton.addActionListener(this);
-		done_button.addActionListener(this);
-		
+		cancelTask_button  = configureCancelTaskButton();
+		endTaskButton      = configureEndTaskButton();
+		submitButton       = configureSubmitSearchButton();
+		amountToPay_field  = configureAmountToPayField(); 
+		field_searchClient = configureSearchInputField();
+		commentField       = configureCommentArea();
+		model              = configureModel();
+		table              = configureJTable(model);
+		jScrollPane        = configureScrollPane(table);
 		top_panel          = configureTopPanel();
 		center_panel       = configureCenterPanel();
 		bottom_left_panel  = configureBottomLeftPanel();
 		bottom_right_panel = configureBottomRightPanel();
 		bottom_panel       = configureBottomPanel();
 		mainPanel          = configureMainPanel();
+
+		submitButton.addActionListener(this);
+		endTaskButton.addActionListener(this);
+	}
+
+	public JButton configureEndTaskButton() {
+		JButton button = configureBarButtons("Concluir");
+
+		button.setPreferredSize(new Dimension(127, 37));
+		button.setBackground(Color.GREEN);
+		
+		return button;
 	}
 	
-	public JTextField configureInputField()  {
+	public JButton configureSubmitSearchButton() {
+		JButton button = configureBarButtons("Procurar");
+		
+		button.setPreferredSize(new Dimension(150, 37)); 
+		button.setVerticalAlignment(JButton.CENTER);
+
+		return button;
+	}
+	
+	public JButton configureCancelTaskButton() {
+		JButton button = configureBarButtons("Cancelar");
+
+		button.setBackground(Color.RED);
+		button.setPreferredSize(new Dimension(127, 37));
+		
+		return button;
+	}
+
+	public JTextField configureAmountToPayField() {
+		JTextField field = configureInputField();
+
+		field.setPreferredSize(new Dimension(260, 40));
+		field.setText("  $ Valor do servico");
+		
+		return field;
+	}
+
+	public JTextArea configureCommentArea() {
+		JTextArea area = configureInputForDiscription();
+
+		area.setBounds(10, 10, 880, 200);
+		area.setText("This is the field from which you can see the description!!");
+
+		return area;
+	}
+	
+	public JTextField configureSearchInputField()  {
 		JTextField field = new JTextField();
 		
-		field.setPreferredSize(new Dimension(300, 40));
+		field.setPreferredSize(new Dimension(400, 37));
 		field.setBackground(new Color(0xcdcdcd));
 		field.setForeground(new Color(0x123456));
 		field.setBorder(border);
 		field.setHorizontalAlignment(JTextField.LEADING);
+		field.setFont(new Font("consolas", Font.PLAIN, 15));
 		
 		return field;
+	}
+
+	public JScrollPane configureScrollPane(JTable table) {
+		JScrollPane scrollpane = new JScrollPane(table);
+
+		scrollpane.setPreferredSize(new Dimension(1207, 121));
+		scrollpane.setOpaque(false);
+		scrollpane.getViewport().setOpaque(false);
+
+		return scrollpane;
 	}
 
 	public void addContentFromMySQL(Object[] obj) {
@@ -117,7 +151,7 @@ public class ClientInfoAndPayments implements ActionListener {
 		panel.setBackground(new Color(0x123456));
 		panel.setBorder(border);
 		panel.add(field_searchClient);
-		panel.add(_submitButton);
+		panel.add(submitButton);
 		
 		return panel;
 	}
@@ -140,11 +174,10 @@ public class ClientInfoAndPayments implements ActionListener {
 		panel.setPreferredSize(new Dimension(900, 100));
 		panel.setBackground(Color.LIGHT_GRAY);
 
-		panel.add(comment);
+		panel.add(commentField);
 		
 		return panel;
 	} 
-	
 	
 	public JPanel configureBottomRightPanel() {
 		JPanel panel = new JPanel();
@@ -155,7 +188,7 @@ public class ClientInfoAndPayments implements ActionListener {
 
 		panel.add(amountToPay_field);
 		panel.add(cancelTask_button);
-		panel.add(done_button);
+		panel.add(endTaskButton);
 		
 		return panel;
 	} 
@@ -193,10 +226,10 @@ public class ClientInfoAndPayments implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		
-		if(event.getSource() == _submitButton) {
-			String name = field_searchClient.getText();
+		if(event.getSource() == submitButton) {
+			String name        = field_searchClient.getText();
 			String description = new String();
-			String req = "SELECT * FROM client WHERE name='" + name + "';";
+			String req         = "SELECT * FROM client WHERE name='" + name + "';";
 
 			if(name.isEmpty()) {
 				JOptionPane.showMessageDialog(
@@ -242,20 +275,20 @@ public class ClientInfoAndPayments implements ActionListener {
 							e.getMessage();
 						}
 
-						comment.setText("");
-						comment.append(description);
-						comment.revalidate();
-						comment.repaint();
+						commentField.setText("");
+						commentField.append(description);
+						commentField.revalidate();
+						commentField.repaint();
 
-						MainWindow.rightSidePanel_main.removeAll();
-						MainWindow.rightSidePanel_main.setLayout(new FlowLayout(FlowLayout.CENTER));
-						MainWindow.rightSidePanel_main.add(mainPanel);
-						MainWindow.rightSidePanel_main.revalidate();
-						MainWindow.rightSidePanel_main.repaint();
+						rightSidePanel_main.removeAll();
+						rightSidePanel_main.setLayout(new FlowLayout(FlowLayout.CENTER));
+						rightSidePanel_main.add(mainPanel);
+						rightSidePanel_main.revalidate();
+						rightSidePanel_main.repaint();
 					}
 					else {
 						JOptionPane.showMessageDialog(
-							MainWindow.rightSidePanel_main,
+							rightSidePanel_main,
 							"Cliente nao encontrado!",
 							"Search ERROR", 
 							JOptionPane.ERROR_MESSAGE
@@ -268,10 +301,10 @@ public class ClientInfoAndPayments implements ActionListener {
 				}
 			}
 		}
-		else if(event.getSource() == done_button) {
+		else if(event.getSource() == endTaskButton) {
 			if(amountToPay_field.getText().isEmpty()) {
 				JOptionPane.showMessageDialog(
-					MainWindow.rightSidePanel_main,
+					rightSidePanel_main,
 					"Insira o valor do servico!",
 					"Erro de pagamento", 
 					JOptionPane.INFORMATION_MESSAGE
@@ -322,7 +355,7 @@ public class ClientInfoAndPayments implements ActionListener {
 				} 
 				catch(NumberFormatException e) {
 					JOptionPane.showMessageDialog(
-						MainWindow.rightSidePanel_main,
+						rightSidePanel_main,
 						"Insira um valor valido",
 						"Payment Error", 
 						JOptionPane.ERROR_MESSAGE
@@ -330,7 +363,5 @@ public class ClientInfoAndPayments implements ActionListener {
 				}
 			}
 		} 
-		
 	}
-
 }

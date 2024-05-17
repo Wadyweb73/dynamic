@@ -29,7 +29,6 @@ public class ShowClients {
 		JTable table = new JTable(model);
 
 		table.setBackground(Color.GRAY);
-		// table.getColumnModel().getColumn(6).setCellRenderer(new StatusColumnCellRenderer());
 		table.getColumnModel().getColumn(0).setMaxWidth(30);
 		table.getColumnModel().getColumn(3).setPreferredWidth(200);
 		table.getColumnModel().getColumn(1).setPreferredWidth(200);
@@ -87,23 +86,6 @@ public class ShowClients {
 
 		return panel;
 	}
-
-	// static class StatusColumnCellRenderer extends DefaultTableCellRenderer {
-	// 	@Override
-	// 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-	// 		Component cellComponent = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-
-	// 		if(column == 6) {
-	// 			model.setValueAt("pending", row, column);
-	// 			cellComponent.setForeground(Color.RED);
-	// 		}
-	// 		else {
-	// 			cellComponent.setBackground(table.getBackground());
-	// 		}
-			
-	// 		return cellComponent;
-	// 	}
-	// }
 }
 
 

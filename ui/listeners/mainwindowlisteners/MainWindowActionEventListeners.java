@@ -1,5 +1,9 @@
 package ui.listeners.mainwindowlisteners;
 
+import database.DBConnection;
+import models.Client;
+
+import javax.swing.JOptionPane;
 import java.awt.FlowLayout;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -7,10 +11,6 @@ import java.sql.SQLException;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 
-import javax.swing.JOptionPane;
-
-import database.DBConnection;
-import models.Client;
 import ui.MainWindow;
 import ui.panels.ClientInfoAndPayments;
 import ui.panels.CreateUser;
@@ -19,8 +19,8 @@ import ui.panels.ShowClients;
 import ui.panels.UnservedClients;
 import ui.styles.MainWindowComponentStyles;
 
+
 public class  MainWindowActionEventListeners {
-	
     public static void add_client_button_action_performed_handler() {
         MainWindow.titleLabel.setText("REGISTER MENU");
         MainWindow.rightSidePanel_main.removeAll();
@@ -68,11 +68,9 @@ public class  MainWindowActionEventListeners {
 
 	public static void served_clients_button_action_performed_handler() {
 		try {
-			String req    = "SELECT com.id AS comment_id, com.task_date, com.discription, com.payd,cli.id AS cli_id FROM comments AS com INNER JOIN client AS cli ON com.client_id = cli.id WHERE com.task_status <> 'PENDING';";
-
+			String req           = "SELECT com.id AS comment_id, com.task_date, com.discription, com.payd,cli.id AS cli_id FROM comments AS com INNER JOIN client AS cli ON com.client_id = cli.id WHERE com.task_status <> 'PENDING';";
 			PreparedStatement ps = DBConnection.getConexao().prepareStatement(req);
-			
-			ResultSet res = ps.executeQuery();
+			ResultSet res        = ps.executeQuery();
 			ServedClients served = new ServedClients();
 			
 			while(res.next()) {
@@ -95,7 +93,7 @@ public class  MainWindowActionEventListeners {
 			MainWindow.titleLabel.setText("ATENDIDOS");
 			MainWindow.rightSidePanel_main.removeAll();
 			MainWindow.rightSidePanel_main.setLayout(new FlowLayout(FlowLayout.CENTER));
-			MainWindow.rightSidePanel_main.add(served.mainPanel);
+			MainWindow.rightSidePanel_main.add(ServedClients.mainPanel);
 			MainWindow.rightSidePanel_main.revalidate();
 			MainWindow.rightSidePanel_main.repaint();
 		}
@@ -108,11 +106,9 @@ public class  MainWindowActionEventListeners {
 		String req = "SELECT com.id AS comment_id, com.task_date, com.discription, com.payd,cli.id AS cli_id FROM comments AS com INNER JOIN client AS cli ON com.client_id = cli.id WHERE com.task_status = 'PENDING'";
 
 		try {
-			PreparedStatement ps = DBConnection.getConexao().prepareStatement(req);
-			
-			ResultSet res = ps.executeQuery();
-			res.next();
-			UnservedClients comments = new UnservedClients();
+			PreparedStatement ps     = DBConnection.getConexao().prepareStatement(req);
+			ResultSet res            = ps.executeQuery();
+			UnservedClients unserved = new UnservedClients();
 			
 			while(res.next()) {
 				String payment = new String("Não");
@@ -128,13 +124,13 @@ public class  MainWindowActionEventListeners {
 					res.getString("task_date")
 				};
 				
-				comments.addContentFromMySQL(data);
+				unserved.addContentFromMySQL(data);
 			}
 
 			MainWindow.titleLabel.setText("NAO ATENDIDOS");
 			MainWindow.rightSidePanel_main.removeAll();
 			MainWindow.rightSidePanel_main.setLayout(new FlowLayout(FlowLayout.CENTER));
-			MainWindow.rightSidePanel_main.add(comments.mainPanel);
+			MainWindow.rightSidePanel_main.add(UnservedClients.mainPanel);
 			MainWindow.rightSidePanel_main.revalidate();
 			MainWindow.rightSidePanel_main.repaint();
 		}

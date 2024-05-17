@@ -13,11 +13,11 @@ import javax.swing.table.JTableHeader;
 import javax.swing.table.DefaultTableModel;
 
 public class ServedClients {
-    JScrollPane scrollPane;
-    DefaultTableModel tableModel;
-    JFrame frame;
-    JTable table;
-    public JPanel mainPanel;
+    public static JScrollPane scrollPane;
+    public static DefaultTableModel tableModel;
+    public static JFrame frame;
+    public static JTable table;
+    public static JPanel mainPanel;
 
     public ServedClients() {
         tableModel = configureTableModel();
@@ -26,7 +26,7 @@ public class ServedClients {
         mainPanel  = configureMainPanel();
     }
     
-    DefaultTableModel configureTableModel() {
+   public DefaultTableModel configureTableModel() {
         DefaultTableModel model = new DefaultTableModel();
 
         model.setColumnCount(0);

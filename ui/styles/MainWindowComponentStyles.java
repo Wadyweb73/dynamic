@@ -1,5 +1,7 @@
 package ui.styles;
 
+import static ui.MainWindow.*;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -16,11 +18,9 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 
-import ui.MainWindow;
+public class MainWindowComponentStyles {
 
-public class MainWindowComponentStyles extends MainWindow {
-    	/* ======================= SETTING UP LEFT PANEL ======================= */ 
-
+	/* ======================= SETTING UP LEFT PANEL ======================= */ 
 	public static JPanel configureLeftPanel() {
 		JPanel panel = new JPanel();
 
