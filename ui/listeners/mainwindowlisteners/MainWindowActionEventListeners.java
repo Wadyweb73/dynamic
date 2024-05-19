@@ -1,9 +1,13 @@
 package ui.listeners.mainwindowlisteners;
 
+import static ui.MainWindow.*;
+
 import database.DBConnection;
 import models.Client;
 
 import javax.swing.JOptionPane;
+
+import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,9 +15,9 @@ import java.sql.SQLException;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 
-import ui.MainWindow;
 import ui.panels.ClientInfoAndPayments;
 import ui.panels.CreateUser;
+import ui.panels.Menu;
 import ui.panels.ServedClients;
 import ui.panels.ShowClients;
 import ui.panels.UnservedClients;
@@ -22,20 +26,20 @@ import ui.styles.MainWindowComponentStyles;
 
 public class  MainWindowActionEventListeners {
     public static void add_client_button_action_performed_handler() {
-        MainWindow.titleLabel.setText("REGISTER MENU");
-        MainWindow.rightSidePanel_main.removeAll();
+        titleLabel.setText("REGISTER MENU");
+        rightSidePanel_main.removeAll();
 
-        MainWindow.rightSidePanel_main.setLayout(null);
-        MainWindow.rightSidePanel_main.add(MainWindow.person_DataInputPanel);
-        MainWindow.rightSidePanel_main.add(MainWindow.problemFieldContainer); 
-        MainWindow.rightSidePanel_main.add(MainWindow.submitButtonContainer);
-        MainWindow.rightSidePanel_main.revalidate();
-        MainWindow.rightSidePanel_main.repaint();
+        rightSidePanel_main.setLayout(null);
+        rightSidePanel_main.add(person_DataInputPanel);
+        rightSidePanel_main.add(problemFieldContainer); 
+        rightSidePanel_main.add(submitButtonContainer);
+        rightSidePanel_main.revalidate();
+        rightSidePanel_main.repaint();
     }
 
     public static void list_clients_button_action_performed_handler() {
         String req = "SELECT * FROM client";
-		MainWindow.titleLabel.setText("CLIENT LIST");
+		titleLabel.setText("CLIENT LIST");
 
 		try {
 			PreparedStatement ps = DBConnection.getConexao().prepareStatement(req);
@@ -55,11 +59,11 @@ public class  MainWindowActionEventListeners {
 				showCLI.addContentFromMySQL(data);
 			}
 			
-			MainWindow.rightSidePanel_main.removeAll();
-			MainWindow.rightSidePanel_main.setLayout(new FlowLayout(FlowLayout.CENTER));
-			MainWindow.rightSidePanel_main.add(showCLI.mainPanel);
-			MainWindow.rightSidePanel_main.revalidate();
-			MainWindow.rightSidePanel_main.repaint();
+			rightSidePanel_main.removeAll();
+			rightSidePanel_main.setLayout(new FlowLayout(FlowLayout.CENTER));
+			rightSidePanel_main.add(showCLI.mainPanel);
+			rightSidePanel_main.revalidate();
+			rightSidePanel_main.repaint();
 		}
 		catch(SQLException e) {
 			e.getStackTrace();
@@ -90,12 +94,12 @@ public class  MainWindowActionEventListeners {
 				served.addContentFromMySQL(data);
 			}
 
-			MainWindow.titleLabel.setText("ATENDIDOS");
-			MainWindow.rightSidePanel_main.removeAll();
-			MainWindow.rightSidePanel_main.setLayout(new FlowLayout(FlowLayout.CENTER));
-			MainWindow.rightSidePanel_main.add(ServedClients.mainPanel);
-			MainWindow.rightSidePanel_main.revalidate();
-			MainWindow.rightSidePanel_main.repaint();
+			titleLabel.setText("ATENDIDOS");
+			rightSidePanel_main.removeAll();
+			rightSidePanel_main.setLayout(new FlowLayout(FlowLayout.CENTER));
+			rightSidePanel_main.add(ServedClients.mainPanel);
+			rightSidePanel_main.revalidate();
+			rightSidePanel_main.repaint();
 		}
 		catch(SQLException e) {
 			e.getStackTrace();
@@ -127,12 +131,12 @@ public class  MainWindowActionEventListeners {
 				unserved.addContentFromMySQL(data);
 			}
 
-			MainWindow.titleLabel.setText("NAO ATENDIDOS");
-			MainWindow.rightSidePanel_main.removeAll();
-			MainWindow.rightSidePanel_main.setLayout(new FlowLayout(FlowLayout.CENTER));
-			MainWindow.rightSidePanel_main.add(UnservedClients.mainPanel);
-			MainWindow.rightSidePanel_main.revalidate();
-			MainWindow.rightSidePanel_main.repaint();
+			titleLabel.setText("NAO ATENDIDOS");
+			rightSidePanel_main.removeAll();
+			rightSidePanel_main.setLayout(new FlowLayout(FlowLayout.CENTER));
+			rightSidePanel_main.add(UnservedClients.mainPanel);
+			rightSidePanel_main.revalidate();
+			rightSidePanel_main.repaint();
 		}
 		catch(SQLException e) {
 			e.getStackTrace();
@@ -142,38 +146,47 @@ public class  MainWindowActionEventListeners {
 	public static void add_user_button_action_performed_handler() {
 		CreateUser novoUser = new CreateUser();
 
-		MainWindow.titleLabel.setText("NOVO USUARIO");
-		MainWindow.rightSidePanel_main.removeAll();
-		MainWindow.rightSidePanel_main.setLayout(new FlowLayout(FlowLayout.CENTER));
-		MainWindow.rightSidePanel_main.add(novoUser.mainPanel);
-		MainWindow.rightSidePanel_main.revalidate();
-		MainWindow.rightSidePanel_main.repaint();
+		titleLabel.setText("NOVO USUARIO");
+		rightSidePanel_main.removeAll();
+		rightSidePanel_main.setLayout(new FlowLayout(FlowLayout.CENTER));
+		rightSidePanel_main.add(novoUser.mainPanel);
+		rightSidePanel_main.revalidate();
+		rightSidePanel_main.repaint();
 	}
 
 	public static void client_information_button_action_performed_handler() {
 			ClientInfoAndPayments clientInfo = new ClientInfoAndPayments();
 
-			MainWindow.titleLabel.setText("INFORMACÃO DO CLIENTE");
-			MainWindow.rightSidePanel_main.removeAll();
-			MainWindow.rightSidePanel_main.setLayout(new FlowLayout(FlowLayout.CENTER));
-			MainWindow.rightSidePanel_main.add(clientInfo.mainPanel);
-			MainWindow.rightSidePanel_main.revalidate();
-			MainWindow.rightSidePanel_main.repaint();
+			titleLabel.setText("INFORMACÃO DO CLIENTE");
+			rightSidePanel_main.removeAll();
+			rightSidePanel_main.setLayout(new FlowLayout(FlowLayout.CENTER));
+			rightSidePanel_main.add(clientInfo.mainPanel);
+			rightSidePanel_main.revalidate();
+			rightSidePanel_main.repaint();
+	}
+
+	public static void menu_button_action_performed_handler() {
+		new Menu();
+		rightSidePanel_main.removeAll();
+		rightSidePanel_main.setLayout(new BorderLayout(1, 1));
+		rightSidePanel_main.add(Menu.mainpanel, BorderLayout.CENTER);
+		rightSidePanel_main.repaint();
+		rightSidePanel_main.revalidate();
 	}
 
 	public static void submit_button_action_performed_handler() {
 		Client client = new Client();
 
-		client.setName(MainWindow.field_name.getText()); 
-		client.setBI(MainWindow.field_BI.getText()); 
-		client.setEmail(MainWindow.field_email.getText());
-		client.setResidence(MainWindow.field_residence.getText()); 
-		client.setTell(MainWindow.field_tell.getText());
+		client.setName(field_name.getText()); 
+		client.setBI(field_BI.getText()); 
+		client.setEmail(field_email.getText());
+		client.setResidence(field_residence.getText()); 
+		client.setTell(field_tell.getText());
 
 		if(client.getName().isEmpty() || client.getTell().isEmpty()) {
-			MainWindow.frame = MainWindowComponentStyles.configureMainWindow();
+			frame = MainWindowComponentStyles.configureMainWindow();
 			JOptionPane.showMessageDialog(
-			MainWindow.frame,
+			frame,
 				"Os campos nome e telefone não podem ser vazios!",
 				"Empty fields",
 				JOptionPane.OK_OPTION
@@ -199,7 +212,7 @@ public class  MainWindowActionEventListeners {
 				ResultSet res = client_id_ps.executeQuery();
 				res.next();
 				
-				comment_ps.setString (1, MainWindow.field_problemDescription.getText());
+				comment_ps.setString (1, field_problemDescription.getText());
 				comment_ps.setString (2, "PENDING");
 				comment_ps.setBoolean(3, false);
 				comment_ps.setInt    (4, res.getInt("id"));
@@ -209,7 +222,7 @@ public class  MainWindowActionEventListeners {
 
 				System.out.print("\n\n User registered and saved on DB!");
 				JOptionPane.showMessageDialog(
-					MainWindow.frame, 
+					frame, 
 					"Cliente registado!",
 					"CLIENT REGISTER",
 					JOptionPane.INFORMATION_MESSAGE
@@ -226,12 +239,12 @@ public class  MainWindowActionEventListeners {
 	}
 
 	public static void resetFields() {
-		MainWindow.field_name.setText("");
-		MainWindow.field_BI.setText("");
-		MainWindow.field_email.setText("");
-		MainWindow.field_tell.setText("");
-		MainWindow.field_residence.setText("");
-		MainWindow.field_problemDescription.setText("");
+		field_name.setText("");
+		field_BI.setText("");
+		field_email.setText("");
+		field_tell.setText("");
+		field_residence.setText("");
+		field_problemDescription.setText("");
 	}
 
 	public static String getDateFromStorage() {

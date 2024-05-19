@@ -1,10 +1,9 @@
 package ui.styles;
 
-import static ui.MainWindow.*;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import static ui.MainWindow.*;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -18,9 +17,10 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 
+import ui.panels.Menu;
+
 public class MainWindowComponentStyles {
 
-	/* ======================= SETTING UP LEFT PANEL ======================= */ 
 	public static JPanel configureLeftPanel() {
 		JPanel panel = new JPanel();
 
@@ -28,6 +28,7 @@ public class MainWindowComponentStyles {
 		panel.setBackground(new Color(0x123456));
 		panel.setLayout(new FlowLayout());
 
+		panel.add(barButton_Menu);
 		panel.add(barButton_addClient);
 		panel.add(barButton_showClients);
 		panel.add(barButton_showDoneTasks);
@@ -44,15 +45,14 @@ public class MainWindowComponentStyles {
 
 		button.setBackground(new Color(0xaf7ca79));
 		button.setForeground(new Color(0x12356));
+		button.setFocusPainted(false);
+		button.setBorder(BorderFactory.createEmptyBorder(2, 5, 2, 5));
 		button.setFont(new Font("Consolas", Font.PLAIN, 15));
 		button.setPreferredSize(new Dimension(150, 40));
 		
 		return button;
 	}
 
-
-	/* ====================== SETTING UP RIGHT PANEL ======================= */
-	
 	public static JTextField configureInputField()  {
 		JTextField field = new JTextField();
 		Border border = BorderFactory.createMatteBorder(1, 1, 1, 1, new Color(0x123456));
@@ -92,7 +92,7 @@ public class MainWindowComponentStyles {
 	public static JPanel configurePanelForDiscription() {
 		JPanel panel = new JPanel();
 		
-		panel.setBounds(50, 420, 500, 200);
+		panel.setBounds(295, 420, 550, 200);
 		panel.setLayout(new BorderLayout(2, 1));
 		panel.setOpaque(false);
 		
@@ -112,6 +112,7 @@ public class MainWindowComponentStyles {
 		button.setText("Guardar");
 		button.setBackground(new Color(214, 183, 148));
 		button.setBorder(border);
+		button.setFocusPainted(false);
 		button.setForeground(new Color(0x12356));
 		
 		return button;
@@ -120,7 +121,7 @@ public class MainWindowComponentStyles {
 	public static JPanel configureButtonContainer() {
 		JPanel panel = new JPanel();
 
-		panel.setBounds(450, 630, 100, 30);
+		panel.setBounds(745, 630, 100, 30);
 		panel.setLayout(new GridLayout());
 
 		panel.add(submitButton);
@@ -155,9 +156,12 @@ public class MainWindowComponentStyles {
 	public static JPanel configure_rightSidePanel_Main() {
 		JPanel panel = new JPanel();
 		
-		panel.setPreferredSize(new Dimension(100, 684));
+		panel.setPreferredSize(new Dimension(100, 100));
 		panel.setBackground(Color.GRAY);
 		panel.setLayout(null);
+
+		new Menu();
+		panel.add(Menu.mainpanel);
 
 		return panel;
 	}
@@ -165,7 +169,7 @@ public class MainWindowComponentStyles {
 	public static JPanel configureRightPanel() {
 		JPanel panel = new JPanel();
 
-		panel.setPreferredSize(new Dimension(1215, 100));
+		panel.setPreferredSize(new Dimension(100, 100));
 		panel.setLayout(new BorderLayout(1, 1));
 		
 		panel.add(rightSidePanel_top, BorderLayout.NORTH);
@@ -174,12 +178,11 @@ public class MainWindowComponentStyles {
 		return panel;
 	}	
 	
-	/*  ================== SETTING UP EVENTS FOR BAR BUTTONS ==================== */
-	public static JPanel setClientDataPanel() {
+	public static JPanel setClientRegisterPanel() {
 		JPanel panel = new JPanel();
 
 		panel.setOpaque(false);
-		panel.setBounds(50, 10, 500, 400);
+		panel.setBounds(295, 10, 550, 400);
 		panel.setLayout(new GridLayout(11, 1));
 		
 		panel.add(label_name);
@@ -200,7 +203,6 @@ public class MainWindowComponentStyles {
 		return panel;
 	}
 
-	/* ====================== SETTING UP MAIN WINDOW ====================== */ 
 	public static JFrame configureMainWindow() {
 		JFrame frame = new JFrame();
 

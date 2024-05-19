@@ -1,12 +1,12 @@
 package ui.panels;
 
-import database.DBConnection;
-import ui.*;
-import ui.listeners.mainwindowlisteners.MainWindowActionEventListeners;
-
-import static ui.styles.MainWindowComponentStyles.*;
 import static ui.MainWindow.*;
+import static ui.styles.MainWindowComponentStyles.*;
 import static ui.panels.ShowClients.*;
+
+import database.DBConnection;
+// import ui.*;
+import ui.listeners.mainwindowlisteners.MainWindowActionEventListeners;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -233,7 +233,7 @@ public class ClientInfoAndPayments implements ActionListener {
 
 			if(name.isEmpty()) {
 				JOptionPane.showMessageDialog(
-					MainWindow.rightSidePanel_main,
+					rightSidePanel_main,
 					"O campo de pesquisa nao pode ser vazio!",
 					"Search error!", 
 					JOptionPane.INFORMATION_MESSAGE

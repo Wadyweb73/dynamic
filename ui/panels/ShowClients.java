@@ -51,11 +51,11 @@ public class ShowClients {
 		model.setColumnCount(0);
 		model.setRowCount(0);
 		model.addColumn("ID");
-		model.addColumn("Name");
-		model.addColumn("BI");
+		model.addColumn("Nome");
+		model.addColumn("NUIT");
 		model.addColumn("Email");
-		model.addColumn("Tell");
-		model.addColumn("Residence");
+		model.addColumn("Telefone");
+		model.addColumn("Endereço");
 
 		return model;
 	}

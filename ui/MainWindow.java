@@ -52,6 +52,7 @@ public class MainWindow extends Client implements ActionListener{
 	public static JButton barButton_showUndoneTasks;
 	public static JButton barButton_addUser;
 	public static JButton submitButton;
+	public static JButton barButton_Menu;
 	public static JButton logoutButton;
 	
 	public MainWindow() {
@@ -61,36 +62,38 @@ public class MainWindow extends Client implements ActionListener{
 		barButton_showUndoneTasks = configureBarButtons("Pendentes");
 		barButton_clientInfo      = configureBarButtons("Info do cliente");
 		barButton_addUser         = configureBarButtons("Novo usuario");
+		barButton_Menu     	      = configureBarButtons("Menu");
 		logoutButton              = configureBarButtons("Sair");
 		label_name                = configureLabelForInput("Nome");
 		label_email               = configureLabelForInput("Email");
 		label_tell                = configureLabelForInput("Telefone");
-		label_residence           = configureLabelForInput("Residencia");
+		label_residence           = configureLabelForInput("Endereço");
 		label_BI                  = configureLabelForInput("BI ou NUIT");
 		problemDiscriptionLabel   = configureLabelForInput("Descricao do problema");
-		titleLabel                = configureTitleLabel("MAIN");
-		field_problemDescription  = configureInputForDiscription();
-		problemFieldContainer     = configurePanelForDiscription();
-		field_name                = configureInputField();
-		field_email               = configureInputField();
-		field_tell                = configureInputField();
-		field_residence           = configureInputField();
-		field_BI                  = configureInputField();
-		person_DataInputPanel     = setClientDataPanel(); 
-		submitButton              = configureSubmitButton();
-		submitButtonContainer     = configureButtonContainer();
-		
-		rightSidePanel_top        = configure_rightSidePanel_Top();
+		titleLabel                = configureTitleLabel("MENU PRINCIPAL");
+
+		field_problemDescription  = configureInputForDiscription ();
+		problemFieldContainer     = configurePanelForDiscription ();
+		field_name                = configureInputField          ();
+		field_email               = configureInputField          ();
+		field_tell                = configureInputField          ();
+		field_residence           = configureInputField          ();
+		field_BI                  = configureInputField          ();
+		submitButton              = configureSubmitButton        ();
+		person_DataInputPanel     = setClientRegisterPanel       (); 
+		submitButtonContainer     = configureButtonContainer     ();
+		rightSidePanel_top        = configure_rightSidePanel_Top ();
 		rightSidePanel_main       = configure_rightSidePanel_Main();
-		leftSidebar_Panel         = configureLeftPanel ();
-		rightSidebar_Panel        = configureRightPanel();
-		frame                     = configureMainWindow();
+		leftSidebar_Panel         = configureLeftPanel           ();
+		rightSidebar_Panel        = configureRightPanel          ();
+		frame                     = configureMainWindow          ();
 		
 		submitButton.addActionListener(this);
+		barButton_Menu.addActionListener(this);
 		barButton_addClient.addActionListener(this);
 		barButton_showClients.addActionListener(this);
-		barButton_showDoneTasks.addActionListener(this);
 		barButton_showUndoneTasks.addActionListener(this);
+		barButton_showDoneTasks.addActionListener(this);
 		barButton_clientInfo.addActionListener(this);
 		barButton_addUser.addActionListener(this);
 		logoutButton.addActionListener(this);
@@ -118,6 +121,9 @@ public class MainWindow extends Client implements ActionListener{
 		}
 		else if(event.getSource() == submitButton) {
 			submit_button_action_performed_handler();
+		}
+		else if(event.getSource() == barButton_Menu) {
+			menu_button_action_performed_handler();
 		}
 		else if(event.getSource() == logoutButton) {
 			frame.dispose();

@@ -1,8 +1,8 @@
 *.class
 ui/LoginInjected.java
-_Login.java
 tst/
 ui/listeners/mainwindowlisteners/MainWindowKeyListers.java
 .progress_in_a_day
-
+UserDetailsPanel.java
+Menu.java
 # javac Main.java && javac ui/*.java  && javac ui/panels/*.java && java Main.java
