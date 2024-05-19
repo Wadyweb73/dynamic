@@ -49,6 +49,7 @@ public class MainWindow extends Client implements ActionListener{
 	public static JButton barButton_showClients;
 	public static JButton barButton_clientInfo;
 	public static JButton barButton_showDoneTasks;
+	public static JButton barButton_purchaseBill;
 	public static JButton barButton_showUndoneTasks;
 	public static JButton barButton_addUser;
 	public static JButton submitButton;

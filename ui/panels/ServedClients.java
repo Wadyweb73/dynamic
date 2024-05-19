@@ -1,5 +1,10 @@
 package ui.panels;
 
+import static ui.panels.ClientInfoAndPayments.*;
+import static ui.listeners.mainwindowlisteners.MainWindowActionEventListeners.*;
+import database.DBConnection;
+import ui.MainWindow;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -22,13 +27,11 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.table.JTableHeader;
-
-import database.DBConnection;
-import ui.MainWindow;
-
 import javax.swing.table.DefaultTableModel;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
-public class ServedClients implements MouseListener {
+public class ServedClients implements MouseListener, ActionListener {
     public static JScrollPane scrollPane;
     public static DefaultTableModel tableModel;
     public static JTable table;
@@ -52,6 +55,7 @@ public class ServedClients implements MouseListener {
         mainPanel                  = configureMainPanel();
 
         payment_button.addMouseListener(this);
+        payment_button.addActionListener(this);
     }
     
    public DefaultTableModel configureTableModel() {
@@ -191,36 +195,51 @@ public class ServedClients implements MouseListener {
 		tableModel.addRow(obj);
 	}
 
+// =========================== DATABASE OPERATIONS ============================
+    public ResultSet getSelectedUserData() {
+        int line = table.getSelectedRow();
+        int column       = 1;
+        String user_data_query   = "SELECT * FROM client WHERE id = ?";
+
+        try {
+            PreparedStatement user_data_statement   = DBConnection.getConexao().prepareStatement(user_data_query);            
+            user_data_statement.setInt(1, Integer.parseInt((String)table.getValueAt(line, column)));          
+            ResultSet res = user_data_statement.executeQuery();
+
+            return res;
+        }
+        catch(SQLException e) {
+            JOptionPane.showMessageDialog(MainWindow.frame, "\nErro: " + e.getMessage(), "Query Error!", JOptionPane.INFORMATION_MESSAGE);
+        }
+
+        return null;
+    }
+
     @Override
     public void mouseEntered(MouseEvent event) {
         if (event.getSource() == payment_button) {
-            payment_button.setBackground(new Color(0x123456));
+            payment_button.setBackground(new Color(60, 179, 113));
+            payment_button.setForeground(new Color(0x123456));
         }
     }
     public void mouseExited(MouseEvent event) {
         if (event.getSource() == payment_button) {
-            payment_button.setBackground(new Color(60, 179, 113));
+            payment_button.setBackground(new Color(0xcdcdcd));
         }
     }
     public void mouseClicked(MouseEvent event) {
         if (event.getSource() == table) {
             if(event.getClickCount() == 1) {
-                int line = table.getSelectedRow();
-                int column       = 1;
-                String user_data_query   = "SELECT * FROM client WHERE id = ?";
                 String description_query = "SELECT discription FROM comments WHERE client_id = ?"; 
 
                 try {
-                    PreparedStatement user_data_statement   = DBConnection.getConexao().prepareStatement(user_data_query);
                     PreparedStatement description_statement = DBConnection.getConexao().prepareStatement(description_query); 
-
-                    user_data_statement.setInt(1, Integer.parseInt((String)table.getValueAt(line, column)));          
-                    ResultSet userdata_res = user_data_statement.executeQuery();
-
+                    ResultSet userdata_res = getSelectedUserData();
+    
                     if (userdata_res.next()) {
                         description_statement.setInt(1, userdata_res.getInt("id"));
                         ResultSet description_res = description_statement.executeQuery();
-
+    
                         if (description_res.next()) {
                             updateUserInfo(userdata_res.getString("name"), userdata_res.getString("residence"), userdata_res.getString("email"), userdata_res.getString("bi"), userdata_res.getString("contact"), description_res.getString("discription"));
                         }
@@ -229,15 +248,33 @@ public class ServedClients implements MouseListener {
                         mainPanel.repaint();
                         mainPanel.revalidate();
                     }
-
-                    user_data_statement.close();
                 }
                 catch(SQLException e) {
-                    JOptionPane.showMessageDialog(MainWindow.frame, "\nErro: " + e.getMessage(), "Query Error!", JOptionPane.INFORMATION_MESSAGE);
+                    e.getMessage();
                 }
             }
         }
     }
     public void mousePressed(MouseEvent arg0) {}
     public void mouseReleased(MouseEvent arg0) {}   
+
+
+    public void actionPerformed(ActionEvent event) {
+        if (event.getSource() == payment_button) {
+            new ClientInfoAndPayments();
+
+            try {
+                ResultSet res = getSelectedUserData();
+                if (res.next()) {
+                    client_information_button_action_performed_handler();
+                    searchInputClient.setText(res.getString("name"));
+                    search_client_info_action_performed_handler();
+                }
+            }
+            catch(SQLException e) {
+                e.getMessage();
+            }
+            
+        }
+    }
 }

@@ -34,19 +34,19 @@ import java.awt.Dimension;
 
 public class ClientInfoAndPayments implements ActionListener {
 	public JFrame frame;
-	public JPanel mainPanel;
+	public static JPanel mainPanel;
 	public JPanel top_panel, center_panel, bottom_panel;
 	public JPanel bottom_left_panel, bottom_right_panel;
 	public static JButton submitButton, cancelTask_button, endTaskButton;
-	public JTextField field_searchClient;
+	public static JTextField searchInputClient;
 	public JScrollPane jScrollPane;
 	public JTable table;
-	public DefaultTableModel model;
+	public static DefaultTableModel model;
 	public Border border;
 
 	public JLabel amountToPay_label;
 	public JTextField amountToPay_field;
-	public JTextArea commentField;
+	public static JTextArea commentField;
 	
 	public ClientInfoAndPayments() {
 		border = BorderFactory.createMatteBorder(1, 1, 1, 1, new Color(0x123456));
@@ -55,7 +55,7 @@ public class ClientInfoAndPayments implements ActionListener {
 		endTaskButton      = configureEndTaskButton();
 		submitButton       = configureSubmitSearchButton();
 		amountToPay_field  = configureAmountToPayField(); 
-		field_searchClient = configureSearchInputField();
+		searchInputClient  = configureSearchInputField();
 		commentField       = configureCommentArea();
 		model              = configureModel();
 		table              = configureJTable(model);
@@ -139,7 +139,7 @@ public class ClientInfoAndPayments implements ActionListener {
 		return scrollpane;
 	}
 
-	public void addContentFromMySQL(Object[] obj) {
+	public static void addContentFromMySQL(Object[] obj) {
 		model.addRow(obj);
 	}
 	
@@ -150,7 +150,7 @@ public class ClientInfoAndPayments implements ActionListener {
 		panel.setPreferredSize(new Dimension(100, 50));
 		panel.setBackground(new Color(0x123456));
 		panel.setBorder(border);
-		panel.add(field_searchClient);
+		panel.add(searchInputClient);
 		panel.add(submitButton);
 		
 		return panel;
@@ -223,83 +223,86 @@ public class ClientInfoAndPayments implements ActionListener {
 		new ClientInfoAndPayments();
 	}
 
+    public static void search_client_info_action_performed_handler() {
+        String name        = searchInputClient.getText();
+        String description = new String();
+        String req         = "SELECT * FROM client WHERE name='" + name + "';";
+
+        if(name.isEmpty()) {
+        JOptionPane.showMessageDialog(
+            rightSidePanel_main,
+            "O campo de pesquisa nao pode ser vazio!",
+            "Search error!", 
+            JOptionPane.INFORMATION_MESSAGE
+        );
+        }
+        else {
+        try {
+            PreparedStatement ps = DBConnection.getConexao().prepareStatement(req);
+            ResultSet res = ps.executeQuery();
+            
+            if(res.next()) {
+            Object[] data = {
+                res.getInt("id"),
+                res.getString("name"),
+                res.getString("bi"),
+                res.getString("Email"),
+                res.getString("contact"),
+                res.getString("residence"),
+            };
+
+            addContentFromMySQL(data);
+
+            try {
+
+                String findUserProblem = "SELECT * FROM comments com INNER JOIN client cli on com.id = cli.id WHERE cli.name = '" + name + "';";
+                PreparedStatement ps_userProblem = DBConnection.getConexao().prepareStatement(findUserProblem);
+                ResultSet _res = ps_userProblem.executeQuery();
+
+                if(_res.next()) {
+                description = _res.getString("discription");
+                description = description.replace("\n", System.lineSeparator());	
+                }
+
+                ps.close();
+                ps_userProblem.close();
+                
+                }
+                catch(SQLException e) {
+                    e.getMessage();
+                }
+
+                commentField.setText("");
+                commentField.append(description);
+                commentField.revalidate();
+                commentField.repaint();
+
+                rightSidePanel_main.removeAll();
+                rightSidePanel_main.setLayout(new FlowLayout(FlowLayout.CENTER));
+                rightSidePanel_main.add(mainPanel);
+                rightSidePanel_main.revalidate();
+                rightSidePanel_main.repaint();
+                }
+                else {
+                JOptionPane.showMessageDialog(
+                    rightSidePanel_main,
+                    "Cliente nao encontrado!",
+                    "Search ERROR", 
+                    JOptionPane.ERROR_MESSAGE
+                    );
+                }
+                ps.close();
+            }
+            catch(SQLException e) {
+                e.getStackTrace();
+            }
+        }
+    }
+
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		
 		if(event.getSource() == submitButton) {
-			String name        = field_searchClient.getText();
-			String description = new String();
-			String req         = "SELECT * FROM client WHERE name='" + name + "';";
-
-			if(name.isEmpty()) {
-				JOptionPane.showMessageDialog(
-					rightSidePanel_main,
-					"O campo de pesquisa nao pode ser vazio!",
-					"Search error!", 
-					JOptionPane.INFORMATION_MESSAGE
-				);
-			}
-			else {
-				try {
-					PreparedStatement ps = DBConnection.getConexao().prepareStatement(req);
-					ResultSet res = ps.executeQuery();
-					
-					if(res.next()) {
-						Object[] data = {
-							res.getInt("id"),
-							res.getString("name"),
-							res.getString("bi"),
-							res.getString("Email"),
-							res.getString("contact"),
-							res.getString("residence"),
-						};
-
-						addContentFromMySQL(data);
-
-						try {
-
-							String findUserProblem = "SELECT * FROM comments com INNER JOIN client cli on com.id = cli.id WHERE cli.name = '" + name + "';";
-							PreparedStatement ps_userProblem = DBConnection.getConexao().prepareStatement(findUserProblem);
-							ResultSet _res = ps_userProblem.executeQuery();
-
-							if(_res.next()) {
-								description = _res.getString("discription");
-								description = description.replace("\n", System.lineSeparator());	
-							}
-
-							ps.close();
-							ps_userProblem.close();
-							
-						}
-						catch(SQLException e) {
-							e.getMessage();
-						}
-
-						commentField.setText("");
-						commentField.append(description);
-						commentField.revalidate();
-						commentField.repaint();
-
-						rightSidePanel_main.removeAll();
-						rightSidePanel_main.setLayout(new FlowLayout(FlowLayout.CENTER));
-						rightSidePanel_main.add(mainPanel);
-						rightSidePanel_main.revalidate();
-						rightSidePanel_main.repaint();
-					}
-					else {
-						JOptionPane.showMessageDialog(
-							rightSidePanel_main,
-							"Cliente nao encontrado!",
-							"Search ERROR", 
-							JOptionPane.ERROR_MESSAGE
-							);
-						}
-						ps.close();
-					}
-				catch(SQLException e) {
-					e.getStackTrace();
-				}
-			}
+			search_client_info_action_performed_handler();
 		}
 		else if(event.getSource() == endTaskButton) {
 			if(amountToPay_field.getText().isEmpty()) {
@@ -313,7 +316,7 @@ public class ClientInfoAndPayments implements ActionListener {
 			else {
 				try {
 					Double valor = Double.parseDouble(amountToPay_field.getText());
-					String name  = field_searchClient.getText();
+					String name  = searchInputClient.getText();
 				
 					try {
 						String findUserProblem = "SELECT com.id, cli.id AS client_id FROM comments com INNER JOIN client cli ON com.client_id = cli.id WHERE cli.name = ?";

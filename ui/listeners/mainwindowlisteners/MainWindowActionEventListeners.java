@@ -155,12 +155,12 @@ public class  MainWindowActionEventListeners {
 	}
 
 	public static void client_information_button_action_performed_handler() {
-			ClientInfoAndPayments clientInfo = new ClientInfoAndPayments();
+			new ClientInfoAndPayments();
 
 			titleLabel.setText("INFORMACÃO DO CLIENTE");
 			rightSidePanel_main.removeAll();
 			rightSidePanel_main.setLayout(new FlowLayout(FlowLayout.CENTER));
-			rightSidePanel_main.add(clientInfo.mainPanel);
+			rightSidePanel_main.add(ClientInfoAndPayments.mainPanel);
 			rightSidePanel_main.revalidate();
 			rightSidePanel_main.repaint();
 	}
