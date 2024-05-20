@@ -52,8 +52,9 @@ public class MainWindow extends Client implements ActionListener{
 	public static JButton barButton_purchaseBill;
 	public static JButton barButton_showUndoneTasks;
 	public static JButton barButton_addUser;
-	public static JButton submitButton;
 	public static JButton barButton_Menu;
+	public static JButton barButton_payments;
+	public static JButton submitButton;
 	public static JButton logoutButton;
 	
 	public MainWindow() {
@@ -64,6 +65,7 @@ public class MainWindow extends Client implements ActionListener{
 		barButton_clientInfo      = configureBarButtons("Info do cliente");
 		barButton_addUser         = configureBarButtons("Novo usuario");
 		barButton_Menu     	      = configureBarButtons("Menu");
+		barButton_payments        = configureBarButtons("Pagamentos");
 		logoutButton              = configureBarButtons("Sair");
 		label_name                = configureLabelForInput("Nome");
 		label_email               = configureLabelForInput("Email");
@@ -91,6 +93,7 @@ public class MainWindow extends Client implements ActionListener{
 		
 		submitButton.addActionListener(this);
 		barButton_Menu.addActionListener(this);
+		barButton_payments.addActionListener(this);
 		barButton_addClient.addActionListener(this);
 		barButton_showClients.addActionListener(this);
 		barButton_showUndoneTasks.addActionListener(this);
@@ -122,6 +125,9 @@ public class MainWindow extends Client implements ActionListener{
 		}
 		else if(event.getSource() == submitButton) {
 			submit_button_action_performed_handler();
+		}
+		else if(event.getSource() == barButton_payments) {
+			payement_button_action_performed_handler();
 		}
 		else if(event.getSource() == barButton_Menu) {
 			menu_button_action_performed_handler();

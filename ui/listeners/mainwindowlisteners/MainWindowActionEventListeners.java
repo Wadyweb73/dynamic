@@ -20,6 +20,7 @@ import ui.panels.CreateUser;
 import ui.panels.Menu;
 import ui.panels.ServedClients;
 import ui.panels.ShowClients;
+import ui.panels.ShowPayments;
 import ui.panels.UnservedClients;
 import ui.styles.MainWindowComponentStyles;
 
@@ -170,6 +171,35 @@ public class  MainWindowActionEventListeners {
 		rightSidePanel_main.removeAll();
 		rightSidePanel_main.setLayout(new BorderLayout(1, 1));
 		rightSidePanel_main.add(Menu.mainpanel, BorderLayout.CENTER);
+		rightSidePanel_main.repaint();
+		rightSidePanel_main.revalidate();
+	}
+
+	public static void payement_button_action_performed_handler() {
+		new ShowPayments();
+
+		String sql = "SELECT * FROM pagamento AS pagto INNER JOIN client AS cli ON pagto.id = cli.id";
+		try {
+			PreparedStatement ps = DBConnection.getConexao().prepareStatement(sql);
+			ResultSet res = ps.executeQuery();
+
+			while(res.next()) {
+				Object[] data = {
+					res.getString("name"),
+					res.getString("valor"),
+					res.getString("paydate")
+				};
+
+				ShowPayments.addContentFromMySQL(data);
+			}
+		}
+		catch(SQLException e) {
+			e.getMessage();
+		}
+		
+		rightSidePanel_main.removeAll();
+		rightSidePanel_main.setLayout(new FlowLayout(FlowLayout.CENTER));
+		rightSidePanel_main.add(ShowPayments.mainPanel);
 		rightSidePanel_main.repaint();
 		rightSidePanel_main.revalidate();
 	}
