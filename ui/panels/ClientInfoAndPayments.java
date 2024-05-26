@@ -210,7 +210,7 @@ public class ClientInfoAndPayments implements ActionListener {
 		JPanel panel = new JPanel();
 		
 		panel.setLayout(new BorderLayout(0, 5));
-		panel.setPreferredSize(new Dimension(1204, 672));
+		panel.setPreferredSize(new Dimension(1204, 675));
 		panel.setBackground(Color.GRAY);
 		panel.add(top_panel, BorderLayout.NORTH);
 		panel.add(center_panel, BorderLayout.CENTER);

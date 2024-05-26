@@ -23,7 +23,7 @@ public class LoginWindowComponentStyles extends Login {
     public static JLabel configureInputLabel(String type) {
 		JLabel label = new JLabel(type);
 		
-		label.setForeground(new Color(0xff9d481));
+		label.setForeground(new Color(0x123456));
 		label.setFont(new Font("monsterrat", Font.PLAIN, 15));
 		
 		return label;
@@ -31,7 +31,7 @@ public class LoginWindowComponentStyles extends Login {
 	
 	public static JTextField configureUsernameField() {
 		JTextField field = new JTextField();
-		Border border = BorderFactory.createMatteBorder(1, 1, 1, 1, new Color(0xff9d48));
+		Border border = BorderFactory.createMatteBorder(1, 1, 1, 1, new Color(0xEBF8FE));
 
 		field.setForeground(new Color(0x123456));
 		field.setFont(new Font("Consolas", Font.BOLD, 14));
@@ -43,7 +43,7 @@ public class LoginWindowComponentStyles extends Login {
 
 	public static JPasswordField configurePasswordField() {
 		JPasswordField field = new JPasswordField();
-		Border border = BorderFactory.createMatteBorder(1, 1, 1, 1, new Color(0xff9d48));
+		Border border = BorderFactory.createMatteBorder(1, 1, 1, 1, new Color(0xEBF8FE));
 
 		field.setForeground(new Color(0x123456));
 		field.setFont(new Font("Consolas", Font.BOLD, 14));
@@ -60,8 +60,9 @@ public class LoginWindowComponentStyles extends Login {
 		
 		button.setText("Login");
 		button.setFont(new Font("Consolas", Font.PLAIN, 20));
-		button.setBackground(new Color(0xff9d481));
-		button.setForeground(new Color(0x123456));
+		// button.setBackground(new Color(0xff9d481));
+		button.setBackground(new Color(0x123456));
+		button.setForeground(new Color(0xffffff));
 		button.setBorder(null);
 
 		return button;
@@ -79,7 +80,7 @@ public class LoginWindowComponentStyles extends Login {
 	}
 	
 	public static JLabel configureBackgroundImageLabel(int width, int height) {
-		String imagePath  = "public/images/login-background.jpg";
+		String imagePath  = "public/images/9024.jpg";
 		ImageIcon icon    = new ImageIcon(imagePath);
 		Image image       = icon.getImage().getScaledInstance(width, height, Image.SCALE_AREA_AVERAGING); 
 		icon = new ImageIcon(image);
@@ -106,7 +107,7 @@ public class LoginWindowComponentStyles extends Login {
 		JPanel centerPanel              = new JPanel();
 		JPanel titleLabelContainerPanel = new JPanel();		
 		
-		titleLabelContainerPanel.setBackground(new Color(0xff9d481));
+		titleLabelContainerPanel.setBackground(new Color(0xEBF8FE));
 		titleLabelContainerPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 		titleLabelContainerPanel.add(titleLabel);
 
@@ -118,7 +119,7 @@ public class LoginWindowComponentStyles extends Login {
 		errorMsgLabel.setBounds(45, 240, 315, 30);
 		
 		centerPanel.setLayout(null);
-		centerPanel.setBackground(new Color(0x123456));
+		centerPanel.setBackground(new Color(0x89D5F5));
 		centerPanel.add(usernameInput_Label);
 		centerPanel.add(field_username);
 		centerPanel.add(passwordInput_Label);
@@ -127,8 +128,9 @@ public class LoginWindowComponentStyles extends Login {
 		centerPanel.add(errorMsgLabel);
 		
 		panel.setLayout(new BorderLayout());
-		panel.setBackground(new Color(0x123456));
+		panel.setBackground(new Color(0x89D5F5));
 		panel.setBounds(480, 180, 400, 355);
+		panel.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new Color(0x12345)));
 
 		panel.add(titleLabelContainerPanel, BorderLayout.NORTH);
 		panel.add(centerPanel, BorderLayout.CENTER);

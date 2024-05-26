@@ -64,7 +64,7 @@ public class MainWindow extends Client implements ActionListener{
 		barButton_showUndoneTasks = configureBarButtons("Pendentes");
 		barButton_clientInfo      = configureBarButtons("Info do cliente");
 		barButton_addUser         = configureBarButtons("Novo usuario");
-		barButton_Menu     	      = configureBarButtons("Menu");
+		barButton_Menu     	      = configureBarButtons("Home");
 		barButton_payments        = configureBarButtons("Pagamentos");
 		logoutButton              = configureBarButtons("Sair");
 		label_name                = configureLabelForInput("Nome");

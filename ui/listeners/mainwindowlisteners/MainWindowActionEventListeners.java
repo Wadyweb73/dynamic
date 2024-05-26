@@ -6,7 +6,6 @@ import database.DBConnection;
 import models.Client;
 
 import javax.swing.JOptionPane;
-
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.sql.PreparedStatement;
@@ -40,7 +39,7 @@ public class  MainWindowActionEventListeners {
 
     public static void list_clients_button_action_performed_handler() {
         String req = "SELECT * FROM client";
-		titleLabel.setText("CLIENT LIST");
+		titleLabel.setText("LISTA DE CLIENTES");
 
 		try {
 			PreparedStatement ps = DBConnection.getConexao().prepareStatement(req);
@@ -168,8 +167,9 @@ public class  MainWindowActionEventListeners {
 
 	public static void menu_button_action_performed_handler() {
 		new Menu();
+		titleLabel.setText("DASHBOARD");
 		rightSidePanel_main.removeAll();
-		rightSidePanel_main.setLayout(new BorderLayout(1, 1));
+		rightSidePanel_main.setLayout(new FlowLayout());
 		rightSidePanel_main.add(Menu.mainpanel, BorderLayout.CENTER);
 		rightSidePanel_main.repaint();
 		rightSidePanel_main.revalidate();
@@ -197,6 +197,7 @@ public class  MainWindowActionEventListeners {
 			e.getMessage();
 		}
 		
+		titleLabel.setText("PAGAMENTOS EFECTUADOS");
 		rightSidePanel_main.removeAll();
 		rightSidePanel_main.setLayout(new FlowLayout(FlowLayout.CENTER));
 		rightSidePanel_main.add(ShowPayments.mainPanel);

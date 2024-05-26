@@ -24,9 +24,12 @@ public class MainWindowComponentStyles {
 	public static JPanel configureLeftPanel() {
 		JPanel panel = new JPanel();
 
-		panel.setPreferredSize(new Dimension(160, 100));
+		panel.setPreferredSize(new Dimension(155, 100));
 		panel.setBackground(new Color(0x123456));
 		panel.setLayout(new FlowLayout());
+		logoutButton.setBackground(new Color(0xD63636));
+		logoutButton.setForeground(new Color(0xffffff));
+		logoutButton.setFont(new Font("Consolas", Font.BOLD, 15));
 
 		panel.add(barButton_Menu);
 		panel.add(barButton_addClient);
@@ -135,7 +138,7 @@ public class MainWindowComponentStyles {
 		
 		label.setText(title);
 		label.setForeground(new Color(0x123456));
-		label.setFont(new Font("Consolas", Font.BOLD, 40));
+		label.setFont(new Font("Consolas", Font.BOLD, 30));
 		label.setVerticalAlignment(JLabel.CENTER);
 		label.setHorizontalAlignment(JLabel.CENTER);
 		
@@ -145,7 +148,7 @@ public class MainWindowComponentStyles {
 	public static JPanel configure_rightSidePanel_Top() {
 		JPanel panel = new JPanel();
 		
-		panel.setPreferredSize(new Dimension(50, 65));
+		panel.setPreferredSize(new Dimension(100, 40));
 		panel.setBackground(new Color(214, 183, 148));
 		panel.setLayout(new BorderLayout());
 
@@ -172,9 +175,11 @@ public class MainWindowComponentStyles {
 
 		panel.setPreferredSize(new Dimension(100, 100));
 		panel.setLayout(new BorderLayout(1, 1));
+		panel.setBackground(new Color(0x123456));
 		
 		panel.add(rightSidePanel_top, BorderLayout.NORTH);
 		panel.add(rightSidePanel_main, BorderLayout.CENTER);
+		panel.setBorder(BorderFactory.createEmptyBorder(5, 0, 0,0));
 		
 		return panel;
 	}	
@@ -211,7 +216,7 @@ public class MainWindowComponentStyles {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(new Dimension(900, 745));
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-		frame.setLayout(new BorderLayout(1, 0));
+		frame.setLayout(new BorderLayout(0, 0));
 		frame.setVisible(true);
 
 		frame.add(leftSidebar_Panel,  BorderLayout.WEST);

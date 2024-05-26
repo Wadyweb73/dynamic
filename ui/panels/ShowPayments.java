@@ -1,11 +1,11 @@
 package ui.panels;
 
-import static ui.panels.ServedClients.configureActionButton;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -47,6 +47,9 @@ public class ShowPayments implements MouseListener, ActionListener {
         mainPanel                  = configureMainPanel();
 
         goToReceiptButton.addActionListener(this);
+        description_panel.addMouseListener(this);
+        date_panel.addMouseListener(this);
+        receiptCode_panel.addMouseListener(this);
     }
     
    public DefaultTableModel configureTableModel() {
@@ -62,26 +65,45 @@ public class ShowPayments implements MouseListener, ActionListener {
     }
 
     public JTable configureTable(DefaultTableModel model) {
-        JTable table = new JTable(model);
+        JTable table = new JTable(model) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                // All cells are not editable
+                return false;
+            }
+        };
 
         table.setBorder(null);
         table.setForeground(new Color(0x123456));
 		table.setBackground(Color.LIGHT_GRAY);
 		table.setFont(new Font("consolas", Font.PLAIN, 15));
-		table.setRowHeight(30);
+		table.setRowHeight(40);
         table.setFocusable(false);
         
         JTableHeader header = table.getTableHeader();
         header.setBackground(new Color(0x123456));
-        header.setForeground(new Color(0xcdcdcd));                    
+        header.setForeground(new Color(0xcdcdcd));     
+        header.setFont(new Font("Consolas", Font.BOLD, 17));          
 
         table.addMouseListener(this);
         
         return table;
     }
 
-    boolean isCellEditable(int row, int column) {
-        return false;
+    public static JButton configureActionButton() {
+        JButton button = new JButton("Ir para pagamentos");
+        
+        button.setAlignmentX(Component.CENTER_ALIGNMENT);
+        button.setAlignmentY(Component.CENTER_ALIGNMENT);
+        button.setFont(new Font("Arial", Font.BOLD, 14));
+        button.setBackground(new Color(60, 179, 113));
+        button.setForeground(Color.WHITE);
+        button.setFocusPainted(false);
+        button.setBorder(BorderFactory.createEmptyBorder(5, 20, 5, 20));
+        Insets insets = new Insets(0, 0, 20, 0);
+        button.setMargin(insets);
+
+        return button;
     }
 
     private JPanel createInfoPanel(String label, String value) {
@@ -114,7 +136,7 @@ public class ShowPayments implements MouseListener, ActionListener {
         JScrollPane scrollPane = new JScrollPane(table);
 
         scrollPane.setPreferredSize(new Dimension(700, 670));
-        scrollPane.setBorder(null);
+        // scrollPane.setBorder(null);
         scrollPane.setOpaque(false);
 		scrollPane.getViewport().setOpaque(false);
         
@@ -124,7 +146,7 @@ public class ShowPayments implements MouseListener, ActionListener {
     public JPanel configureAdditionalInformationPanel() {
         JPanel panel  = new JPanel();
 
-        panel.setPreferredSize(new Dimension(100, 300));
+        panel.setPreferredSize(new Dimension(100, 200));
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setBackground(new Color(0x123456));
     
@@ -142,7 +164,7 @@ public class ShowPayments implements MouseListener, ActionListener {
         JPanel panel = new JPanel();
 
         panel.setLayout(new BorderLayout(0, 0));
-        panel.setPreferredSize(new Dimension(1207, 673));
+        panel.setPreferredSize(new Dimension(1207, 677));
         panel.setBackground(Color.GRAY);
 
         panel.add(scrollPane, BorderLayout.CENTER);
@@ -158,16 +180,42 @@ public class ShowPayments implements MouseListener, ActionListener {
             goToReceiptButton.setBackground(new Color(60, 179, 113));
             goToReceiptButton.setForeground(new Color(0x123456));
         }
+        else if (event.getSource() == description_panel) {
+            description_panel.setBackground(new Color(60, 179, 113));
+            description_panel.setForeground(new Color(0x123456));
+        }
+        else if(event.getSource() == date_panel) {
+            date_panel.setBackground(new Color(60, 179, 113));
+            date_panel.setForeground(new Color(0x123456));
+        }
+        else if(event.getSource() == receiptCode_panel) {
+            receiptCode_panel.setBackground(new Color(60, 179, 113));
+            receiptCode_panel.setForeground(new Color(0x123456));
+        }
     }
+
     public void mouseExited(MouseEvent event) {
         if (event.getSource() == goToReceiptButton) {
             goToReceiptButton.setBackground(new Color(0xcdcdcd));
         }
+        else if (event.getSource()== additionalInformationPanel) {
+            additionalInformationPanel.setBackground(new Color(0x123456));
+        }
+        else if (event.getSource() == description_panel) {
+            description_panel.setBackground(new Color(0x123456));
+        }
+        else if(event.getSource() == date_panel) {
+            date_panel.setBackground(new Color(0x123456));
+        }
+        else if(event.getSource() ==  receiptCode_panel) {
+            receiptCode_panel.setBackground(new Color(0x123456));
+        }
     }
+
     public void mouseClicked(MouseEvent event) {
-        int line                 = table.getSelectedRow();
-        int column               = 0;
-        String query             = "SELECT * FROM comments INNER JOIN client ON comments.client_id = client.id WHERE client.name = ?";
+        int line     = table.getSelectedRow();
+        int column   = 0;
+        String query = "SELECT * FROM comments INNER JOIN client ON comments.client_id = client.id WHERE client.name = ?";
 
         try {
             PreparedStatement ps = DBConnection.getConexao().prepareStatement(query);
@@ -178,6 +226,7 @@ public class ShowPayments implements MouseListener, ActionListener {
                 updateAdditionalInfo(res.getString("discription"), res.getString("task_date"), "dsgjhhj");
             }
             
+            mainPanel.remove(additionalInformationPanel);
             mainPanel.add(additionalInformationPanel, BorderLayout.SOUTH);
             mainPanel.repaint();
             mainPanel.revalidate();
@@ -187,6 +236,7 @@ public class ShowPayments implements MouseListener, ActionListener {
         }
         
     }
+
     public void mousePressed(MouseEvent arg0) {}
     public void mouseReleased(MouseEvent arg0) {}   
     

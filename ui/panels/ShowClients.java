@@ -26,7 +26,12 @@ public class ShowClients {
 	}
 
 	public static JTable configureJTable(DefaultTableModel model) {
-		JTable table = new JTable(model);
+        JTable table = new JTable(model) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
 
 		table.setBackground(Color.GRAY);
 		table.getColumnModel().getColumn(0).setMaxWidth(30);
@@ -37,11 +42,14 @@ public class ShowClients {
 		table.setBackground(Color.LIGHT_GRAY);
 		table.setFont(new Font("consolas", Font.PLAIN, 15));
 		table.setRowHeight(30);
+		table.setFocusable(false);
 		
-		JTableHeader header = table.getTableHeader();
+        JTableHeader header = table.getTableHeader();
         header.setBackground(new Color(0x123456));
-        header.setForeground(new Color(0xcdcdcd));
-
+        header.setForeground(new Color(0xcdcdcd));     
+        header.setFont(new Font("Consolas", Font.BOLD, 17));          
+ 
+		
 		return table;
 	}
 

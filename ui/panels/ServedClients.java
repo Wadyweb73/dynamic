@@ -73,7 +73,12 @@ public class ServedClients implements MouseListener, ActionListener {
     }
 
     public JTable configureTable(DefaultTableModel model) {
-        JTable table = new JTable(model);
+        JTable table = new JTable(model) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
 
         table.setBorder(null);
         table.setForeground(new Color(0x123456));
@@ -82,33 +87,24 @@ public class ServedClients implements MouseListener, ActionListener {
 		table.setRowHeight(30);
         table.getColumnModel().getColumn(2).setMinWidth(450);
         table.setFocusable(false);
-
-        for (int i = 0; i < table.getRowCount(); i++) {
-            for (int y = 0; y < table.getColumnCount(); y++) {
-                table.isCellEditable(i, y);
-            }
-        }
         
         JTableHeader header = table.getTableHeader();
         header.setBackground(new Color(0x123456));
-        header.setForeground(new Color(0xcdcdcd));                    
+        header.setForeground(new Color(0xcdcdcd));     
+        header.setFont(new Font("Consolas", Font.BOLD, 17));
+        header.setReorderingAllowed(false);               
         
         table.addMouseListener(this);
         
         return table;
     }
 
-    boolean isCellEditable(int row, int column) {
-        return false;
-    }
-
     public JScrollPane configureScrollPane(JTable table) {
         JScrollPane scrollPane = new JScrollPane(table);
 
         scrollPane.setPreferredSize(new Dimension(1200, 670));
-        scrollPane.setBorder(null);
+        scrollPane.getViewport().setOpaque(false);
         scrollPane.setOpaque(false);
-		scrollPane.getViewport().setOpaque(false);
         
         return scrollPane;
     }
@@ -119,7 +115,6 @@ public class ServedClients implements MouseListener, ActionListener {
         panel.setPreferredSize(new Dimension(100, 300));
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setBackground(new Color(0x123456));
-        // panel.setBorder(BorderFactory.createMatteBorder(5, 5, 5, 5, new Color(0xffffff)));
     
         panel.add(namePanel);
         panel.add(emailPanel);
@@ -127,7 +122,7 @@ public class ServedClients implements MouseListener, ActionListener {
         panel.add(phonePanel);
         panel.add(addressPanel);
         panel.add(problemDescriptionPanel);
-        panel.add(Box.createRigidArea(new Dimension(0, 7))); // Espaçamento entre os detalhes e o botão
+        panel.add(Box.createRigidArea(new Dimension(0, 18))); // Espaçamento entre os detalhes e o botão
         panel.add(payment_button);
         panel.add(Box.createRigidArea(new Dimension(0, 18))); // Espaçamento entre os detalhes e o botão
 
@@ -136,7 +131,7 @@ public class ServedClients implements MouseListener, ActionListener {
 
     private JPanel createInfoPanel(String label, String value) {
         JPanel panel = new JPanel(new BorderLayout());
-        panel.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 5));
+        panel.setBorder(BorderFactory.createEmptyBorder(0, 10, 1, 10));
         panel.setBackground(new Color(0x123456));
         panel.setPreferredSize(new Dimension(800, 50));
 
@@ -152,7 +147,7 @@ public class ServedClients implements MouseListener, ActionListener {
         panel.add(valueComponent, BorderLayout.EAST);
 
         return panel;
-    }
+    } 
 
     public static JButton configureActionButton() {
         JButton button = new JButton("Ir para pagamantos");
@@ -164,8 +159,7 @@ public class ServedClients implements MouseListener, ActionListener {
         button.setForeground(Color.WHITE);
         button.setFocusPainted(false);
         button.setBorder(BorderFactory.createEmptyBorder(5, 20, 5, 20));
-        Insets insets = new Insets(0, 0, 20, 0);
-        button.setMargin(insets);
+        button.setMargin(new Insets(0, 0, 20, 0));
 
         return button;
     }
@@ -183,7 +177,7 @@ public class ServedClients implements MouseListener, ActionListener {
         JPanel panel = new JPanel();
 
         panel.setLayout(new BorderLayout(0, 0));
-        panel.setPreferredSize(new Dimension(1207, 673));
+        panel.setPreferredSize(new Dimension(1207, 678));
         panel.setBackground(Color.GRAY);
 
         panel.add(scrollPane, BorderLayout.CENTER);

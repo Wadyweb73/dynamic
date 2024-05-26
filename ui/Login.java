@@ -1,7 +1,7 @@
 package ui;
 
 import ui.listeners.loginwindowlisteners.LoginWindowActionEventListners;
-import ui.styles.LoginWindowComponentStyles;
+import static ui.styles.LoginWindowComponentStyles.*;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -29,17 +29,17 @@ public class Login implements ActionListener{
 	public Login() {
 		layeredPane = new JLayeredPane();
 
-		titleLabel          = LoginWindowComponentStyles.configureTitleLabel();
-		usernameInput_Label = LoginWindowComponentStyles.configureInputLabel("Usuario");
-		passwordInput_Label = LoginWindowComponentStyles.configureInputLabel("Senha");
-		field_username      = LoginWindowComponentStyles.configureUsernameField();
-		field_password      = LoginWindowComponentStyles.configurePasswordField();
+		titleLabel          = configureTitleLabel();
+		usernameInput_Label = configureInputLabel("Usuario");
+		passwordInput_Label = configureInputLabel("Senha");
+		field_username      = configureUsernameField();
+		field_password      = configurePasswordField();
 		
-		submitButton        = LoginWindowComponentStyles.configureSubmitButton();
-		errorMsgLabel       = LoginWindowComponentStyles.configureErrorMsgLabel(); 
+		submitButton        = configureSubmitButton();
+		errorMsgLabel       = configureErrorMsgLabel(); 
 
-		loginPanel          = LoginWindowComponentStyles.setLoginPanel();
-		frame               = LoginWindowComponentStyles.setFrameLayout();
+		loginPanel          = setLoginPanel();
+		frame               = setFrameLayout();
 
 		submitButton.addActionListener(this);
 	}
