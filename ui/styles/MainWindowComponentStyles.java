@@ -162,10 +162,10 @@ public class MainWindowComponentStyles {
 		
 		panel.setPreferredSize(new Dimension(100, 100));
 		panel.setBackground(Color.GRAY);
-		panel.setLayout(null);
+		panel.setLayout(new FlowLayout());
 
 		new Menu();
-		panel.add(Menu.mainpanel);
+		panel.add(Menu.mainPanel);
 
 		return panel;
 	}

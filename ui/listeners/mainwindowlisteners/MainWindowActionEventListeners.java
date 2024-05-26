@@ -6,7 +6,6 @@ import database.DBConnection;
 import models.Client;
 
 import javax.swing.JOptionPane;
-import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -169,8 +168,8 @@ public class  MainWindowActionEventListeners {
 		new Menu();
 		titleLabel.setText("DASHBOARD");
 		rightSidePanel_main.removeAll();
-		rightSidePanel_main.setLayout(new FlowLayout());
-		rightSidePanel_main.add(Menu.mainpanel, BorderLayout.CENTER);
+		rightSidePanel_main.setLayout(new FlowLayout(FlowLayout.CENTER));
+		rightSidePanel_main.add(Menu.mainPanel);
 		rightSidePanel_main.repaint();
 		rightSidePanel_main.revalidate();
 	}

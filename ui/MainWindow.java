@@ -73,7 +73,7 @@ public class MainWindow extends Client implements ActionListener{
 		label_residence           = configureLabelForInput("Endereço");
 		label_BI                  = configureLabelForInput("BI ou NUIT");
 		problemDiscriptionLabel   = configureLabelForInput("Descricao do problema");
-		titleLabel                = configureTitleLabel("MENU PRINCIPAL");
+		titleLabel                = configureTitleLabel("DASHBOARD");
 
 		field_problemDescription  = configureInputForDiscription ();
 		problemFieldContainer     = configurePanelForDiscription ();
