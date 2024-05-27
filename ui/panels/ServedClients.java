@@ -178,7 +178,7 @@ public class ServedClients implements MouseListener, ActionListener {
 
         panel.setLayout(new BorderLayout(0, 0));
         panel.setPreferredSize(new Dimension(1207, 678));
-        panel.setBackground(Color.GRAY);
+        panel.setBackground(new Color(0xEBF8FE));
 
         panel.add(scrollPane, BorderLayout.CENTER);
 

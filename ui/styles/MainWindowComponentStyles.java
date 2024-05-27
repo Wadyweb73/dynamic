@@ -7,8 +7,10 @@ import static ui.MainWindow.*;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Image;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -25,9 +27,14 @@ public class MainWindowComponentStyles {
 		JPanel panel = new JPanel();
 
 		panel.setPreferredSize(new Dimension(155, 100));
-		panel.setBackground(new Color(0x123456));
+		panel.setBackground(new Color(0x5D6D7E));
+        panel.setBorder(BorderFactory.createMatteBorder(0, 0, 0,1, Color.WHITE));
 		panel.setLayout(new FlowLayout());
-		logoutButton.setBackground(new Color(0xD63636));
+		logoutButton.setBackground(new Color(0xffffff));
+        logoutButton.setText(null);
+        ImageIcon icon = new ImageIcon("public/images/logout-red-simple-icon.png");
+        Image img = icon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+        logoutButton.setIcon(new ImageIcon(img));
 		logoutButton.setForeground(new Color(0xffffff));
 		logoutButton.setFont(new Font("Consolas", Font.BOLD, 15));
 
@@ -47,12 +54,12 @@ public class MainWindowComponentStyles {
 	public static JButton configureBarButtons(String textButton) {
 		JButton button = new JButton(textButton);
 
-		button.setBackground(new Color(0xaf7ca79));
-		button.setForeground(new Color(0x12356));
+		button.setBackground(new Color(0xEBF8FE));
+		button.setForeground(new Color(0x100000));
 		button.setFocusPainted(false);
 		button.setBorder(BorderFactory.createEmptyBorder(2, 5, 2, 5));
 		button.setFont(new Font("Consolas", Font.PLAIN, 15));
-		button.setPreferredSize(new Dimension(150, 40));
+		button.setPreferredSize(new Dimension(147, 40));
 		
 		return button;
 	}
@@ -75,7 +82,7 @@ public class MainWindowComponentStyles {
 		
 		label.setForeground(new Color(0x123456));
 		label.setPreferredSize(new Dimension(100, 30));
-		label.setFont(new Font("Consolas", Font.BOLD, 15));
+		label.setFont(new Font("Consolas", Font.PLAIN, 15));
 		
 		return label;
 	}
@@ -100,7 +107,7 @@ public class MainWindowComponentStyles {
 		panel.setLayout(new BorderLayout(2, 1));
 		panel.setOpaque(false);
 		
-		problemDiscriptionLabel.setForeground(Color.WHITE);
+		problemDiscriptionLabel.setForeground(new Color(0x12345));
 		problemDiscriptionLabel.repaint();
 		
 		panel.add(problemDiscriptionLabel, BorderLayout.NORTH);
@@ -137,8 +144,8 @@ public class MainWindowComponentStyles {
 		JLabel label = new JLabel();
 		
 		label.setText(title);
-		label.setForeground(new Color(0x123456));
-		label.setFont(new Font("Consolas", Font.BOLD, 30));
+		label.setForeground(new Color(0xffffff));
+		label.setFont(new Font("Consolas", Font.BOLD, 40));
 		label.setVerticalAlignment(JLabel.CENTER);
 		label.setHorizontalAlignment(JLabel.CENTER);
 		
@@ -148,9 +155,11 @@ public class MainWindowComponentStyles {
 	public static JPanel configure_rightSidePanel_Top() {
 		JPanel panel = new JPanel();
 		
-		panel.setPreferredSize(new Dimension(100, 40));
-		panel.setBackground(new Color(214, 183, 148));
+		panel.setPreferredSize(new Dimension(100, 55));
+		panel.setBackground(new Color(0x5D6D7E));
 		panel.setLayout(new BorderLayout());
+
+		panel.setBorder(BorderFactory.createMatteBorder(0, 0, 1,0, Color.WHITE));
 
 		panel.add(titleLabel);
 
@@ -161,7 +170,7 @@ public class MainWindowComponentStyles {
 		JPanel panel = new JPanel();
 		
 		panel.setPreferredSize(new Dimension(100, 100));
-		panel.setBackground(Color.GRAY);
+		panel.setBackground(new Color(0xF0F0F0));
 		panel.setLayout(new FlowLayout());
 
 		new Menu();
@@ -175,11 +184,9 @@ public class MainWindowComponentStyles {
 
 		panel.setPreferredSize(new Dimension(100, 100));
 		panel.setLayout(new BorderLayout(1, 1));
-		panel.setBackground(new Color(0x123456));
+		panel.setBackground(new Color(0xE3F2FD));
 		
-		panel.add(rightSidePanel_top, BorderLayout.NORTH);
 		panel.add(rightSidePanel_main, BorderLayout.CENTER);
-		panel.setBorder(BorderFactory.createEmptyBorder(5, 0, 0,0));
 		
 		return panel;
 	}	
@@ -219,6 +226,7 @@ public class MainWindowComponentStyles {
 		frame.setLayout(new BorderLayout(0, 0));
 		frame.setVisible(true);
 
+        frame.add(rightSidePanel_top, BorderLayout.NORTH);
 		frame.add(leftSidebar_Panel,  BorderLayout.WEST);
 		frame.add(rightSidebar_Panel, BorderLayout.CENTER);
 		

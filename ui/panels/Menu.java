@@ -1,8 +1,10 @@
 package ui.panels;
 
+import static ui.listeners.mainwindowlisteners.MainWindowActionEventListeners.*;
+
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
+// import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
 import javax.swing.BorderFactory;
@@ -22,7 +24,7 @@ public class Menu implements MouseListener {
     public static JLabel imageLabelContainer;
     public static JPanel dashboardPanel, bottomPanel, mainPanel;
     public static JButton servicesInProgessDashboardButton, activeClientsDashboardButton, scheduleDashboardButton, quotesDashboardButton, pendingPaymentsDashboardButton;
-    public static JButton newServiceButton, activeClientsButton, scheduleButton, quotesButton, goToPaymentsButton;
+    public static JButton newServiceButton, listClientsButton, scheduleButton, quotesButton, goToPaymentsButton;
 
     public Menu() {
         activeClientsDashboardButton     = configureDashboardButton("Clientes Activos", 129);
@@ -32,7 +34,7 @@ public class Menu implements MouseListener {
         scheduleDashboardButton          = configureDashboardButton("Agenda", null);
 
         newServiceButton                 = configureActionButtons("Registar novo serviço"); 
-        activeClientsButton              = configureActionButtons("Ver clientes");
+        listClientsButton              = configureActionButtons("Ver clientes");
         scheduleButton                   = configureActionButtons("Agenda de hoje");
         quotesButton                     = configureActionButtons("Ver cotaçẽs");
         goToPaymentsButton               = configureActionButtons("Ver pagamentos");
@@ -43,7 +45,7 @@ public class Menu implements MouseListener {
         mainPanel                        = configureMainPanel();
 
         newServiceButton.addMouseListener(this);
-        activeClientsButton.addMouseListener(this);
+        listClientsButton.addMouseListener(this);
         goToPaymentsButton.addMouseListener(this);
         scheduleButton.addMouseListener(this);
         quotesButton.addMouseListener(this);
@@ -70,9 +72,9 @@ public class Menu implements MouseListener {
         JButton button = new JButton(html);
 
         button.setPreferredSize(new Dimension(100, 100));
-        button.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        button.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new Color(0x5D6D7E)));
         button.setBackground(new Color(0xEBF8FE));
-        button.setForeground(new Color(0x123456));
+        button.setForeground(new Color(0x000000));
         button.setFocusPainted(false);
 
         SwingUtilities.invokeLater(()-> {
@@ -83,8 +85,8 @@ public class Menu implements MouseListener {
                 Image.SCALE_SMOOTH
                 );
             scheduleDashboardButton.setIcon(new ImageIcon(img));
-            scheduleDashboardButton.setVerticalTextPosition(SwingConstants.BOTTOM);
-            scheduleDashboardButton.setHorizontalTextPosition(SwingConstants.CENTER);
+            // scheduleDashboardButton.setVerticalTextPosition(SwingConstants.BOTTOM);
+            // scheduleDashboardButton.setHorizontalTextPosition(SwingConstants.CENTER);
         });
 
         return button;
@@ -120,7 +122,7 @@ public class Menu implements MouseListener {
         panel.setLayout(new GridLayout(1, 4, 50, 0));
         panel.setBorder(BorderFactory.createEmptyBorder(0, 25, 0, 25));
         
-        panel.add(activeClientsButton);
+        panel.add(listClientsButton);
         panel.add(newServiceButton);
         panel.add(quotesButton);
         panel.add(goToPaymentsButton);
@@ -150,7 +152,7 @@ public class Menu implements MouseListener {
         
         panel.setBackground(Color.LIGHT_GRAY);
         panel.setLayout(new BorderLayout(0, 5));
-        panel.setBackground(new Color(0x808080));
+        panel.setBackground(new Color(0xF0F0F0));
 
         panel.add(dashboardPanel, BorderLayout.NORTH);
         panel.add(bottomPanel);
@@ -166,10 +168,10 @@ public class Menu implements MouseListener {
             newServiceButton.setForeground(new Color(0x007BFF));
             newServiceButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         }
-        else if (event.getSource() == activeClientsButton) {
-            activeClientsButton.setBackground(new Color(0xffffff));
-            activeClientsButton.setForeground(new Color(0x007BFF));
-            activeClientsButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        else if (event.getSource() == listClientsButton) {
+            listClientsButton.setBackground(new Color(0xffffff));
+            listClientsButton.setForeground(new Color(0x007BFF));
+            listClientsButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         }
         else if (event.getSource() == quotesButton) {
             quotesButton.setBackground(new Color(0xffffff));
@@ -193,9 +195,9 @@ public class Menu implements MouseListener {
             newServiceButton.setBackground(new Color(0x007BFF));
             newServiceButton.setForeground(new Color(0xffffff));
         }
-        else if (event.getSource() == activeClientsButton) {
-            activeClientsButton.setBackground(new Color(0x007BFF));
-            activeClientsButton.setForeground(new Color(0xffffff));
+        else if (event.getSource() == listClientsButton) {
+            listClientsButton.setBackground(new Color(0x007BFF));
+            listClientsButton.setForeground(new Color(0xffffff));
         }
         else if (event.getSource() == quotesButton) {
             quotesButton.setBackground(new Color(0x007BFF));
@@ -210,7 +212,23 @@ public class Menu implements MouseListener {
             goToPaymentsButton.setForeground(new Color(0xffffff));
         }
     }
-    public void mouseClicked(MouseEvent event) {}
+    public void mouseClicked(MouseEvent event) {
+        if (event.getSource() == newServiceButton) {
+            add_client_button_action_performed_handler();
+        }
+        else if (event.getSource() == quotesButton) {
+
+        }
+        else if (event.getSource() == scheduleButton) {
+
+        }
+        else if (event.getSource() == listClientsButton) {
+            list_clients_button_action_performed_handler();
+        }
+        else if (event.getSource() == goToPaymentsButton) {
+            payement_list_button_action_performed_handler();
+        }
+    }
     public void mousePressed(MouseEvent arg0) {}
     public void mouseReleased(MouseEvent arg0) {}   
 }

@@ -6,4 +6,5 @@ ui/listeners/mainwindowlisteners/MainWindowKeyListers.java
 UserDetailsPanel.java
 QuotationPanel.java
 DashboardPanel.java
+QuoteRegistrationPanel.java
 # javac Main.java && javac ui/*.java  && javac ui/panels/*.java && java Main.java

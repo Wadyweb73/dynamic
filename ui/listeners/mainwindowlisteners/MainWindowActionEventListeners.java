@@ -174,7 +174,7 @@ public class  MainWindowActionEventListeners {
 		rightSidePanel_main.revalidate();
 	}
 
-	public static void payement_button_action_performed_handler() {
+	public static void payement_list_button_action_performed_handler() {
 		new ShowPayments();
 
 		String sql = "SELECT * FROM pagamento AS pagto INNER JOIN client AS cli ON pagto.id = cli.id";

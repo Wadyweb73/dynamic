@@ -127,7 +127,7 @@ public class MainWindow extends Client implements ActionListener{
 			submit_button_action_performed_handler();
 		}
 		else if(event.getSource() == barButton_payments) {
-			payement_button_action_performed_handler();
+			payement_list_button_action_performed_handler();
 		}
 		else if(event.getSource() == barButton_Menu) {
 			menu_button_action_performed_handler();
