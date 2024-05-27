@@ -53,6 +53,7 @@ public class MainWindow extends Client implements ActionListener{
 	public static JButton barButton_showUndoneTasks;
 	public static JButton barButton_addUser;
 	public static JButton barButton_Menu;
+	public static JButton barButton_quoteRegistration;
 	public static JButton barButton_payments;
 	public static JButton submitButton;
 	public static JButton logoutButton;
@@ -62,6 +63,7 @@ public class MainWindow extends Client implements ActionListener{
 		barButton_addClient       = configureBarButtons("Ad. cliente");
 		barButton_showDoneTasks   = configureBarButtons("Atendidadas");
 		barButton_showUndoneTasks = configureBarButtons("Pendentes");
+		barButton_quoteRegistration = configureBarButtons("Cotações");
 		barButton_clientInfo      = configureBarButtons("Info do cliente");
 		barButton_addUser         = configureBarButtons("Novo usuario");
 		barButton_Menu     	      = configureBarButtons("Home");
@@ -96,6 +98,7 @@ public class MainWindow extends Client implements ActionListener{
 		barButton_payments.addActionListener(this);
 		barButton_addClient.addActionListener(this);
 		barButton_showClients.addActionListener(this);
+		barButton_quoteRegistration.addActionListener(this);
 		barButton_showUndoneTasks.addActionListener(this);
 		barButton_showDoneTasks.addActionListener(this);
 		barButton_clientInfo.addActionListener(this);
@@ -110,6 +113,9 @@ public class MainWindow extends Client implements ActionListener{
 		}
 		else if(event.getSource() == barButton_showClients) {
 			list_clients_button_action_performed_handler();
+		}
+		else if(event.getSource() == barButton_quoteRegistration) {
+			add_quote_button_action_performed_handler();
 		}
 		else if(event.getSource() == barButton_showUndoneTasks) {
 			not_served_clients_button_action_performed_handler();

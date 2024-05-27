@@ -30,6 +30,7 @@ public class MainWindowComponentStyles {
 		panel.setBackground(new Color(0x5D6D7E));
         panel.setBorder(BorderFactory.createMatteBorder(0, 0, 0,1, Color.WHITE));
 		panel.setLayout(new FlowLayout());
+
 		logoutButton.setBackground(new Color(0xffffff));
         logoutButton.setText(null);
         ImageIcon icon = new ImageIcon("public/images/logout-red-simple-icon.png");
@@ -40,11 +41,12 @@ public class MainWindowComponentStyles {
 
 		panel.add(barButton_Menu);
 		panel.add(barButton_addClient);
+        panel.add(barButton_quoteRegistration);
 		panel.add(barButton_showClients);
 		panel.add(barButton_showDoneTasks);
 		panel.add(barButton_showUndoneTasks);
-		panel.add(barButton_clientInfo);
 		panel.add(barButton_payments);
+		panel.add(barButton_clientInfo);
 		panel.add(barButton_addUser);
 		panel.add(logoutButton);
 

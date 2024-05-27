@@ -16,6 +16,7 @@ import java.time.format.DateTimeFormatter;
 import ui.panels.ClientInfoAndPayments;
 import ui.panels.CreateUser;
 import ui.panels.Menu;
+import ui.panels.QuoteRegistrationPanel;
 import ui.panels.ServedClients;
 import ui.panels.ShowClients;
 import ui.panels.ShowPayments;
@@ -38,8 +39,7 @@ public class  MainWindowActionEventListeners {
 
     public static void list_clients_button_action_performed_handler() {
         String req = "SELECT * FROM client";
-		titleLabel.setText("LISTA DE CLIENTES");
-
+		
 		try {
 			PreparedStatement ps = DBConnection.getConexao().prepareStatement(req);
 			ResultSet res = ps.executeQuery();
@@ -59,6 +59,7 @@ public class  MainWindowActionEventListeners {
 			}
 			
 			rightSidePanel_main.removeAll();
+			titleLabel.setText("LISTA DE CLIENTES");
 			rightSidePanel_main.setLayout(new FlowLayout(FlowLayout.CENTER));
 			rightSidePanel_main.add(showCLI.mainPanel);
 			rightSidePanel_main.revalidate();
@@ -68,6 +69,16 @@ public class  MainWindowActionEventListeners {
 			e.getStackTrace();
 		}
     }
+
+	public static void add_quote_button_action_performed_handler() {
+		new QuoteRegistrationPanel();
+		rightSidePanel_main.removeAll();
+		titleLabel.setText("Criar nova cotação");
+		rightSidePanel_main.setLayout(new FlowLayout(FlowLayout.CENTER));
+		rightSidePanel_main.add(QuoteRegistrationPanel.mainPanel);
+		rightSidePanel_main.repaint();
+		rightSidePanel_main.revalidate();
+	}
 
 	public static void served_clients_button_action_performed_handler() {
 		try {
