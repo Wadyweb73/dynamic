@@ -15,7 +15,7 @@ public class DBConnection {
         password = "";
     }
 
-    public static Connection getConexao() {
+    public static Connection    getConexao() {
         DBConnection dbParams = new DBConnection();
         
         try {

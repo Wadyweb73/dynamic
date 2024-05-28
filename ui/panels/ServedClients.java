@@ -82,16 +82,15 @@ public class ServedClients implements MouseListener, ActionListener {
 
         table.setBorder(null);
         table.setForeground(new Color(0x123456));
-		table.setBackground(Color.LIGHT_GRAY);
+        table.setBackground(Color.LIGHT_GRAY);
 		table.setFont(new Font("consolas", Font.PLAIN, 15));
+        table.setOpaque(false);
 		table.setRowHeight(30);
         table.getColumnModel().getColumn(2).setMinWidth(450);
         table.setFocusable(false);
         
         JTableHeader header = table.getTableHeader();
-        header.setBackground(new Color(0x123456));
-        header.setForeground(new Color(0xcdcdcd));     
-        header.setFont(new Font("Consolas", Font.BOLD, 17));
+        header.setFont(new Font("Consolas", Font.BOLD, 13));
         header.setReorderingAllowed(false);               
         
         table.addMouseListener(this);

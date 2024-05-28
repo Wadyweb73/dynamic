@@ -6,6 +6,8 @@ import database.DBConnection;
 import models.Client;
 
 import javax.swing.JOptionPane;
+
+import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,6 +22,7 @@ import ui.panels.QuoteRegistrationPanel;
 import ui.panels.ServedClients;
 import ui.panels.ShowClients;
 import ui.panels.ShowPayments;
+import ui.panels.ShowQuotes;
 import ui.panels.UnservedClients;
 import ui.styles.MainWindowComponentStyles;
 
@@ -76,6 +79,42 @@ public class  MainWindowActionEventListeners {
 		titleLabel.setText("Criar nova cotação");
 		rightSidePanel_main.setLayout(new FlowLayout(FlowLayout.CENTER));
 		rightSidePanel_main.add(QuoteRegistrationPanel.mainPanel);
+		rightSidePanel_main.repaint();
+		rightSidePanel_main.revalidate();
+	}
+
+	public static void list_quotations_button_action_performed_handler() {
+		new ShowQuotes();
+		String query = "SELECT * FROM Quotes";
+
+		try {
+			PreparedStatement ps = DBConnection.getConexao().prepareStatement(query);	
+
+			ResultSet res = ps.executeQuery();
+
+			while(res.next()) {
+				Object data[] = {
+					res.getString("quote_id"),
+					res.getString("client_name"),
+					res.getString("client_email"),
+					res.getString("client_phone"),
+					res.getString("client_address"),
+					res.getString("estimated_cost"),
+					res.getString("service_description"),
+					res.getString("quote_date")
+				};
+
+				ShowQuotes.addContentFromMySQL(data);
+			}	
+		}
+		catch(SQLException e) {
+			e.getMessage();
+		}
+		
+		rightSidePanel_main.removeAll();
+		titleLabel.setText("Lista de cotações");
+		rightSidePanel_main.setLayout(new BorderLayout(1, 1));
+		rightSidePanel_main.add(ShowQuotes.scrollPane, BorderLayout.CENTER);
 		rightSidePanel_main.repaint();
 		rightSidePanel_main.revalidate();
 	}

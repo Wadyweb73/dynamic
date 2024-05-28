@@ -44,13 +44,14 @@ public class MainWindow extends Client implements ActionListener{
 	public static JLabel label_residence;
 	public static JLabel problemDiscriptionLabel;
 	
+	public static JButton barButton_showClients;
+	public static JButton barButton_showDoneTasks;
+	public static JButton barButton_showUndoneTasks;
+	public static JButton barButton_showQuotes;
 	public static JTextArea field_problemDescription;
 	public static JButton barButton_addClient;
-	public static JButton barButton_showClients;
 	public static JButton barButton_clientInfo;
-	public static JButton barButton_showDoneTasks;
 	public static JButton barButton_purchaseBill;
-	public static JButton barButton_showUndoneTasks;
 	public static JButton barButton_addUser;
 	public static JButton barButton_Menu;
 	public static JButton barButton_quoteRegistration;
@@ -64,6 +65,7 @@ public class MainWindow extends Client implements ActionListener{
 		barButton_showDoneTasks   = configureBarButtons("Atendidadas");
 		barButton_showUndoneTasks = configureBarButtons("Pendentes");
 		barButton_quoteRegistration = configureBarButtons("Cotações");
+		barButton_showQuotes      = configureBarButtons("Lista de cotaçoes");
 		barButton_clientInfo      = configureBarButtons("Info do cliente");
 		barButton_addUser         = configureBarButtons("Novo usuario");
 		barButton_Menu     	      = configureBarButtons("Home");
@@ -97,6 +99,7 @@ public class MainWindow extends Client implements ActionListener{
 		barButton_Menu.addActionListener(this);
 		barButton_payments.addActionListener(this);
 		barButton_addClient.addActionListener(this);
+		barButton_showQuotes.addActionListener(this);
 		barButton_showClients.addActionListener(this);
 		barButton_quoteRegistration.addActionListener(this);
 		barButton_showUndoneTasks.addActionListener(this);
@@ -125,6 +128,9 @@ public class MainWindow extends Client implements ActionListener{
 		}
 		else if(event.getSource() == barButton_showDoneTasks) {
 			served_clients_button_action_performed_handler();
+		}
+		else if(event.getSource() == barButton_showQuotes) {
+			list_quotations_button_action_performed_handler();
 		}
 		else if(event.getSource() == barButton_addUser) {
 			add_user_button_action_performed_handler();			

@@ -55,6 +55,7 @@ public class QuoteRegistrationPanel {
         JPanel panel = new JPanel();
         panel.setLayout(new FlowLayout(FlowLayout.CENTER));
         panel.setBackground(Color.WHITE);
+        panel.setOpaque(false);
 
         panel.add(saveButton);
         panel.add(resetButton);
@@ -67,8 +68,10 @@ public class QuoteRegistrationPanel {
         JPanel panel = new JPanel();
 
         panel.setLayout(new BorderLayout(0, 0));
-        panel.setPreferredSize(new Dimension(700, 630));
-        panel.setBackground(new Color(0xEBF8FE));
+        panel.setPreferredSize(new Dimension(700, 665));
+        panel.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
+        panel.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new Color(0x123456)));
+        panel.setBackground(new Color(0xedf2f2));
 
         return panel;
     }
@@ -88,6 +91,7 @@ public class QuoteRegistrationPanel {
         // panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setLayout(new GridLayout(15, 1));
         panel.setBackground(Color.WHITE);
+        panel.setOpaque(false);
         panel.setBorder(BorderFactory.createEmptyBorder(0, 30, 0, 30));
 
         panel.add(clientNameLabel);
@@ -113,7 +117,7 @@ public class QuoteRegistrationPanel {
 
         serviceDescriptionField.setLineWrap(true);
         serviceDescriptionField.setWrapStyleWord(true);
-        serviceDescriptionField.setBackground(new Color(0x808080));
+        serviceDescriptionField.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new Color(0xf82222)));
 
         panel.add(buttonPanel);
      
@@ -138,17 +142,17 @@ public class QuoteRegistrationPanel {
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Salvar a cotação no banco de dados
                 try {
-                    String query = "INSERT INTO quotes (client_name, client_email, client_phone, service_description, estimated_cost, quote_date) VALUES (?, ?, ?, ?, ?, ?)";
+                    String query = "INSERT INTO Quotes (client_name, client_email, client_phone, client_address, estimated_cost, service_description, quote_date) VALUES (?, ?, ?, ?, ?, ?, ?)";
                     PreparedStatement statement = DBConnection.getConexao().prepareStatement(query);
 
                     statement.setString(1, clientNameField.getText());
                     statement.setString(2, clientEmailField.getText());
                     statement.setString(3, clientPhoneField.getText());
-                    statement.setString(4, serviceDescriptionField.getText());
+                    statement.setString(6, clientAddressField.getText());
                     statement.setString(5, estimatedCostField.getText());
-                    statement.setString(6, quoteDateField.getText());
+                    statement.setString(4, serviceDescriptionField.getText());
+                    statement.setString(7, quoteDateField.getText());
 
                     statement.executeUpdate();
                     JOptionPane.showMessageDialog(MainWindow.frame, "Cotação salva com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);

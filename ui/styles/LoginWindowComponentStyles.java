@@ -60,10 +60,10 @@ public class LoginWindowComponentStyles extends Login {
 		
 		button.setText("Login");
 		button.setFont(new Font("Consolas", Font.PLAIN, 20));
-		// button.setBackground(new Color(0xff9d481));
 		button.setBackground(new Color(0x123456));
 		button.setForeground(new Color(0xffffff));
-		button.setBorder(null);
+		button.setFocusPainted(false);
+		button.setBorder(BorderFactory.createEmptyBorder(1, 1, 1,1));
 
 		return button;
 	}
