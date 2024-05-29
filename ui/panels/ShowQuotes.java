@@ -1,6 +1,7 @@
 package ui.panels;
 
-import static ui.MainWindow.rightSidePanel_main;
+import static ui.MainWindow.*;
+import static ui.listeners.mainwindowlisteners.MainWindowActionEventListeners.*;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -10,6 +11,7 @@ import java.awt.Font;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.swing.BorderFactory;
@@ -26,13 +28,16 @@ import ui.MainWindow;
 public class ShowQuotes implements MouseListener {
     public static JPanel panel, additionalInfoPanel;
     public static DefaultTableModel model;
-    public static JButton assossiateQuoteWithClientButton, createNewClientThroughQuote;
+    public static JButton assossiateQuoteWithClientButton, createNewClientThroughQuote, removeQuoteButton;
     public static JTable table;
     public static JScrollPane scrollPane;
 
     public ShowQuotes() {
-        assossiateQuoteWithClientButton = configureButton("Assossiate quote");
+        assossiateQuoteWithClientButton = configureButton("Assossiar Cotacao");
         createNewClientThroughQuote     = configureButton("Registar como cliente");
+        removeQuoteButton               = configureButton("Remover Cotação");
+        removeQuoteButton.setBackground(Color.RED);
+        removeQuoteButton.setForeground(Color.WHITE);
         
         model               = configureTableModel();
         table               = configureTable(model);
@@ -40,6 +45,8 @@ public class ShowQuotes implements MouseListener {
         additionalInfoPanel = configureAdditionalInformationPanel();
 
         table.addMouseListener(this);
+        createNewClientThroughQuote.addMouseListener(this);
+        removeQuoteButton.addMouseListener(this);
     }
 
     public static JButton configureButton(String text) {
@@ -63,9 +70,7 @@ public class ShowQuotes implements MouseListener {
         model.addColumn("ID da cot.");
         model.addColumn("Nome");
         model.addColumn("Telefone");
-        model.addColumn("Endereco");
         model.addColumn("Cuso estimado");
-        model.addColumn("Descricão");
         model.addColumn("Data");
 
         return model;
@@ -109,6 +114,7 @@ public class ShowQuotes implements MouseListener {
 
         panel.add(createNewClientThroughQuote);
         panel.add(assossiateQuoteWithClientButton);
+        panel.add(removeQuoteButton);
 
         return panel;
     }
@@ -117,7 +123,8 @@ public class ShowQuotes implements MouseListener {
     public static void addContentFromMySQL(Object[] data) {
         model.addRow(data);
     }
-
+    
+    
     @Override
     public void mouseClicked(MouseEvent event) {
         if(event.getSource() == table){
@@ -127,21 +134,54 @@ public class ShowQuotes implements MouseListener {
                 rightSidePanel_main.revalidate();
             }
         }
+        else if(event.getSource() == createNewClientThroughQuote) {
+            if(event.getClickCount() == 1) {
+                String query = "SELECT * FROM Quotes WHERE quote_id = ?";
+    
+                try {
+                    PreparedStatement ps = DBConnection.getConexao().prepareStatement(query);
+                    ps.setString(1, (String) table.getValueAt(table.getSelectedRow(), 0));
+                    
+                    ResultSet res = ps.executeQuery();
+    
+                    if(res.next()) {
+                        field_name.setText(res.getString("client_name"));
+                        field_email.setText(res.getString("client_email"));
+                        field_tell.setText(res.getString("client_phone"));
+                        field_residence.setText(res.getString("client_address"));
+                        field_BI.setText(res.getString("client_nuit"));
+                        field_problemDescription.setText(res.getString("service_description"));
+                    }
+    
+                    add_client_button_action_performed_handler();
+                }
+                catch(SQLException e) {
+                    JOptionPane.showMessageDialog(MainWindow.frame, e.getMessage(), "Error!", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
+        else if(event.getSource() == removeQuoteButton) {
+            if(event.getClickCount() == 1) {
+                String query = "DELETE FROM Quotes WHERE quote_id = ?";
+
+                try {
+                    PreparedStatement ps = DBConnection.getConexao().prepareStatement(query);
+
+                    ps.setString(1, (String) table.getValueAt(table.getSelectedRow(), 0));
+
+                    ps.execute();
+                    JOptionPane.showMessageDialog(MainWindow.frame, "Cotação excluída com sucesso!", "Informação", JOptionPane.INFORMATION_MESSAGE);
+                    ps.close();
+
+                    rightSidePanel_main.remove(scrollPane);
+                    list_quotations_button_action_performed_handler();
+                }
+                catch(SQLException e) {
+                    JOptionPane.showMessageDialog(MainWindow.frame, "Erro ao eliminar cotação!", "Erro!", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
     }
-    //     else if(event.getSource() == createNewClientThroughQuote) {
-    //         String query = "SELECT * FROM Quotes";
-    //         Integer rows = table.get
-
-    //         try {
-    //             PreparedStatement ps = DBConnection.getConexao().prepareStatement(query);
-                
-
-    //         }
-    //         catch(SQLException e) {
-    //             JOptionPane.showMessageDialog(MainWindow.frame, e.getMessage(), "Error!", JOptionPane.ERROR_MESSAGE);
-    //         }
-    //     }
-    // }
 
     @Override
     public void mouseEntered(MouseEvent event) {}
