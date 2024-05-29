@@ -3,6 +3,7 @@ package ui.listeners.loginwindowlisteners;
 import database.DBConnection;
 import ui.MainWindow;
 import static ui.Login.*;
+import static ui.listeners.mainwindowlisteners.MainWindowActionEventHandlers.client_information_button_action_performed_handler;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -14,7 +15,7 @@ import java.sql.SQLException;
 
 import javax.swing.Timer;
 
-public class LoginWindowActionEventListners implements EventListener{
+public class LoginWindowActionEventHandlers implements EventListener{
     public static void  submit_button_action_performed_handler() {
 		String username = new String(field_username.getText());
 		String password = new String(field_password.getPassword());
@@ -46,10 +47,13 @@ public class LoginWindowActionEventListners implements EventListener{
 
 						frame.dispose();
 						new MainWindow();
-
+						MainWindow.frame.remove(MainWindow.barButton_addUser);
+						MainWindow.frame.remove(MainWindow.barButton_Menu);
+						client_information_button_action_performed_handler();
 					}
 				}
 				ps.close();
+				
 
 			} 
 			catch(SQLException e) {  

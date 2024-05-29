@@ -1,7 +1,7 @@
 package ui.panels;
 
 import static ui.panels.ClientInfoAndPayments.*;
-import static ui.listeners.mainwindowlisteners.MainWindowActionEventListeners.*;
+import static ui.listeners.mainwindowlisteners.MainWindowActionEventHandlers.*;
 import database.DBConnection;
 import ui.MainWindow;
 

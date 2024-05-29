@@ -1,33 +1,24 @@
 package ui.listeners.mainwindowlisteners;
 
 import static ui.MainWindow.*;
-
 import database.DBConnection;
 import models.Client;
 
-import javax.swing.JOptionPane;
+import java.text.DecimalFormat;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javax.swing.JOptionPane;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 
-import ui.panels.ClientInfoAndPayments;
-import ui.panels.CreateUser;
-import ui.panels.Menu;
-import ui.panels.QuoteRegistrationPanel;
-import ui.panels.ServedClients;
-import ui.panels.ShowClients;
-import ui.panels.ShowPayments;
-import ui.panels.ShowQuotes;
-import ui.panels.UnservedClients;
+import ui.panels.*;
 import ui.styles.MainWindowComponentStyles;
 
-
-public class  MainWindowActionEventListeners {
+public class  MainWindowActionEventHandlers {
     public static void add_client_button_action_performed_handler() {
         titleLabel.setText("REGISTER MENU");
         rightSidePanel_main.removeAll();
@@ -93,14 +84,24 @@ public class  MainWindowActionEventListeners {
 			ResultSet res = ps.executeQuery();
 
 			while(res.next()) {
+				String formatacao = new String();
+				Integer val = res.getInt("estimated_cost");
+				Integer counter = 0;
+				
+				while(val != 0) {
+					val = (Integer) val / 10;
+					counter += 1;
+				}
+				
+				for(int x = 0; x < counter; x++) {
+					formatacao += "0";
+				}
+
 				Object data[] = {
 					res.getString("quote_id"),
 					res.getString("client_name"),
-					res.getString("client_email"),
 					res.getString("client_phone"),
-					res.getString("client_address"),
-					res.getString("estimated_cost"),
-					res.getString("service_description"),
+					new DecimalFormat(formatacao + ".00").format(Double.parseDouble(res.getString("estimated_cost"))),
 					res.getString("quote_date")
 				};
 

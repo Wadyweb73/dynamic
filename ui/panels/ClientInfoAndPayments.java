@@ -5,8 +5,7 @@ import static ui.styles.MainWindowComponentStyles.*;
 import static ui.panels.ShowClients.*;
 
 import database.DBConnection;
-// import ui.*;
-import ui.listeners.mainwindowlisteners.MainWindowActionEventListeners;
+import ui.listeners.mainwindowlisteners.MainWindowActionEventHandlers;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -339,7 +338,7 @@ public class ClientInfoAndPayments implements ActionListener {
 							
 							ps_payment.setInt(1, res.getInt("client_id"));
 							ps_payment.setDouble(2, valor);
-							ps_payment.setString(3, MainWindowActionEventListeners.getDateFromStorage());
+							ps_payment.setString(3, MainWindowActionEventHandlers.getDateFromStorage());
 							
 							ps_payment.execute();
 							ps_updateCom.executeUpdate();

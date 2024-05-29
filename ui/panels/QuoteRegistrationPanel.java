@@ -1,12 +1,11 @@
 package ui.panels;
 
+import static ui.listeners.mainwindowlisteners.MainWindowActionEventHandlers.menu_button_action_performed_handler;
+import static ui.styles.MainWindowComponentStyles.configureInputField;
 import database.DBConnection;
 import ui.MainWindow;
 
 import javax.swing.*;
-
-import static ui.listeners.mainwindowlisteners.MainWindowActionEventListeners.menu_button_action_performed_handler;
-import static ui.styles.MainWindowComponentStyles.configureInputField;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -33,7 +32,9 @@ public class QuoteRegistrationPanel {
         clientAddressLabel      = configureLabels("Endereço do cliente");
         estimatedCostLabel      = configureLabels("Custo estimado do serviço"); 
         quoteDateLabel          = configureLabels("Quote creation date");
+        
         clientNameField         = configureInputField();
+        nuitField               = configureInputField();
         clientEmailField        = configureInputField();
         clientPhoneField        = configureInputField();
         estimatedCostField      = configureInputField();
@@ -69,7 +70,6 @@ public class QuoteRegistrationPanel {
 
         panel.setLayout(new BorderLayout(0, 0));
         panel.setPreferredSize(new Dimension(700, 665));
-        panel.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
         panel.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, new Color(0x123456)));
         panel.setBackground(new Color(0xedf2f2));
 
@@ -81,6 +81,7 @@ public class QuoteRegistrationPanel {
 
         label.setForeground(new Color(0x123456));
         label.setFont(new Font("Consolas", Font.PLAIN, 15));
+        label.setAlignmentX(Component.LEFT_ALIGNMENT);
         
         return label;
     }
@@ -88,13 +89,12 @@ public class QuoteRegistrationPanel {
     public JPanel configureFormPanel() {
         JPanel panel = new JPanel();
 
-        // panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        panel.setLayout(new GridLayout(15, 1));
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setBackground(Color.WHITE);
         panel.setOpaque(false);
         panel.setBorder(BorderFactory.createEmptyBorder(0, 30, 0, 30));
 
-        panel.add(clientNameLabel);
+        panel.add(new JPanel().add(clientNameLabel));
         panel.add(clientNameField);
 
         panel.add(clientEmailLabel);
@@ -102,6 +102,9 @@ public class QuoteRegistrationPanel {
 
         panel.add(clientPhoneLabel);
         panel.add(clientPhoneField);
+
+        panel.add(clientNuitLabel);
+        panel.add(nuitField);
 
         panel.add(clientAddressLabel);
         panel.add(clientAddressField);
@@ -156,6 +159,8 @@ public class QuoteRegistrationPanel {
 
                     statement.executeUpdate();
                     JOptionPane.showMessageDialog(MainWindow.frame, "Cotação salva com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                    resetFields();
+                    
                 } catch (SQLException ex) {
                     JOptionPane.showMessageDialog(MainWindow.frame, "Erro ao salvar a cotação: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
                 }
@@ -171,6 +176,7 @@ public class QuoteRegistrationPanel {
                 serviceDescriptionField.setText("");
                 estimatedCostField.setText("");
                 quoteDateField.setText(java.time.LocalDate.now().toString());
+                clientNameField.requestFocus();
             }
         });
 
@@ -180,6 +186,16 @@ public class QuoteRegistrationPanel {
                 menu_button_action_performed_handler();
             }
         });
+    }
+
+    public void resetFields() {
+        clientNameField.setText("");
+        clientEmailField.setText("");
+        clientPhoneField.setText("");
+        serviceDescriptionField.setText("");
+        estimatedCostField.setText("");
+        quoteDateField.setText(java.time.LocalDate.now().toString());
+        clientNameField.requestFocus();
     }
 
     public JPanel getMainPanel() {

@@ -1,6 +1,6 @@
 package ui;
 
-import ui.listeners.loginwindowlisteners.LoginWindowActionEventListners;
+import ui.listeners.loginwindowlisteners.LoginWindowActionEventHandlers;
 import static ui.styles.LoginWindowComponentStyles.*;
 
 import javax.swing.JFrame;
@@ -47,7 +47,7 @@ public class Login implements ActionListener{
 	/*=================== EVENTS ===================*/
 	public void actionPerformed(ActionEvent event) {
         if(event.getSource() == submitButton) {
-			LoginWindowActionEventListners.submit_button_action_performed_handler();
+			LoginWindowActionEventHandlers.submit_button_action_performed_handler();
 		}
 	}
 }

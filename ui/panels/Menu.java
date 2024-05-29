@@ -1,6 +1,6 @@
 package ui.panels;
 
-import static ui.listeners.mainwindowlisteners.MainWindowActionEventListeners.*;
+import static ui.listeners.mainwindowlisteners.MainWindowActionEventHandlers.*;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -160,7 +160,6 @@ public class Menu implements MouseListener {
         return panel;
     }
 
-
     @Override
     public void mouseEntered(MouseEvent event) {
         if (event.getSource() == newServiceButton) {
@@ -217,7 +216,7 @@ public class Menu implements MouseListener {
             add_client_button_action_performed_handler();
         }
         else if (event.getSource() == quotesButton) {
-
+            list_quotations_button_action_performed_handler();
         }
         else if (event.getSource() == scheduleButton) {
 

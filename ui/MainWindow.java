@@ -2,7 +2,7 @@ package ui;
 
 import models.Client;
 
-import static ui.listeners.mainwindowlisteners.MainWindowActionEventListeners.*;
+import static ui.listeners.mainwindowlisteners.MainWindowActionEventHandlers.*;
 import static ui.styles.MainWindowComponentStyles.*;
 
 import javax.swing.JFrame;
@@ -60,11 +60,11 @@ public class MainWindow extends Client implements ActionListener{
 	public static JButton logoutButton;
 	
 	public MainWindow() {
-		barButton_showClients     = configureBarButtons("Listar clientes");
+		barButton_showClients     = configureBarButtons("Ver clientes");
 		barButton_addClient       = configureBarButtons("Ad. cliente");
 		barButton_showDoneTasks   = configureBarButtons("Atendidadas");
 		barButton_showUndoneTasks = configureBarButtons("Pendentes");
-		barButton_quoteRegistration = configureBarButtons("Cotações");
+		barButton_quoteRegistration = configureBarButtons("Ad. Cotação");
 		barButton_showQuotes      = configureBarButtons("Lista de cotaçoes");
 		barButton_clientInfo      = configureBarButtons("Info do cliente");
 		barButton_addUser         = configureBarButtons("Novo usuario");

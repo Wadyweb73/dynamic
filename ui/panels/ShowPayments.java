@@ -228,6 +228,7 @@ public class ShowPayments implements MouseListener, ActionListener {
             
             mainPanel.remove(additionalInformationPanel);
             mainPanel.add(additionalInformationPanel, BorderLayout.SOUTH);
+            
             mainPanel.repaint();
             mainPanel.revalidate();
         }
