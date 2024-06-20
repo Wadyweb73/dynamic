@@ -5,7 +5,6 @@ import static ui.styles.MainWindowComponentStyles.*;
 import static ui.panels.ShowClients.*;
 
 import database.DBConnection;
-// import ui.*;
 import ui.listeners.mainwindowlisteners.MainWindowActionEventListeners;
 
 import javax.swing.BorderFactory;

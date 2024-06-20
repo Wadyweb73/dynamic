@@ -41,10 +41,10 @@ public class MainWindowComponentStyles {
 
 		panel.add(barButton_Menu);
 		panel.add(barButton_addClient);
-        panel.add(barButton_quoteRegistration);
 		panel.add(barButton_showClients);
 		panel.add(barButton_showDoneTasks);
 		panel.add(barButton_showUndoneTasks);
+        panel.add(barButton_quoteRegistration);
 		panel.add(barButton_showQuotes);
 		panel.add(barButton_payments);
 		panel.add(barButton_clientInfo);
